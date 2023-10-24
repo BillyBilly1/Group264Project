@@ -13,6 +13,7 @@
       <sourceFolder url="file://$MODULE_DIR$/use_case/Request_Friends" isTestSource="false" packagePrefix="use_case" />
       <sourceFolder url="file://$MODULE_DIR$/use_case/SendMessage" isTestSource="false" packagePrefix="use_case" />
       <sourceFolder url="file://$MODULE_DIR$/use_case/Signup" isTestSource="false" packagePrefix="use_case" />
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
