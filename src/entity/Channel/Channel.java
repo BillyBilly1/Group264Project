@@ -1,9 +1,9 @@
-package entity;
+package entity.Channel;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public interface interface_Channel {
+public interface Channel {
 
     String getChannelName();
 
