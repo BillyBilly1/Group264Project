@@ -1,4 +1,4 @@
-package Message;
+package entity.Message;
 
 public class CommonMessage implements Message {
 

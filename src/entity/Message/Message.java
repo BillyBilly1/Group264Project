@@ -1,4 +1,4 @@
-package Message;
+package entity.Message;
 
 public interface Message {
     String getUser_id();

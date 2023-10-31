@@ -1,13 +1,13 @@
-package Message;
+package entity.Message;
 
-import Message.Message;
-import Message.MessageFactory;
-import Message.CommonMessage;
+import entity.Message.Message;
+import entity.Message.MessageFactory;
+import entity.Message.CommonMessage;
 
 public class CommonMessageFactory implements MessageFactory{
 
-    public Message create(String userId, String message, String channelType,
+    public CommonMessage create(String userId, String message, String channelType,
                           String channelUrl, String data, boolean sendPush){
-        return new Message(userId, message, channelType, channelUrl, data, sendPush);
+        return new CommonMessage(userId, message, channelType, channelUrl, data, sendPush);
     }
 }
