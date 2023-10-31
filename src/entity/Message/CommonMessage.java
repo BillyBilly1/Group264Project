@@ -1,7 +1,8 @@
-package entity.Message;
+package Message;
 
 public class CommonMessage implements Message {
-    private final String user_id;
+
+    private String user_id;
     private String message;
     private String channel_type;
     private String channel_url;
@@ -78,4 +79,4 @@ public class CommonMessage implements Message {
     public Boolean getSendPush() {return send_push;};
 }
 
-}
+
