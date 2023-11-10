@@ -3,6 +3,8 @@ package view;
 import javax.swing.*;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class SignUpView {
@@ -14,6 +16,8 @@ public class SignUpView {
         JPanel panel = new JPanel();
         frame.add(panel);
         placeComponents(panel);
+
+        frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
     }
@@ -64,5 +68,15 @@ public class SignUpView {
         int loginLabelHeight = 20;
         loginLabel.setBounds(100, 350, loginLabelWidth, loginLabelHeight);
         panel.add(loginLabel);
+
+        loginLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Open LoginView
+                new LoginView(); // Make sure LoginView is set up to be instantiated like this
+                // Close current SignUpView
+                SwingUtilities.getWindowAncestor(panel).dispose();
+            }
+        });
     }
 }
