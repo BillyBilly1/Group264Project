@@ -4,6 +4,6 @@ import java.util.ArrayList;
 
 public interface ChannelFactory {
 
-    Channel create(String channelName, String channelUrl, ArrayList<String> operator,
+    Channel create(String channelName, String channelUrl, ArrayList<String> admin,
                    boolean isEphemeral, LocalDateTime creationTime);
 }

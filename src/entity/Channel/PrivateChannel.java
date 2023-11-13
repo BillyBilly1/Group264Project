@@ -1,2 +1,4 @@
-package entity.Channel;public class PrivateChannel {
+package entity.Channel;
+
+public class PrivateChannel {
 }
