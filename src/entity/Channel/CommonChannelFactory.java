@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class CommonChannelFactory implements ChannelFactory {
 
     public Channel create(String channelName, String channelUrl,
-                          ArrayList<String> operator, boolean isEphemeral, LocalDateTime creationTime){
-        return new CommonChannel(channelName, channelUrl, operator, isEphemeral, creationTime);}
+                          ArrayList<String> admin, boolean isEphemeral, LocalDateTime creationTime){
+        return new CommonChannel(channelName, channelUrl, admin, isEphemeral, creationTime);}
 }
 
