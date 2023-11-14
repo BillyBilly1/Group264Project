@@ -1,4 +1,5 @@
-package use_case;
+package use_case.CreateChannel;
 
 public class CreateChannel {
+
 }
