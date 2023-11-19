@@ -1,9 +1,11 @@
 package interface_adapter.Login;
 
+import interface_adapter.ViewModel;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class LoginViewModel {
+public class LoginViewModel extends ViewModel {
 
     public final String LOGIN_TITLE = "Log in View";
     public final String USER_ID_LABEL = "Enter User_id";
@@ -21,7 +23,8 @@ public class LoginViewModel {
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public void firePropertychanged() {
+    @Override
+    public void firePropertyChanged() {
         support.firePropertyChange("state", null, this.state);
     }
 
