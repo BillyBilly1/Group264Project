@@ -1,4 +1,6 @@
 package use_case.CreateChannel;
 
-public class CreateChannelOutputBoundary {
+public interface CreateChannelOutputBoundary {
+    void presentChannelCreationResult(CreateChannelOutputData outputData);
 }
+

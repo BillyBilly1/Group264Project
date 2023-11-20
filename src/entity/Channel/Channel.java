@@ -13,12 +13,11 @@ public interface Channel {
 
     LocalDateTime getCreationTime();
 
-    ArrayList<String> getAdmin();
+    ArrayList<String> getOperator();
 
-    boolean isEphemeral();
+    String isEphemeral();
 
     void setNote(String content);
 
-    void setAdmin(ArrayList<String> addedAdmin);
-
+    void setOperator(ArrayList<String> addedAdmin);
 }

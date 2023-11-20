@@ -1,44 +1,35 @@
 package use_case.CreateChannel;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class CreateChannelInputData {
+    final private String name;
+    final private String channelUrl;
+    final private String isEphemeral;
+    final private ArrayList<String> operator;
 
-    private final String channelName;
-    private final String channelUrl;
-    private final ArrayList<String> admin;
-    private final boolean isEphemeral;
-    private final LocalDateTime creationTime;
-
-    public CreateChannelInputData(String channelName, String channelUrl,
-                                  ArrayList<String> admin, boolean isEphemeral,
-                                  LocalDateTime creationTime) {
-        this.channelName = channelName;
+    public CreateChannelInputData(String name, String channelUrl, ArrayList<String> operator,
+                                  String isEphemeral) {
+        this.name = name;
         this.channelUrl = channelUrl;
-        this.admin = admin;
+        this.operator = operator;
         this.isEphemeral = isEphemeral;
-        this.creationTime = creationTime;
     }
 
-    // Getter 方法
     public String getChannelName() {
-        return channelName;
+        return name;
     }
 
-    public String getChannelUrl() {
+    ArrayList<String> getOperator() {
+        return operator;
+    }
+
+    String getChannelUrl() {
         return channelUrl;
     }
 
-    public ArrayList<String> getAdmin() {
-        return admin;
-    }
-
-    public boolean isEphemeral() {
+    public String getIsEphemeral() {
         return isEphemeral;
     }
-
-    public LocalDateTime getCreationTime() {
-        return creationTime;
-    }
 }
+
