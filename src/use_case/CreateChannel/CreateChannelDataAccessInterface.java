@@ -11,4 +11,3 @@ public interface CreateChannelDataAccessInterface {
     boolean createChannel(Channel channel);
 
 }
-

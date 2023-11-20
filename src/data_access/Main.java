@@ -14,10 +14,12 @@ public class Main {
         FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject();
 
         // Create a new CommonChannel object with the test data
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Orange Cat");
         CommonChannel testChannel = new CommonChannel(
                 "Cat House",               // Channel name
                 "1234",                    // Channel URL
-                new ArrayList<>(Collections.singletonList("Orange Cat")), // Operators
+                list, // Operators
                 "true",                    // isEphemeral
                 LocalDateTime.now()        // Creation time
         );

@@ -9,16 +9,27 @@ public class CreateChannelInputData {
     final private ArrayList<String> operator;
 
     public CreateChannelInputData(String name, String channelUrl, ArrayList<String> operator,
-                                  String isEphemeral){
+                                  String isEphemeral) {
         this.name = name;
         this.channelUrl = channelUrl;
         this.operator = operator;
         this.isEphemeral = isEphemeral;
     }
 
-    public String getChannelName(){ return name; }
-    ArrayList<String> getOperator(){ return operator; }
-    String getChannelUrl() { return channelUrl; }
-    public String getIsEphemeral() { return isEphemeral; }
+    public String getChannelName() {
+        return name;
+    }
 
+    ArrayList<String> getOperator() {
+        return operator;
+    }
+
+    String getChannelUrl() {
+        return channelUrl;
+    }
+
+    public String getIsEphemeral() {
+        return isEphemeral;
+    }
 }
+

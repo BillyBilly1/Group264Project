@@ -27,4 +27,3 @@ public class CreateChannelOutputData {
     // Setters if necessary
     // ...
 }
-

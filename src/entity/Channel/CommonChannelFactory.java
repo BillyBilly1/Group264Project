@@ -8,5 +8,6 @@ public class CommonChannelFactory implements ChannelFactory {
     public Channel create(String channelName, String channelUrl,
                           ArrayList<String> operator, String isEphemeral, LocalDateTime creationTime){
         return new CommonChannel(channelName, channelUrl, operator, isEphemeral, creationTime);}
+
 }
 

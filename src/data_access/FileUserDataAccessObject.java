@@ -1,17 +1,12 @@
 package data_access;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import org.json.JSONObject;
-import java.io.IOException;
-import use_case.CreateChannel.*;
-import entity.Channel.*;
-import org.json.JSONArray;
 import entity.Channel.Channel;
-import java.util.Collections;
+import okhttp3.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import use_case.CreateChannel.CreateChannelDataAccessInterface;
+
+import java.io.IOException;
 
 
 public class FileUserDataAccessObject implements CreateChannelDataAccessInterface {

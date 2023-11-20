@@ -40,13 +40,8 @@ public class CommonChannel implements Channel {
 
     public void setNote(String content) {this.note = content;}
 
-    public void setOperator(ArrayList<String> addedOperator) {
-        this.operator.addAll(addedOperator);
+    public void setOperator(ArrayList<String> addedAdmin) {
+        this.operator.addAll(addedAdmin);
     }
-
-
-
-
-
 
 }

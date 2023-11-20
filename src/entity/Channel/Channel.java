@@ -19,6 +19,5 @@ public interface Channel {
 
     void setNote(String content);
 
-    void setOperator(ArrayList<String> addedOperator);
-
+    void setOperator(ArrayList<String> addedAdmin);
 }
