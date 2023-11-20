@@ -13,12 +13,12 @@ public class CommonChannel implements Channel {
 
     private ArrayList<String> operator;
 
-    private final boolean isEphemeral;
+    private final String isEphemeral;
 
     private final LocalDateTime creationTime;
 
     public CommonChannel(String channelName, String channelUrl,
-                         ArrayList<String> operator, boolean isEphemeral, LocalDateTime creationTime) {
+                         ArrayList<String> operator, String isEphemeral, LocalDateTime creationTime) {
         this.channelName = channelName;
         this.channelUrl = channelUrl;
         this.operator = operator;
@@ -36,7 +36,7 @@ public class CommonChannel implements Channel {
 
     public ArrayList<String> getOperator() {return operator;}
 
-    public boolean isEphemeral() {return isEphemeral;}
+    public String isEphemeral() {return isEphemeral;}
 
     public void setNote(String content) {this.note = content;}
 

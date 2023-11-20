@@ -15,7 +15,7 @@ public interface Channel {
 
     ArrayList<String> getOperator();
 
-    boolean isEphemeral();
+    String isEphemeral();
 
     void setNote(String content);
 
