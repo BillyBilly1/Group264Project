@@ -1,8 +1,13 @@
 package interface_adapter.Channel;
+import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 
 public class ChannelViewModel {
+
+    private ArrayList<String> messageList = new ArrayList<>();
 
 
     public String getChannelName() {
@@ -10,18 +15,20 @@ public class ChannelViewModel {
     }
 
     public ArrayList<String> getMessages() {
-        ArrayList<String> messages = new ArrayList<>();
-        messages.add("宋江: \n Hello!  19:42");
-        messages.add("卢俊义: \n Good Evening!  19:43");
-        messages.add("吴用: \n Bye!  19:43");
-        messages.add("鲁智深: \n See you later!  19:44");
-        messages.add("宋江: \n LOL!  19:45");
-        messages.add("武松: \n Fare thee Well.  20:10");
 
-        return messages;
+        return messageList;
 
     }
 
-    public void addMessage(String text) {
+    public void addMessage(String userInput) {
+        String formattedMessage = formatMessage(userInput);
+        messageList.add(formattedMessage);
+    }
+
+    private String formatMessage(String message) {
+        // 获取当前时间
+        String timeStamp = new SimpleDateFormat("HH:mm").format(new Date());
+        // 格式化消息
+        return "You" + ": \n " + message + "  " + timeStamp;
     }
 }
