@@ -5,16 +5,19 @@ import interface_adapter.Channel.ChannelViewModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 import javax.swing.*;
-
 
 
 public class ChannelView extends JPanel implements ActionListener, PropertyChangeListener {
     public final String viewName = "Channel";
 
     private final interface_adapter.Channel.ChannelViewModel channelViewModel;
+
+    private int fontSize = 14;
 
     private JLabel channelNameLabel;
 
@@ -34,7 +37,7 @@ public class ChannelView extends JPanel implements ActionListener, PropertyChang
         setPreferredSize(new Dimension(width, height));
         setLayout(new BorderLayout());
         initializeUI(width, height);
-
+        setKeyBindings();
     }
 
     public void initializeUI(int width, int height) {
@@ -65,6 +68,7 @@ public class ChannelView extends JPanel implements ActionListener, PropertyChang
                         "<div style='float: right;'>" + time + "</div>" +
                         "<div style='clear: both;'></div></div></html>";
                 setText(htmlText);
+                setFont(new Font(getFont().getName(), Font.PLAIN, fontSize));
                 return this;
             }
         });
@@ -78,14 +82,14 @@ public class ChannelView extends JPanel implements ActionListener, PropertyChang
         JPanel inputPanel = new JPanel(new BorderLayout());
         inputField = new JTextField();
         inputField.addActionListener(this);
-
+        inputField.setFont(new Font(getFont().getName(), Font.BOLD, 18));
 
         // Setting the button
         int buttonSize = height * 2 / 12;
         sendButton = new JButton("Send");
         sendButton.setPreferredSize(new Dimension(width / 10, buttonSize)); // Square button
         sendButton.setFont(new Font(sendButton.getFont().getName(), Font.PLAIN, 10));
-
+        sendButton.addActionListener(this);
 
         // The button panel is used to position the send button to the right end of the input field.
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -98,11 +102,9 @@ public class ChannelView extends JPanel implements ActionListener, PropertyChang
     }
 
 
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == sendButton || e.getSource() == inputField) {
+        if ((e.getSource() == sendButton || e.getSource() == inputField) & !Objects.equals(inputField.getText(), "")) {
             channelViewModel.addMessage(inputField.getText()); // add messages to ViewModel
             inputField.setText(""); // clear the inputtextfield
             messageList.setListData(channelViewModel.getMessages().toArray(new String[0])); // Update the message view
@@ -119,5 +121,33 @@ public class ChannelView extends JPanel implements ActionListener, PropertyChang
     public void propertyChange(PropertyChangeEvent evt) {
 
     }
+    private void adjustFontSize(int adjustment) {
+        fontSize += adjustment;
+        if (fontSize < 8) fontSize = 8;
+        else if (fontSize > 27) fontSize = 27;
+        Font newFont = new Font("Arial", Font.PLAIN, fontSize);
+        messageList.setFont(newFont);
+        messageList.repaint();
+    }
 
+    private void setKeyBindings() {
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_1, KeyEvent.CTRL_DOWN_MASK), "increaseFontSize");
+        actionMap.put("increaseFontSize", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                adjustFontSize(1);
+            }
+        });
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_2, KeyEvent.CTRL_DOWN_MASK), "decreaseFontSize");
+        actionMap.put("decreaseFontSize", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                adjustFontSize(-1);
+            }
+        });
+    }
 }
