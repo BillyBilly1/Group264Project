@@ -90,7 +90,6 @@ public class YandexAPI {
             JSONObject jsonResponse = new JSONObject(response.toString());
             JSONArray textArray = jsonResponse.getJSONArray("text");
 
-            // 如果 "text" 字段是一个数组，可以将其合并成一个字符串
             StringBuilder translatedText = new StringBuilder();
             for (int i = 0; i < textArray.length(); i++) {
                 translatedText.append(textArray.getString(i)).append(" ");
