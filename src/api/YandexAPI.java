@@ -14,9 +14,9 @@ import java.nio.charset.StandardCharsets;
 
 public class YandexAPI {
 
-    private final String API_URL;
+    private String API_URL = "https://translate.yandex.net/api/v1.5/tr.json";
 
-    private final String API_KEY;
+    private final String API_KEY = "trnsl.1.1.20231126T225239Z.669240c9ce7a577c.8ef08506935107d72a6e4c36f77882b6e7074caf";
 
     private final String targetLang;
 
@@ -31,9 +31,7 @@ public class YandexAPI {
     }
 
 
-    public YandexAPI(String apiUrl, String apiKey, String targetLang, String text) {
-        API_URL = apiUrl;
-        API_KEY = apiKey;
+    public YandexAPI(String targetLang, String text) {
         this.targetLang = targetLang;
         this.text = encode(text);
     }
@@ -66,7 +64,7 @@ public class YandexAPI {
         }
     }
 
-    public String translateLang() throws IOException {
+    public String translate() throws IOException {
 
         String originalLang = detectLang();
 

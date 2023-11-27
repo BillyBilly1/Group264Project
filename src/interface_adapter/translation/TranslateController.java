@@ -1,9 +1,23 @@
 package interface_adapter.translation;
 
+import use_case.translate.TranslateInputBoundary;
+import use_case.translate.TranslateInputData;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 public class TranslateController {
-    public void translateToChinese(String textToTranslate) {
+
+    final TranslateInputBoundary translateInteractor;
+
+    public TranslateController(TranslateInputBoundary translateInteractor) {
+        this.translateInteractor = translateInteractor;
     }
 
-    public void translateToFrench(String textToTranslate) {
+
+    public void translate(String targetLang, ArrayList<String> sourceText) throws IOException {
+        TranslateInputData translateInputData = new TranslateInputData(targetLang, sourceText);
+        translateInteractor.translate(translateInputData);
     }
+
 }
