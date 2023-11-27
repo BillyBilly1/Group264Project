@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Group264Project.iml" filepath="$PROJECT_DIR$/Group264Project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/src/chat-api.iml" filepath="$PROJECT_DIR$/src/chat-api.iml" />
     </modules>
   </component>
 </project>
