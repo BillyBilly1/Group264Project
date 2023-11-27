@@ -2,6 +2,9 @@
 
     import interface_adapter.Channel.ChannelViewModel;
     import interface_adapter.translation.TranslateController;
+    import interface_adapter.translation.TranslateState;
+    import interface_adapter.translation.TranslateViewModel;
+    import use_case.SendMessage;
 
     import java.awt.*;
     import java.awt.event.ActionEvent;
@@ -9,6 +12,8 @@
     import java.awt.event.KeyEvent;
     import java.beans.PropertyChangeEvent;
     import java.beans.PropertyChangeListener;
+    import java.io.IOException;
+    import java.util.ArrayList;
     import java.util.Objects;
     import javax.swing.*;
 
@@ -32,11 +37,21 @@
 
         private JButton translateFrenchButton;
 
-        private TranslateController translateController;
+        private final TranslateController translateController;
+
+        private final TranslateViewModel translateViewModel;
 
 
-        public ChannelView(ChannelViewModel channelViewModel) {
+
+        public ChannelView(ChannelViewModel channelViewModel,TranslateViewModel translateViewModel,
+                           TranslateController translateController
+                           ) {
             this.channelViewModel = channelViewModel;
+            this.translateController = translateController;
+            this.translateViewModel = translateViewModel;
+
+            channelViewModel.addPropertyChangeListener(this);
+
 
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int width = screenSize.width / 5 * 2;
@@ -96,26 +111,20 @@
             sendButton.addActionListener(this);
             buttonPanel.add(sendButton);
 
-            //set translate to Chinese button
-            JButton translateChineseButton = new JButton("文");
+            // Initialize translate to Chinese button
+            translateChineseButton = new JButton("文");
             translateChineseButton.setPreferredSize(new Dimension(width / 10, buttonSize / 2));
-            translateChineseButton.setFont(new Font(translateChineseButton.
-                    getFont().getName(), Font.PLAIN, 16));
+            translateChineseButton.setFont(new Font(translateChineseButton.getFont().getName(), Font.PLAIN, 16));
             translateChineseButton.addActionListener(this);
             buttonPanel.add(translateChineseButton);
 
-            translateChineseButton.addActionListener(this);
-
-            //set translate to French Button
-            JButton translateFrenchButton = new JButton("Fr");
-            translateFrenchButton.setPreferredSize(new Dimension(width / 10,
-                    buttonSize / 2));
-            translateFrenchButton.setFont(new Font(translateFrenchButton.
-                    getFont().getName(), Font.PLAIN, 16));
+            // Initialize translate to French button
+            translateFrenchButton = new JButton("fr");
+            translateFrenchButton.setPreferredSize(new Dimension(width / 10, buttonSize / 2));
+            translateFrenchButton.setFont(new Font(translateFrenchButton.getFont().getName(), Font.PLAIN, 16));
             translateFrenchButton.addActionListener(this);
             buttonPanel.add(translateFrenchButton);
 
-            translateFrenchButton.addActionListener(this);
 
             //Setting the InputPanel
 
@@ -134,7 +143,12 @@
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String textToTranslate = inputField.getText();
+            ListModel<String> listModel = messageList.getModel();
+            ArrayList<String> arrayList = new ArrayList<>();
+            for (int i = 0; i < listModel.getSize(); i++) {
+                arrayList.add(listModel.getElementAt(i));
+            }
+
 
             if ((e.getSource() == sendButton || e.getSource() == inputField)
                     & !Objects.equals(inputField.getText(), "")) {
@@ -142,15 +156,27 @@
                 inputField.setText(""); // clear the inputtextfield
                 messageList.setListData(channelViewModel.getMessages().
                         toArray(new String[0])); // Update the message view
+                updateFromViewModel();
+
             }
             //about translation
             else if (e.getSource() == translateChineseButton) {
-                translateController.translateToChinese(textToTranslate);
+                TranslateState currentState = translateViewModel.getState();
+                try {
+                    translateController.translate("zh", arrayList);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
             else if (e.getSource() == translateFrenchButton) {
-                translateController.translateToFrench(textToTranslate);
+                TranslateState currentState = translateViewModel.getState();
+                try {
+                    translateController.translate("fr", arrayList);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
-            }
+        }
 
 
         // show the changes in view-model
@@ -161,8 +187,22 @@
 
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
-
+            if ("messagesUpdated".equals(evt.getPropertyName())) {
+                updateMessageList((ArrayList<String>) evt.getNewValue());
+            }
         }
+
+        private void updateMessageList(ArrayList<String> newMessages) {
+            DefaultListModel<String> model = new DefaultListModel<>();
+            for (String message : newMessages) {
+                model.addElement(message);
+            }
+            messageList.setModel(model);
+        }
+
+
+
+
         private void adjustFontSize(int adjustment) {
             fontSize += adjustment;
             if (fontSize < 8) fontSize = 8;
