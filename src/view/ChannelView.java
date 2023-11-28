@@ -37,6 +37,10 @@
 
         private JButton translateFrenchButton;
 
+        private JButton translateEnglishButton;
+
+        private JButton viewProButton;
+
         private final TranslateController translateController;
 
         private final TranslateViewModel translateViewModel;
@@ -63,10 +67,14 @@
         }
 
         public void initializeUI(int width, int height) {
+
+            JPanel topPanel = new JPanel(new BorderLayout());
+
             // Setting Channel Name
             channelNameLabel = new JLabel(channelViewModel.getChannelName(), SwingConstants.CENTER);
             channelNameLabel.setPreferredSize(new Dimension(width, height / 12));
-            add(channelNameLabel, BorderLayout.NORTH);
+            topPanel.add(channelNameLabel, BorderLayout.CENTER);
+
 
             // Setting Channel Message List
             DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -101,7 +109,7 @@
 
 
             // Setting the button
-            int buttonSize = height * 2 / 12;
+            int buttonSize = height * 4 / 12;
             JPanel buttonPanel = new JPanel();
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // 垂直堆叠组件
 
@@ -111,20 +119,45 @@
             sendButton.addActionListener(this);
             buttonPanel.add(sendButton);
 
+
+            JPanel translateButtonsPanel = new JPanel();
+            translateButtonsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+
             // Initialize translate to Chinese button
-            translateChineseButton = new JButton("文");
-            translateChineseButton.setPreferredSize(new Dimension(width / 10, buttonSize / 2));
-            translateChineseButton.setFont(new Font(translateChineseButton.getFont().getName(), Font.PLAIN, 16));
+            translateChineseButton = new JButton("简");
+            translateChineseButton.setPreferredSize(new Dimension(width / 10, buttonSize / 4));
+            translateChineseButton.setFont(new Font(translateChineseButton.getFont().getName(), Font.PLAIN, 14));
             translateChineseButton.addActionListener(this);
-            buttonPanel.add(translateChineseButton);
+            translateButtonsPanel.add(translateChineseButton);
+
+            // Initialize translate to English button
+            translateEnglishButton = new JButton("en");
+            translateEnglishButton.setPreferredSize(new Dimension(width / 10, buttonSize / 4));
+            translateEnglishButton.setFont(new Font(translateEnglishButton.getFont().getName(), Font.ITALIC, 18));
+            translateEnglishButton.addActionListener(this);
+            translateButtonsPanel.add(translateEnglishButton);
+            topPanel.add(translateButtonsPanel, BorderLayout.EAST);
+            add(topPanel, BorderLayout.NORTH);
 
             // Initialize translate to French button
             translateFrenchButton = new JButton("fr");
-            translateFrenchButton.setPreferredSize(new Dimension(width / 10, buttonSize / 2));
-            translateFrenchButton.setFont(new Font(translateFrenchButton.getFont().getName(), Font.PLAIN, 16));
+            translateFrenchButton.setPreferredSize(new Dimension(width / 10, buttonSize / 4));
+            translateFrenchButton.setFont(new Font(translateFrenchButton.getFont().getName(), Font.ITALIC, 18));
             translateFrenchButton.addActionListener(this);
-            buttonPanel.add(translateFrenchButton);
+            translateButtonsPanel.add(translateFrenchButton);
+            topPanel.add(translateButtonsPanel, BorderLayout.EAST);
 
+
+            //View Profile Button
+
+            JPanel viewProPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            JButton viewProButton = new JButton("Edit");
+            viewProButton.setPreferredSize(new Dimension(width / 8, buttonSize / 8));
+            viewProButton.setFont(new Font((viewProButton.getFont().getName()), Font.PLAIN, 12));
+            viewProButton.addActionListener(this);
+            viewProPanel.add(viewProButton);
+            topPanel.add(viewProPanel, BorderLayout.WEST);
+            add(topPanel, BorderLayout.NORTH);
 
             //Setting the InputPanel
 
@@ -136,10 +169,7 @@
             inputPanel.add(buttonPanel, BorderLayout.EAST);
             inputPanel.setPreferredSize(new Dimension(width, height * 3 / 12));
             add(inputPanel, BorderLayout.SOUTH);
-
-
         }
-
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -175,6 +205,20 @@
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
+            }
+            else if (e.getSource() == translateEnglishButton) {
+                TranslateState currentState = translateViewModel.getState();
+                try {
+                    translateController.translate("en", arrayList);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+
+            // Edit channel profile
+
+            else if (e.getSource() == viewProButton) {
+                //
             }
         }
 
