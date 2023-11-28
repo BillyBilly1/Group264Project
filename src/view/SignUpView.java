@@ -73,7 +73,7 @@ public class SignUpView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Open LoginView
-                new LoginView(); // Make sure LoginView is set up to be instantiated like this
+                //new LoginView(); // Make sure LoginView is set up to be instantiated like this
                 // Close current SignUpView
                 SwingUtilities.getWindowAncestor(panel).dispose();
             }

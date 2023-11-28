@@ -1,17 +1,15 @@
 package data_access;
-import entity.Channel.Channel;
 import entity.Channel.CommonChannel;
-import data_access.FileUserDataAccessObject;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class Main {
 
 
     public static void main(String[] args) {
-        FileUserDataAccessObject fileUserDataAccessObject = new FileUserDataAccessObject();
+        FileChannelDataAccessObject fileUserDataAccessObject = new FileChannelDataAccessObject();
 
         // Create a new CommonChannel object with the test data
         ArrayList<String> list = new ArrayList<>();

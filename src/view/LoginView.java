@@ -20,6 +20,8 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private final LoginViewModel loginViewModel;
     private final LoginController loginController;
 
+    public final String viewName = "log in";
+
     final JTextField userIdTextInfo = new JTextField(20);
 
     final JTextField nicknameTextInfo = new JTextField(20);
