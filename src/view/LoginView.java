@@ -1,12 +1,8 @@
 package view;
 
 import javax.swing.*;
-import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -20,11 +16,11 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private final LoginViewModel loginViewModel;
     private final LoginController loginController;
 
-    public final String viewName = "log in";
-
     final JTextField userIdTextInfo = new JTextField(20);
 
     final JTextField nicknameTextInfo = new JTextField(20);
+
+    private  JButton loginButton;
 
     public LoginView(LoginViewModel loginViewModel, LoginController loginController) {
         this.loginViewModel = loginViewModel;
@@ -68,82 +64,36 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
         JButton loginButton = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
         loginButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
+        this.loginButton = loginButton;
         panel.add(loginButton);
 
-        // Add action listener for loginButton
-        // ...
-        loginButton.addActionListener(
-                new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        if (e.getSource().equals(loginButton)) {
-                            LoginState currentState = loginViewModel.getState();
-                            loginController.execute(
-                                    currentState.getUser_id(),
-                                    currentState.getNickname()
-                            );
-                        }
-                    }
-                }
-        );
 
-        userIdText.addKeyListener(new KeyListener() {
+        loginButton.addActionListener(this);
 
-            @Override
-            public void keyTyped(KeyEvent e) {
-                LoginState currentState = loginViewModel.getState();
-                currentState.setUser_id(userIdText.getText() + e.getKeyChar());
-                loginViewModel.setState(currentState);
-            }
 
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-        });
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-
-        nicknameText.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        LoginState currentState = loginViewModel.getState();
-                        currentState.setNickname(nicknameText.getText() + e.getKeyChar());
-                        loginViewModel.setState(currentState);
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-        this.add(titleLabel);
-        this.add(userIdText);
-        this.add(nicknameText);
-        this.add(panel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Click" + e.getActionCommand());
+
+        if (e.getSource() == loginButton) {
+            String userId = userIdTextInfo.getText();
+            String nickName = nicknameTextInfo.getText();
+            LoginState currentState = loginViewModel.getState();
+            currentState.setUser_id(userId);
+            currentState.setNickname(nickName);
+            loginViewModel.setState(currentState);
+            loginController.execute(userId, nickName);
+
+        }
+
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        LoginState state = (LoginState) evt.getNewValue();
-        setFields(state);
-    }
+        LoginState state =  (LoginState) evt.getNewValue();
+        setFields(state);}
+
 
     private void setFields(LoginState state) {
         userIdTextInfo.setText(state.getUser_id());
