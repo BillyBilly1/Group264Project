@@ -8,15 +8,14 @@ public class SignupInteractor implements SignupInputBoundary {
     final SignupDataAccessInterface userDataAccessObject;
     final SignupOutputBoundary userPresenter;
     final UserFactory userFactory;
-    final String profileUrl;
+    final String profileUrl = "";
 
     public SignupInteractor(SignupDataAccessInterface signupDataAccessInterface,
                             SignupOutputBoundary signupOutputBoundary,
-                            UserFactory userFactory, String profileUrl) {
+                            UserFactory userFactory) {
         this.userDataAccessObject = signupDataAccessInterface;
         this.userPresenter = signupOutputBoundary;
         this.userFactory = userFactory;
-        this.profileUrl = "";
     }
 
     @Override

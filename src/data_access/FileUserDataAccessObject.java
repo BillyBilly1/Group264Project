@@ -19,6 +19,10 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface, Logi
     private static final String APPLICATION_ID = "39ACFA95-6D71-49B3-B9EF-EDDA2080C415";
     private static final String BASE_URL = "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3";
 
+
+    public FileUserDataAccessObject() throws IOException {
+    }
+
     public boolean save(User user) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
