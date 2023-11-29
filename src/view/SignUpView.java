@@ -54,6 +54,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     public void placeComponents(JPanel panel) {
         panel.setLayout(null);
 
+        JLabel titleLabel = new JLabel(signupViewModel.SIGNUP_TITLE, SwingConstants.CENTER);
+        titleLabel.setBounds(150, 100, 100, 30);
+        panel.add(titleLabel);
+
         JLabel userIdLabel = new JLabel(signupViewModel.USER_ID_LABEL);
         userIdLabel.setBounds(10, 150, 150, 30);
         panel.add(userIdLabel);

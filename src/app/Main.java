@@ -19,6 +19,8 @@ import view.ChannelView;
 import view.SignUpView;
 import view.LoginView;
 import view.ViewManager;
+import app.LoginUsecaseFactory;
+import app.SignupUsecaseFactory;
 
 
 import javax.swing.*;
@@ -51,42 +53,17 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-        SignupView signupView = SignupUseCaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
-        views.add(signupView, signupView.viewName);
+        SignUpView signupView = SignupUsecaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
+        views.add(signupView, "sign up");
 
-        LoginView loginView = LoginUseCaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
-        views.add(loginView, loginView.viewName);
+        LoginView loginView = LoginUsecaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, userDataAccessObject);
+        views.add(loginView, "log in");
 
-        viewManagerModel.setActiveView(signupView.viewName);
+        viewManagerModel.setActiveView("sign up");
         viewManagerModel.firePropertyChanged();
 
         application.pack();
         application.setVisible(true);
     }
 
-    private static void createAndShowGUI() {
-        JFrame frame = new JFrame("YouChat");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        ChannelViewModel channelviewModel = new ChannelViewModel();
-
-        TranslateViewModel translateViewModel = new TranslateViewModel();
-
-        TranslateOutputBoundary translateOutputBoundary = new TranslatePresenter(channelviewModel, translateViewModel);
-
-        TranslateInputBoundary translateInputBoundary = new TranslateInteractor(translateOutputBoundary, translateViewModel);
-
-        TranslateController translateController = new TranslateController(translateInputBoundary);
-
-
-        ChannelView channelView = new ChannelView(channelviewModel, translateViewModel, translateController);
-
-        frame.getContentPane().add(channelView);
-
-        frame.pack();
-
-        frame.setLocationRelativeTo(null);
-
-        frame.setVisible(true);
-    }
 }

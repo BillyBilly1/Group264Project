@@ -1,5 +1,6 @@
 package use_case.Signup;
 
+import entity.User.CommonUserFactory;
 import entity.User.User;
 import entity.User.UserFactory;
 
@@ -7,12 +8,12 @@ import entity.User.UserFactory;
 public class SignupInteractor implements SignupInputBoundary {
     final SignupDataAccessInterface userDataAccessObject;
     final SignupOutputBoundary userPresenter;
-    final UserFactory userFactory;
+    final CommonUserFactory userFactory;
     final String profileUrl = "";
 
     public SignupInteractor(SignupDataAccessInterface signupDataAccessInterface,
                             SignupOutputBoundary signupOutputBoundary,
-                            UserFactory userFactory) {
+                            CommonUserFactory userFactory) {
         this.userDataAccessObject = signupDataAccessInterface;
         this.userPresenter = signupOutputBoundary;
         this.userFactory = userFactory;

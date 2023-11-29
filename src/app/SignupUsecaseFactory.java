@@ -46,7 +46,7 @@ public class SignupUsecaseFactory {
         // Notice how we pass this method's parameters to the Presenter.
         SignupOutputBoundary signupOutputBoundary = new SignupPresenter(signupViewModel, loginViewModel);
 
-        UserFactory userFactory = new CommonUserFactory();
+        CommonUserFactory userFactory = new CommonUserFactory();
 
         SignupInputBoundary userSignupInteractor = new SignupInteractor(userDataAccessObject, signupOutputBoundary, userFactory);
 
