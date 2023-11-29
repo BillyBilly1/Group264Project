@@ -1,7 +1,6 @@
 
 package view;
 
-import interface_adapter.Login.LoginState;
 import interface_adapter.Signup.SignupController;
 import interface_adapter.Signup.SignupState;
 import interface_adapter.Signup.SignupViewModel;
@@ -15,11 +14,7 @@ import java.beans.PropertyChangeListener;
 
 public class SignUpView extends JPanel implements ActionListener, PropertyChangeListener {
 
-    private final String viewName = "Signup";
-
     private final SignupViewModel signupViewModel;
-
-    private final SignupState signupState;
 
     private final SignupController signupController;
 
@@ -34,8 +29,6 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     public SignUpView(SignupViewModel signupViewModel, SignupController signupController) {
         this.signupViewModel = signupViewModel;
         this.signupController = signupController;
-        this.signupState = this.signupViewModel.getState();
-
         this.signupViewModel.addPropertyChangeListener(this);
 
         JFrame frame = new JFrame("Youchat - Signup");
@@ -62,7 +55,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         userIdLabel.setBounds(10, 150, 150, 30);
         panel.add(userIdLabel);
 
-        JTextField userIdText = new JTextField(20);
+        JTextField userIdText = userIdTextInfo;
         userIdText.setBounds(100, 150, 250, 40);
         panel.add(userIdText);
 
@@ -70,7 +63,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         nicknameLabel.setBounds(10, 200, 150, 30);
         panel.add(nicknameLabel);
 
-        JTextField nicknameText = new JTextField(20);
+        JTextField nicknameText = nicknameTextInfo;
         nicknameText.setBounds(100, 200, 250, 40);
         panel.add(nicknameText);
 
@@ -78,6 +71,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         signupButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
         this.signupButton = signupButton;
         panel.add(signupButton);
+
         signupButton.addActionListener(this);
     }
 
