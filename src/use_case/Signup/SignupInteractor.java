@@ -1,5 +1,6 @@
 package use_case.Signup;
 
+import entity.User.CommonUserFactory;
 import entity.User.User;
 import entity.User.UserFactory;
 
@@ -7,21 +8,20 @@ import entity.User.UserFactory;
 public class SignupInteractor implements SignupInputBoundary {
     final SignupDataAccessInterface userDataAccessObject;
     final SignupOutputBoundary userPresenter;
-    final UserFactory userFactory;
-    final String profileUrl;
+    final CommonUserFactory userFactory;
+    final String profileUrl = "";
 
     public SignupInteractor(SignupDataAccessInterface signupDataAccessInterface,
                             SignupOutputBoundary signupOutputBoundary,
-                            UserFactory userFactory, String profileUrl) {
+                            CommonUserFactory userFactory) {
         this.userDataAccessObject = signupDataAccessInterface;
         this.userPresenter = signupOutputBoundary;
         this.userFactory = userFactory;
-        this.profileUrl = "";
     }
 
     @Override
     public void execute(SignupInputData signupInputData) {
-        if (userDataAccessObject.existsByName(signupInputData.getNickname())) {
+        if (userDataAccessObject.get_username(signupInputData.getUser_id()) != null) {
             userPresenter.prepareFailView("User already exists.");
         } else {
 

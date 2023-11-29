@@ -3,7 +3,8 @@ package use_case.Signup;
 import entity.User.User;
 
 public interface SignupDataAccessInterface {
-    boolean existsByName(String identifier);
 
-    void save(User user);
+    String get_username(String user_id);
+
+    boolean save(User user);
 }
