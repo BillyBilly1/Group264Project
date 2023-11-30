@@ -13,6 +13,8 @@ import interface_adapter.Login.LoginState;
 
 public class LoginView extends JPanel implements ActionListener, PropertyChangeListener {
 
+    public final String viewName = "login";
+
     private final LoginViewModel loginViewModel;
     private final LoginController loginController;
 
@@ -20,7 +22,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     final JTextField nicknameTextInfo = new JTextField(20);
 
-    private  JButton loginButton;
+    private final JButton loginButton;
 
     public LoginView(LoginViewModel loginViewModel, LoginController loginController) {
         this.loginViewModel = loginViewModel;
@@ -30,6 +32,10 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         JFrame frame = new JFrame("YouChat - Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 600);
+
+        JButton loginButton = new JButton(LoginViewModel.LOGIN_BUTTON_LABEL);
+        loginButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
+        this.loginButton = loginButton;
 
         JPanel panel = new JPanel();
         frame.add(panel);
@@ -62,9 +68,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         nicknameText.setBounds(100, 200, 250, 40);
         panel.add(nicknameText);
 
-        JButton loginButton = new JButton(loginViewModel.LOGIN_BUTTON_LABEL);
-        loginButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
-        this.loginButton = loginButton;
+
         panel.add(loginButton);
 
 

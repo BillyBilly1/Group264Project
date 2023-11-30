@@ -14,6 +14,8 @@ import java.beans.PropertyChangeListener;
 
 public class SignUpView extends JPanel implements ActionListener, PropertyChangeListener {
 
+    public final String viewName = "sign up";
+
     private final SignupViewModel signupViewModel;
 
     private final SignupController signupController;
@@ -22,7 +24,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
 
     private final JTextField nicknameTextInfo = new JTextField(20);
 
-    private JButton signupButton = new JButton("SignUp");
+    private final JButton signupButton;
 
 
 
@@ -34,6 +36,10 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         JFrame frame = new JFrame("Youchat - Signup");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 600);
+
+        JButton signupButton = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
+        signupButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
+        this.signupButton = signupButton;
 
         JPanel panel = new JPanel();
         frame.add(panel);
@@ -67,9 +73,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         nicknameText.setBounds(100, 200, 250, 40);
         panel.add(nicknameText);
 
-        JButton signupButton = new JButton(signupViewModel.SIGNUP_BUTTON_LABEL);
-        signupButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
-        this.signupButton = signupButton;
+
         panel.add(signupButton);
 
         signupButton.addActionListener(this);
