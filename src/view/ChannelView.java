@@ -19,7 +19,7 @@
 
 
     public class ChannelView extends JPanel implements ActionListener, PropertyChangeListener {
-        public final String viewName = "Channel";
+        public final String viewName = "channel";
 
         private final interface_adapter.Channel.ChannelViewModel channelViewModel;
 
