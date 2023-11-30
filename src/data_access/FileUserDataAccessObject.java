@@ -5,16 +5,17 @@ import entity.User.UserFactory;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.ListChannel.ListChannelDataAccessInterface;
 import use_case.Login.LoginDataAccessInterface;
 import use_case.Signup.SignupDataAccessInterface;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
-public class FileUserDataAccessObject implements SignupDataAccessInterface, LoginDataAccessInterface {
+public class FileUserDataAccessObject implements SignupDataAccessInterface,
+        LoginDataAccessInterface,
+        ListChannelDataAccessInterface {
     private static final String API_TOKEN = "0abe6c776ab4537be2c5ca662b46dba1ac1be4f5";
     private static final String BASE_URL = "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3";
 
@@ -100,6 +101,47 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface, Logi
             return null;
         }
         return null;
+    }
+
+    @Override
+    public ArrayList<String> list_channel(String user_id) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/users/" + user_id + "/my_group_channels")
+                .get()
+                .addHeader("Api-Token", API_TOKEN)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            // Assuming a successful response includes a JSON body with a status code
+            if (response.body() != null) {
+                String responseBody = response.body().string();
+                //System.out.println(responseBody);
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                JSONArray channels = jsonResponse.getJSONArray("channels");
+                if (channels != null) {
+                    ArrayList<String> channels_list = new ArrayList<>(){};
+                    for (int i = 0; i < channels.length(); i++) {
+                        JSONObject jsonObject = channels.getJSONObject(i);
+                        if(jsonObject.has("name")) {
+                            channels_list.add(jsonObject.getString("name"));
+                        }
+                    }
+                    return channels_list; // Channel created successfully
+                } else{
+                    return null;
+                }
+            } else {
+                System.err.println("Request to login failed: " + response);
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
 
