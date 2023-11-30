@@ -1,7 +1,6 @@
 package data_access;
 
 import entity.User.User;
-import entity.User.UserFactory;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,8 +9,6 @@ import use_case.Login.LoginDataAccessInterface;
 import use_case.Signup.SignupDataAccessInterface;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.util.*;
 
 public class FileUserDataAccessObject implements SignupDataAccessInterface,
         LoginDataAccessInterface,
@@ -104,7 +101,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
     }
 
     @Override
-    public ArrayList<String> list_channel(String user_id) {
+    public JSONArray list_channel(String user_id) {
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
@@ -123,14 +120,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
                 JSONObject jsonResponse = new JSONObject(responseBody);
                 JSONArray channels = jsonResponse.getJSONArray("channels");
                 if (channels != null) {
-                    ArrayList<String> channels_list = new ArrayList<>(){};
-                    for (int i = 0; i < channels.length(); i++) {
-                        JSONObject jsonObject = channels.getJSONObject(i);
-                        if(jsonObject.has("name")) {
-                            channels_list.add(jsonObject.getString("name"));
-                        }
-                    }
-                    return channels_list; // Channel created successfully
+                    return channels;
                 } else{
                     return null;
                 }
