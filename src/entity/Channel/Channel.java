@@ -11,7 +11,6 @@ public interface Channel {
 
     String getNote();
 
-    LocalDateTime getCreationTime();
 
     ArrayList<String> getOperator();
 
@@ -19,5 +18,6 @@ public interface Channel {
 
     void setNote(String content);
 
-    void setOperator(ArrayList<String> addedAdmin);
+    void setOperator(ArrayList<String> addedOperator);
+
 }

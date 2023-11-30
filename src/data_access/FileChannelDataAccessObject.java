@@ -32,30 +32,41 @@ public class FileChannelDataAccessObject implements CreateChannelDataAccessInter
                 .url(BASE_URL + "/open_channels")
                 .method("POST", body)
                 .addHeader("Api-Token", API_TOKEN)
-                .addHeader("Content-Type", "application/json")
+                .addHeader("Content-Type", "application/json; charset=utf-8")
                 .build();
 
+        Response response = null;
         try {
-            Response response = client.newCall(request).execute();
-            // Assuming a successful response includes a JSON body with a status code
-            if (response.isSuccessful() && response.body() != null) {
-                String responseData = response.body().string();
-                JSONObject jsonResponse = new JSONObject(responseData);
-                int statusCode = jsonResponse.getInt("status_code");
-                if (statusCode == 200) {
-                    return true; // Channel created successfully
-                } else {
-                    System.err.println("Failed to create channel: " + jsonResponse.getString("message"));
-                    return false;
-                }
+            response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                // Log success with channel details
+                logChannelDetails(channel, "Channel creation successful.");
+                return true;
             } else {
-                System.err.println("Request to create channel failed: " + response);
+                // Log the failure with channel details and the response body for error message
+                logChannelDetails(channel, "Channel creation failed. Response code: " + response.code()
+                        + " - Message: " + response.message() + " - Body: " + response.body().string());
                 return false;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // Log the IOException with channel details
+            logChannelDetails(channel, "Channel creation failed. IOException: " + e.getMessage());
             return false;
+        } finally {
+            if (response != null) {
+                response.close(); // Ensure the response is closed to free resources
+            }
         }
+    }
+
+    private void logChannelDetails(Channel channel, String message) {
+        System.out.println("Channel Name: " + channel.getChannelName());
+        System.out.println("Channel URL: " + channel.getChannelUrl());
+        System.out.println("Channel Operators: " + channel.getOperator());
+        System.out.println("Is Ephemeral: " + channel.isEphemeral());
+        System.out.println("API Token Used: " + API_TOKEN);
+        System.out.println("Base URL: " + BASE_URL);
+        System.out.println(message);
     }
 }
 

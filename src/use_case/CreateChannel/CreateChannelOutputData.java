@@ -3,12 +3,12 @@ package use_case.CreateChannel;
 public class CreateChannelOutputData {
     private final boolean success;
     private final String message;
-    private final String channelId;
+    private final String channelName;
 
-    public CreateChannelOutputData(boolean success, String message, String channelId) {
+    public CreateChannelOutputData(boolean success, String message, String channelName) {
         this.success = success;
         this.message = message;
-        this.channelId = channelId;
+        this.channelName = channelName;
     }
 
     // Getters
@@ -20,10 +20,7 @@ public class CreateChannelOutputData {
         return message;
     }
 
-    public String getChannelId() {
-        return channelId;
+    public String getChannelName() {
+        return channelName;
     }
-
-    // Setters if necessary
-    // ...
 }
