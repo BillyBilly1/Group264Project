@@ -32,30 +32,35 @@ public class FileChannelDataAccessObject implements CreateChannelDataAccessInter
                 .url(BASE_URL + "/open_channels")
                 .method("POST", body)
                 .addHeader("Api-Token", API_TOKEN)
-                .addHeader("Content-Type", "application/json")
+                .addHeader("Content-Type", "application/json; charset=utf-8")
                 .build();
 
         try {
             Response response = client.newCall(request).execute();
-            // Assuming a successful response includes a JSON body with a status code
-            if (response.isSuccessful() && response.body() != null) {
-                String responseData = response.body().string();
-                JSONObject jsonResponse = new JSONObject(responseData);
-                int statusCode = jsonResponse.getInt("status_code");
-                if (statusCode == 200) {
-                    return true; // Channel created successfully
-                } else {
-                    System.err.println("Failed to create channel: " + jsonResponse.getString("message"));
-                    return false;
-                }
+            if (response.isSuccessful()) {
+
+
+                return true;
             } else {
-                System.err.println("Request to create channel failed: " + response);
+
+                System.err.println("Failed to create channel. HTTP error code: " + response.code());
                 return false;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            // Log or handle the exception
+            System.err.println("IOException when trying to create channel: " + e.getMessage());
             return false;
         }
+    }
+
+    private void logChannelDetails(Channel channel, String message) {
+        System.out.println("Channel Name: " + channel.getChannelName());
+        System.out.println("Channel URL: " + channel.getChannelUrl());
+        System.out.println("Channel Operators: " + channel.getOperator());
+        System.out.println("Is Ephemeral: " + channel.isEphemeral());
+        System.out.println("API Token Used: " + API_TOKEN);
+        System.out.println("Base URL: " + BASE_URL);
+        System.out.println(message);
     }
 }
 

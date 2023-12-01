@@ -2,7 +2,6 @@ package use_case.CreateChannel;
 
 import entity.Channel.*;
 
-import java.time.LocalDateTime;
 
 
 public class CreateChannelInteractor implements CreateChannelInputBoundary {
@@ -19,49 +18,40 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
     }
 
     @Override
-    public void execute(CreateChannelInputData createChannelInputData) {
-        if (createChannelInputData == null ||
-                createChannelInputData.getChannelName() == null ||
-                createChannelInputData.getChannelName().isEmpty()) {
-            throw new IllegalArgumentException("The data is invalid, please try again");
-        }
+    public void execute(CreateChannelInputData inputData) {
+        if (inputData.isFilled()) {
+            Channel channel = channelFactory.create(
+                    inputData.getChannelName(),
+                    inputData.getChannelUrl(),
+                    inputData.getOperator(),
+                    inputData.getIsEphemeral()
+            );
 
-        // Use the ChannelFactory to create a new Channel entity
-        LocalDateTime currentTime = LocalDateTime.now();
-        Channel newChannel = channelFactory.create(
-                createChannelInputData.getChannelName(),
-                createChannelInputData.getChannelUrl(),
-                createChannelInputData.getOperator(),
-                createChannelInputData.getIsEphemeral(),
-                currentTime
-        );
+            try {
 
-        // Interact with the data access object to persist the new channel
-        try {
-            // Assuming createChannel returns a boolean or some object indicating success
-            boolean isChannelCreated = channeldataAccessObject.createChannel(newChannel);
+                // After saving the channel, we check if it was successful.
+                boolean isChannelCreated = channeldataAccessObject.createChannel(channel);
+                CreateChannelOutputData outputData;
 
-            // Check if the operation was successful and handle accordingly
-            if (isChannelCreated) {
-                // Create and send output data to the output boundary
-                CreateChannelOutputData outputData = new CreateChannelOutputData(
-                        true,
-                        "Channel created successfully",
-                        newChannel.getChannelName()
-                );
-                outputBoundary.presentChannelCreationResult(outputData);
-            } else {
-                // Handle the case where channel creation failed
-                CreateChannelOutputData outputData = new CreateChannelOutputData(
-                        false,
-                        "Channel creation failed",
-                        null
-                );
-                outputBoundary.presentChannelCreationResult(outputData);
+                if (isChannelCreated) {
+                    // If the channel was successfully created, we assume we have a channel ID.
+                    // You should adjust the method to get the actual channel ID.
+                    outputData = new CreateChannelOutputData(true, "Channel created successfully.", channel.getChannelName());
+                } else {
+                    // If the creation was not successful, we do not have a channel ID.
+                    outputData = new CreateChannelOutputData(false, "Channel creation failed.", null);
+                }
+                outputBoundary.present(outputData);
+
+            } catch (Exception e) {
+                // Handle any exceptions thrown during channel saving/creation.
+                CreateChannelOutputData outputData = new CreateChannelOutputData(false, "Error: " + e.getMessage(), null);
+                outputBoundary.present(outputData);
             }
-        } catch (Exception e) {
-            // Handle exceptions, such as network errors or data access issues
-            // Could potentially create and send an error outputData here too
+        } else {
+            // Handle the case where input data fields are not properly filled.
+            CreateChannelOutputData outputData = new CreateChannelOutputData(false, "Invalid input data.", null);
+            outputBoundary.present(outputData);
         }
     }
 }
