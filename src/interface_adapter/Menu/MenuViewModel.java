@@ -1,15 +1,21 @@
 package interface_adapter.Menu;
 
 import entity.Channel.Channel;
+import interface_adapter.ViewModel;
 
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuViewModel {
+public class MenuViewModel extends ViewModel {
 
     private ArrayList<Channel> channelList;
 
     private String userID;
+
+    public MenuViewModel() {
+        super("menu");
+    }
 
 
     public String getUserID() {
@@ -25,4 +31,14 @@ public class MenuViewModel {
 
 
         }
+
+    @Override
+    public void firePropertyChanged() {
+
     }
+
+    @Override
+    public void addPropertyChangedListener(PropertyChangeListener listener) {
+
+    }
+}
