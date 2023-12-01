@@ -4,6 +4,7 @@ import data_access.FileChannelDataAccessObject;
 import data_access.FileUserDataAccessObject;
 import entity.User.UserFactory;
 import interface_adapter.Channel.ChannelViewModel;
+import interface_adapter.Menu.MenuViewModel;
 import interface_adapter.Signup.SignupController;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.logged_in.LoggedInViewModel;
@@ -29,7 +30,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame application = new JFrame("Login Example");
+        JFrame application = new JFrame("You-Chat");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -37,6 +38,7 @@ public class Main {
         // The various View objects. Only one view is visible at a time.
         JPanel views = new JPanel(cardLayout);
         application.add(views);
+        application.setMinimumSize(new Dimension(200, 550));
 
         // This keeps track of and manages which view is currently showing.
         ViewManagerModel viewManagerModel = new ViewManagerModel();
@@ -45,6 +47,8 @@ public class Main {
         LoginViewModel loginViewModel = new LoginViewModel();
         LoggedInViewModel loggedInViewModel = new LoggedInViewModel();
         SignupViewModel signupViewModel = new SignupViewModel();
+        MenuViewModel menuViewModel = new MenuViewModel();
+        TranslateViewModel translateViewModel = new TranslateViewModel();
 
         FileUserDataAccessObject userDataAccessObject;
         try {
@@ -63,6 +67,7 @@ public class Main {
         viewManagerModel.firePropertyChanged();
 
         application.pack();
+        application.setLocationRelativeTo(null);
         application.setVisible(true);
     }
 

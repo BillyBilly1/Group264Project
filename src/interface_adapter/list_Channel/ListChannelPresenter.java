@@ -7,6 +7,8 @@ public class ListChannelPresenter implements ListChannelOutputBoundary {
     @Override
     public void prepareSuccessView(ListChannelOutputData channel_list) {
 
+
+
     }
 
     @Override

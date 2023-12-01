@@ -6,6 +6,7 @@ import interface_adapter.Signup.SignupState;
 import interface_adapter.Signup.SignupViewModel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -33,48 +34,49 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         this.signupController = signupController;
         this.signupViewModel.addPropertyChangeListener(this);
 
-        JFrame frame = new JFrame("Youchat - Signup");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 600);
+//        JFrame frame = new JFrame("Youchat - Signup");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(400, 600);
 
         JButton signupButton = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
         signupButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
         this.signupButton = signupButton;
 
-        JPanel panel = new JPanel();
-        frame.add(panel);
-        placeComponents(panel);
 
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+
+//        frame.add(panel);
+        placeComponents();
+
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
+        this.setLayout(new BorderLayout());
 
     }
 
-    public void placeComponents(JPanel panel) {
-        panel.setLayout(null);
+    public void placeComponents() {
 
         JLabel titleLabel = new JLabel(signupViewModel.SIGNUP_TITLE, SwingConstants.CENTER);
         titleLabel.setBounds(150, 100, 100, 30);
-        panel.add(titleLabel);
+        this.add(titleLabel);
 
         JLabel userIdLabel = new JLabel(signupViewModel.USER_ID_LABEL);
         userIdLabel.setBounds(10, 150, 150, 30);
-        panel.add(userIdLabel);
+        this.add(userIdLabel);
 
         JTextField userIdText = userIdTextInfo;
         userIdText.setBounds(100, 150, 250, 40);
-        panel.add(userIdText);
+        this.add(userIdText);
 
         JLabel nicknameLabel = new JLabel(signupViewModel.NICKNAME_LABEL);
         nicknameLabel.setBounds(10, 200, 150, 30);
-        panel.add(nicknameLabel);
+        this.add(nicknameLabel);
 
         JTextField nicknameText = nicknameTextInfo;
         nicknameText.setBounds(100, 200, 250, 40);
-        panel.add(nicknameText);
+        this.add(nicknameText);
 
 
-        panel.add(signupButton);
+        this.add(signupButton);
 
         signupButton.addActionListener(this);
     }

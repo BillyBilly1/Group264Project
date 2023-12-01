@@ -1,16 +1,11 @@
 package app;
 
-import data_access.FileUserDataAccessObject;
-import interface_adapter.clear_users.ClearController;
 import interface_adapter.Login.LoginViewModel;
 import interface_adapter.Signup.SignupController;
 import interface_adapter.Signup.SignupPresenter;
 import interface_adapter.Signup.SignupViewModel;
-import use_case.clear_users.ClearInputBoundary;
-import use_case.clear_users.ClearInteractor;
 import use_case.Signup.SignupDataAccessInterface;
 import entity.User.CommonUserFactory;
-import entity.User.UserFactory;
 import interface_adapter.*;
 import use_case.Signup.SignupInputBoundary;
 import use_case.Signup.SignupInteractor;
@@ -44,7 +39,7 @@ public class SignupUsecaseFactory {
                                                             SignupDataAccessInterface userDataAccessObject) throws IOException {
 
         // Notice how we pass this method's parameters to the Presenter.
-        SignupOutputBoundary signupOutputBoundary = new SignupPresenter(signupViewModel, loginViewModel);
+        SignupOutputBoundary signupOutputBoundary = new SignupPresenter(signupViewModel, loginViewModel, viewManagerModel);
 
         CommonUserFactory userFactory = new CommonUserFactory();
 
