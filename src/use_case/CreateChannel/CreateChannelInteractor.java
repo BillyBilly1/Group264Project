@@ -36,9 +36,5 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
         else {
             channelPresenter.prepareFailView("Error");
         }
-
-        }
-    }
+    }      
 }
-
-
