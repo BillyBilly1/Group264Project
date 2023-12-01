@@ -3,6 +3,8 @@ package use_case.Login;
 import entity.User.UserFactory;
 import entity.User.User;
 
+import java.util.Objects;
+
 public class LoginInteractor implements LoginInputBoundary{
 
     final LoginDataAccessInterface userDataAccessObject;
@@ -20,7 +22,7 @@ public class LoginInteractor implements LoginInputBoundary{
         String nickname = loginInputData.getNickname();
         if (userDataAccessObject.get_username(user_id) == null) {
             loginPresenter.prepareFailView(user_id + ": Account does not exist.");
-        }  else if (userDataAccessObject.get_username(user_id) != nickname){
+        }  else if (!Objects.equals(userDataAccessObject.get_username(user_id), nickname)){
             loginPresenter.prepareFailView("User id and nick name does not match.");
         }
         else {
