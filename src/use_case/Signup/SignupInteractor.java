@@ -3,6 +3,7 @@ package use_case.Signup;
 import entity.User.CommonUserFactory;
 import entity.User.User;
 import entity.User.UserFactory;
+import interface_adapter.Signup.SignupPresenter;
 
 
 public class SignupInteractor implements SignupInputBoundary {
@@ -31,5 +32,11 @@ public class SignupInteractor implements SignupInputBoundary {
             SignupOutputdata signupOutputData = new SignupOutputdata(user.getUser_Id(), user.getNickName(), profileUrl , false);
             userPresenter.prepareSuccessView(signupOutputData);
         }
+    }
+
+    @Override
+    public void skip() {
+        userPresenter.skip();
+
     }
 }
