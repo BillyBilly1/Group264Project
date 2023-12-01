@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.Menu.MenuViewModel;
+import interface_adapter.create_channel.CreateChannelViewModel;
 import interface_adapter.list_Channel.ListChannelController;
 import interface_adapter.list_Channel.ListChannelViewModel;
 
@@ -24,14 +25,17 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 
     private final ListChannelController listChannelController;
 
+    private final CreateChannelViewModel createChannelViewModel;
+
     private JButton createChannelButton;
     private JList<String> channelList;
 
     public MenuView(MenuViewModel menuViewModel, ListChannelViewModel listChannelViewModel,
-                    ListChannelController listChannelController) {
+                    CreateChannelViewModel createChannelViewModel, ListChannelController listChannelController) {
         this.listChannelViewModel = listChannelViewModel;
         this.listChannelController = listChannelController;
         this.menuViewModel = menuViewModel;
+        this.createChannelViewModel = createChannelViewModel;
         initializeUI();
         loadChannelList();
     }

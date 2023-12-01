@@ -9,9 +9,8 @@ public class ListChannelViewModel {
 
     private ListChannelState listChannelState;
 
-    public ListChannelViewModel(ListChannelState listChannelState) {
+    public ListChannelViewModel() {
 
-        this.listChannelState = listChannelState;
 
 
     }

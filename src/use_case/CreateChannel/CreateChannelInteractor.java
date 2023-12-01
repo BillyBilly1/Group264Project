@@ -41,17 +41,14 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
                     // If the creation was not successful, we do not have a channel ID.
                     outputData = new CreateChannelOutputData(false, "Channel creation failed.", null);
                 }
-                outputBoundary.present(outputData);
 
             } catch (Exception e) {
                 // Handle any exceptions thrown during channel saving/creation.
                 CreateChannelOutputData outputData = new CreateChannelOutputData(false, "Error: " + e.getMessage(), null);
-                outputBoundary.present(outputData);
             }
         } else {
             // Handle the case where input data fields are not properly filled.
             CreateChannelOutputData outputData = new CreateChannelOutputData(false, "Invalid input data.", null);
-            outputBoundary.present(outputData);
         }
     }
 }
