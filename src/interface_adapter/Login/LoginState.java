@@ -4,11 +4,13 @@ public class LoginState {
     private String user_id = "";
     private String user_idError = null;
     private String nickname = "";
+    private String nicknameError = null;
 
     public LoginState(LoginState copy) {
         user_id = copy.user_id;
         user_idError = copy.user_idError;
         nickname = copy.nickname;
+        nicknameError = copy.nicknameError;
     }
 
     public LoginState() {}
@@ -24,6 +26,7 @@ public class LoginState {
     public String getNickname() {
         return nickname;
     }
+    public String getNicknameError() { return nicknameError; }
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
@@ -36,4 +39,5 @@ public class LoginState {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+    public void setNicknameError(String nicknameError) { this.nicknameError = nicknameError;}
 }
