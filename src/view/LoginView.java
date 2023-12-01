@@ -29,47 +29,45 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         this.loginController = loginController;
         this.loginViewModel.addPropertyChangedListener(this);
 
-        JFrame frame = new JFrame("YouChat - Login");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 600);
+//        JFrame frame = new JFrame("YouChat - Login");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(400, 600);
 
         JButton loginButton = new JButton(LoginViewModel.LOGIN_BUTTON_LABEL);
         loginButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
         this.loginButton = loginButton;
 
-        JPanel panel = new JPanel();
-        frame.add(panel);
-        placeComponents(panel);
-
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+//        frame.add(panel);
+        placeComponents();
+//
+//        frame.setLocationRelativeTo(null);
+//        frame.setVisible(true);
     }
 
-    private void placeComponents(JPanel panel) {
-        panel.setLayout(null);
+    private void placeComponents() {
 
         JLabel titleLabel = new JLabel(loginViewModel.LOGIN_TITLE, SwingConstants.CENTER);
         titleLabel.setBounds(150, 100, 100, 30);
-        panel.add(titleLabel);
+        this.add(titleLabel);
 
         JLabel userIdLabel = new JLabel(loginViewModel.USER_ID_LABEL);
         userIdLabel.setBounds(10, 150, 150, 30);
-        panel.add(userIdLabel);
+        this.add(userIdLabel);
 
         JTextField userIdText = userIdTextInfo;
         userIdText.setBounds(100, 150, 250, 40);
-        panel.add(userIdText);
+        this.add(userIdText);
 
         JLabel nicknameLabel = new JLabel(loginViewModel.NIKCKNAME_LABEL);
         nicknameLabel.setBounds(10, 200, 150, 30);
-        panel.add(nicknameLabel);
+        this.add(nicknameLabel);
 
         JTextField nicknameText = nicknameTextInfo;
         nicknameText.setBounds(100, 200, 250, 40);
-        panel.add(nicknameText);
+        this.add(nicknameText);
 
 
-        panel.add(loginButton);
+        this.add(loginButton);
 
 
         loginButton.addActionListener(this);
@@ -102,4 +100,5 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private void setFields(LoginState state) {
         userIdTextInfo.setText(state.getUser_id());
     }
+
 }
