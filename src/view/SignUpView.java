@@ -23,6 +23,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         this.signupViewModel = signupViewModel;
         this.signupController = signupController;
         this.signupViewModel.addPropertyChangeListener(this);
+
         this.setLayout(new BorderLayout());
         placeComponents();
     }
@@ -31,12 +32,6 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
       
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(null);
-
-//        centerPanel.add(new JLabel(signupViewModel.SIGNUP_TITLE, SwingConstants.CENTER));
-//        userIdTextInfo.setBounds(100, 200, 250, 40);
-//        centerPanel.add(createLabeledField("User ID:", userIdTextInfo));
-//        nicknameTextInfo.setBounds(100, 200, 250, 40);
-//        centerPanel.add(createLabeledField("Nickname:", nicknameTextInfo));
 
         JLabel titleLabel = new JLabel(signupViewModel.SIGNUP_TITLE, SwingConstants.CENTER);
         titleLabel.setBounds(150, 100, 100, 30);
@@ -57,7 +52,6 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         JTextField nicknameText = nicknameTextInfo;
         nicknameText.setBounds(105, 200, 250, 40);
         centerPanel.add(nicknameText);
-
 
       
         JPanel buttonPanel = new JPanel(new FlowLayout());
