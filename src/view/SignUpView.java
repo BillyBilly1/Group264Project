@@ -28,7 +28,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     }
 
     public void placeComponents() {
-        // 添加标题和文本框
+      
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
 
@@ -36,7 +36,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         centerPanel.add(createLabeledField("User ID:", userIdTextInfo));
         centerPanel.add(createLabeledField("Nickname:", nicknameTextInfo));
 
-        // 添加按钮
+      
         JPanel buttonPanel = new JPanel(new FlowLayout());
         signupButton.addActionListener(this);
         skipToLoginButton.addActionListener(this);
