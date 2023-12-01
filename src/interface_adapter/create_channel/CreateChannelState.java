@@ -1,20 +1,21 @@
 package interface_adapter.create_channel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateChannelState {
-    private String channelId = "";
+    private String channel_url = "";
     private String channelIdError = null;
     private String channelName = "";
 
-    private ArrayList<String> operator = new ArrayList<>();
+    private ArrayList<String> operator = new ArrayList<>(List.of("Bright"));
 
     private String isEphemeral = "true";
     private String channelNameError = null;
     private boolean isCreating = false;
 
     public CreateChannelState(CreateChannelState copy) {
-        channelId = copy.channelId;
+        channel_url = copy.channel_url;
         channelIdError = copy.channelIdError;
         channelName = copy.channelName;
         channelNameError = copy.channelNameError;
@@ -27,8 +28,8 @@ public class CreateChannelState {
     }
 
     // Getters
-    public String getChannelId() {
-        return channelId;
+    public String getChannel_url() {
+        return channel_url;
     }
 
     public ArrayList<String> getOperator(){
@@ -43,6 +44,8 @@ public class CreateChannelState {
         return channelName;
     }
 
+    public String getIsEphemeral() { return isEphemeral; }
+
     public String getChannelNameError() {
         return channelNameError;
     }
@@ -52,8 +55,8 @@ public class CreateChannelState {
     }
 
     // Setters
-    public void setChannelId(String channelId) {
-        this.channelId = channelId;
+    public void setChannel_url(String channel_url) {
+        this.channel_url = channel_url;
     }
 
     public void setOperator(ArrayList<String> operators){
@@ -83,7 +86,7 @@ public class CreateChannelState {
     @Override
     public String toString() {
         return "CreateChannelState{" +
-                "channelId='" + channelId + '\'' +
+                "channelId='" + channel_url + '\'' +
                 ", channelName='" + channelName + '\'' +
                 ", isCreating=" + isCreating +
                 '}';

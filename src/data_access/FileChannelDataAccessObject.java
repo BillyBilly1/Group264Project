@@ -35,27 +35,21 @@ public class FileChannelDataAccessObject implements CreateChannelDataAccessInter
                 .addHeader("Content-Type", "application/json; charset=utf-8")
                 .build();
 
-        Response response = null;
         try {
-            response = client.newCall(request).execute();
+            Response response = client.newCall(request).execute();
             if (response.isSuccessful()) {
-                // Log success with channel details
-                logChannelDetails(channel, "Channel creation successful.");
+
+
                 return true;
             } else {
-                // Log the failure with channel details and the response body for error message
-                logChannelDetails(channel, "Channel creation failed. Response code: " + response.code()
-                        + " - Message: " + response.message() + " - Body: " + response.body().string());
+
+                System.err.println("Failed to create channel. HTTP error code: " + response.code());
                 return false;
             }
         } catch (IOException e) {
-            // Log the IOException with channel details
-            logChannelDetails(channel, "Channel creation failed. IOException: " + e.getMessage());
+            // Log or handle the exception
+            System.err.println("IOException when trying to create channel: " + e.getMessage());
             return false;
-        } finally {
-            if (response != null) {
-                response.close(); // Ensure the response is closed to free resources
-            }
         }
     }
 

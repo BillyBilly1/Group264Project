@@ -13,6 +13,10 @@ public class CreateChannelPresenter implements CreateChannelOutputBoundary {
         this.view = view;
     }
 
+    public void setView(CreateChannelView view) {
+        this.view = view;
+    }
+
     @Override
     public void present(CreateChannelOutputData outputData) {
         if (outputData.isSuccess()) {

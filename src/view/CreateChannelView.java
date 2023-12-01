@@ -9,6 +9,8 @@ import interface_adapter.create_channel.CreateChannelViewModel;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -24,7 +26,7 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
             CreateChannelView view = new CreateChannelView(null, null);
 
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(600, 400);
+            frame.setSize(500, 300);
             frame.add(view);
             frame.setLocationRelativeTo(null);
 
@@ -38,10 +40,8 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
 
     private final CreateChannelViewModel createChannelViewModel;
     private final CreateChannelController createChannelController;
-    final JTextField channelIDINFO = new JTextField();
+    final JTextField channel_urlINFO = new JTextField();
     final JTextField channelNameINFO = new JTextField();
-    final JTextField channelOperatorINFO = new JTextField();
-    final String channelIsEphemeral = "true";
     private final JButton createButton;
 
     public CreateChannelView(CreateChannelViewModel createChannelViewModel, CreateChannelController createChannelController) {
@@ -54,12 +54,12 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         titleLabel.setBounds(100, 20, 200, 30);
         this.add(titleLabel);
 
-        JLabel channelIDLabel = new JLabel(CreateChannelViewModel.CHANNEL_ID_LABEL);
+        JLabel channelIDLabel = new JLabel(CreateChannelViewModel.CHANNEL_URL_LABEL);
         channelIDLabel.setBounds(10, 70, 180, 25);
         this.add(channelIDLabel);
 
-        channelIDINFO.setBounds(200, 70, 275, 25);
-        this.add(channelIDINFO);
+        channel_urlINFO.setBounds(200, 70, 275, 25);
+        this.add(channel_urlINFO);
 
         JLabel channelNameLabel = new JLabel(CreateChannelViewModel.CHANNEL_NAME_LABEL);
         channelNameLabel.setBounds(10, 120, 180, 25);
@@ -68,19 +68,77 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         channelNameINFO.setBounds(200, 120, 275, 25);
         this.add(channelNameINFO);
 
-        JLabel operatorLable = new JLabel(CreateChannelViewModel.OPERATOR_LABEL);
-        operatorLable.setBounds(10, 170, 180, 25);
-
-        channelOperatorINFO.setBounds(200, 170, 2755, 25);
 
         createButton = new JButton(CreateChannelViewModel.CREATE_CHANNEL_BUTTON_LABLE);
         createButton.setBounds(150, 190, 100, 40);
-        createButton.addActionListener(this);
         this.add(createButton);
+        createButton.addActionListener(
+                new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent evt) {
+                        if(evt.getSource().equals(createButton)){
+                            CreateChannelState currentState = createChannelViewModel.getState();
+
+                            createChannelController.execute(
+                                    currentState.getChannel_url(),
+                                    currentState.getChannelName(),
+                                    currentState.getOperator(),
+                                    currentState.getIsEphemeral()
+                            );
+                        }
+                    }
+                }
+        );
+
+        channel_urlINFO.addKeyListener(
+                new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        CreateChannelState currentState = createChannelViewModel.getState();
+                        currentState.setChannel_url(channel_urlINFO.getText());
+                        createChannelViewModel.setState(currentState);
+
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+
+                    }
+                }
+        );
+
+        channelNameLabel.addKeyListener(
+                new KeyListener() {
+                    @Override
+                    public void keyTyped(KeyEvent e) {
+                        CreateChannelState currentState = createChannelViewModel.getState();
+                        currentState.setChannelName(channelNameINFO.getText());
+                        createChannelViewModel.setState(currentState);
+
+                    }
+
+                    @Override
+                    public void keyPressed(KeyEvent e) {
+
+                    }
+
+                    @Override
+                    public void keyReleased(KeyEvent e) {
+
+                    }
+                }
+        );
+
+
 
         JFrame frame = new JFrame("YouChat - Create Channel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 400);
+        frame.setSize(500, 300);
         frame.add(this);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -94,7 +152,7 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(this, "Channel '" + channelName + "' created successfully: " + message, "Success", JOptionPane.INFORMATION_MESSAGE);
             channelNameINFO.setText(""); // Clear the input fields if needed
-            channelIDINFO.setText("");   // Assuming you want to clear the channel ID as well
+            channel_urlINFO.setText("");   // Assuming you want to clear the channel ID as well
         });
     }
 
@@ -110,7 +168,7 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         setFields(state);}
 
     private void setFields(CreateChannelState state) {
-        channelIDINFO.setText(state.getChannelId());
+        channel_urlINFO.setText(state.getChannel_url());
     }
 }
 
