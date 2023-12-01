@@ -9,6 +9,7 @@ import use_case.Login.LoginDataAccessInterface;
 import use_case.Signup.SignupDataAccessInterface;
 
 import java.io.*;
+import java.util.Objects;
 
 public class FileUserDataAccessObject implements SignupDataAccessInterface,
         LoginDataAccessInterface,
@@ -65,6 +66,9 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
 
     @Override
     public String get_username(String user_id) {
+        if (user_id == null || Objects.equals(user_id, "")) {
+            return null;
+        }
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
