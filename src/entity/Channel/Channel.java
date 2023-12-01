@@ -1,7 +1,7 @@
 package entity.Channel;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface Channel {
 
@@ -12,12 +12,12 @@ public interface Channel {
     String getNote();
 
 
-    ArrayList<String> getOperator();
+    List<String> getOperator();
 
     String isEphemeral();
 
     void setNote(String content);
 
-    void setOperator(ArrayList<String> addedOperator);
+    void setOperator(List<String> addedOperator);
 
 }

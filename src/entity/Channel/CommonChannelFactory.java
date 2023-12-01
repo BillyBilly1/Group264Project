@@ -1,12 +1,12 @@
 package entity.Channel;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CommonChannelFactory implements ChannelFactory {
 
     public Channel create(String channelName, String channelUrl,
-                          ArrayList<String> operator, String isEphemeral){
+                          List<String> operator, String isEphemeral){
         return new CommonChannel(channelName, channelUrl, operator, isEphemeral);}
 }
 
