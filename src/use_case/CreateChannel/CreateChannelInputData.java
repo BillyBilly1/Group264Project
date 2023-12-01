@@ -1,15 +1,16 @@
 package use_case.CreateChannel;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CreateChannelInputData {
     final private String name;
     final private String channelUrl;
     final private String isEphemeral;
-    final private ArrayList<String> operator;
+    final private List<String> operator;
 
-    public CreateChannelInputData(String name, String channelUrl, ArrayList<String> operator,
+    public CreateChannelInputData(String name, String channelUrl, List<String> operator,
                                   String isEphemeral){
         this.name = name;
         this.channelUrl = channelUrl;
@@ -18,7 +19,7 @@ public class CreateChannelInputData {
     }
 
     public String getChannelName(){ return name; }
-    ArrayList<String> getOperator(){ return operator; }
+    List<String> getOperator(){ return operator; }
     String getChannelUrl() { return channelUrl; }
     public String getIsEphemeral() { return isEphemeral; }
 

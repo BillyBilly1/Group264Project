@@ -9,8 +9,9 @@ import view.CreateChannelView;
 
 public class CreateChannelPresenter implements CreateChannelOutputBoundary {
 
-    private final CreateChannelViewModel createChannelViewModel;
-    private final ViewManagerModel viewManagerModel;
+    private CreateChannelViewModel createChannelViewModel;
+    private ViewManagerModel viewManagerModel;
+
     private final MenuViewModel menuViewModel;
 
 

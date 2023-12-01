@@ -4,6 +4,9 @@ import interface_adapter.Signup.SignupState;
 import interface_adapter.create_channel.CreateChannelController;
 import interface_adapter.create_channel.CreateChannelState;
 import interface_adapter.create_channel.CreateChannelViewModel;
+import use_case.CreateChannel.CreateChannelInputBoundary;
+import use_case.CreateChannel.CreateChannelInputData;
+import use_case.CreateChannel.CreateChannelInteractor;
 
 
 import javax.swing.*;
@@ -14,26 +17,10 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateChannelView extends JPanel implements ActionListener, PropertyChangeListener{
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-
-            JFrame frame = new JFrame("YouChat - Create Channel");
-
-
-            CreateChannelView view = new CreateChannelView(null, null);
-
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(500, 300);
-            frame.add(view);
-            frame.setLocationRelativeTo(null);
-
-            // Display the frame
-            frame.setVisible(true);
-        });
-    }
 
 
     public final String viewName = "create channel";
@@ -43,6 +30,8 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
     final JTextField channel_urlINFO = new JTextField();
     final JTextField channelNameINFO = new JTextField();
     private final JButton createButton;
+
+
 
     public CreateChannelView(CreateChannelViewModel createChannelViewModel, CreateChannelController createChannelController) {
         this.createChannelViewModel = createChannelViewModel;
@@ -170,5 +159,7 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
     private void setFields(CreateChannelState state) {
         channel_urlINFO.setText(state.getChannel_url());
     }
+
 }
+
 

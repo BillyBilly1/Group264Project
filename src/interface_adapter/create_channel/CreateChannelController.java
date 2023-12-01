@@ -5,6 +5,7 @@ import use_case.CreateChannel.CreateChannelInputData;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateChannelController {
 
@@ -16,7 +17,7 @@ public class CreateChannelController {
     }
 
     // This method is called when the user clicks the "Create" button in your view.
-    public void  execute(String channel_url, String channelName, ArrayList<String> operator, String isEphemeral) {
+    public void  execute(String channel_url, String channelName, List<String> operator, String isEphemeral) {
         CreateChannelInputData createChannelInputData = new CreateChannelInputData(channel_url, channelName,
                 operator, isEphemeral);
         interactor.execute(createChannelInputData);
