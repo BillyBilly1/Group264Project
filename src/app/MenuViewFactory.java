@@ -28,7 +28,7 @@ public class MenuViewFactory {
 
         ListChannelController listChannelController =
                 createListChannelController(viewManagerModel, listChannelViewModel, listChannelDataAccessInterface);
-        MenuView menuView = new MenuView(menuViewModel, listChannelViewModel, createChannelViewModel, listChannelController);
+        MenuView menuView = new MenuView(viewManagerModel, menuViewModel, listChannelViewModel, createChannelViewModel, listChannelController);
         return menuView;
 
     }
