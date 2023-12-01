@@ -24,14 +24,11 @@ public class SignupInteractor implements SignupInputBoundary {
 
     @Override
     public void execute(SignupInputData signupInputData) {
-        if (userDataAccessObject.get_username(signupInputData.getUser_id()) != null) {
+        if (! Objects.equals(userDataAccessObject.get_username(signupInputData.getUser_id()), null)) {
             userPresenter.prepareFailView("User already exists.");
         }
-        if (Objects.equals(signupInputData.getUser_id(), "")) {
-            userPresenter.prepareFailView("User ID should not be empty.");
-        }
-        if (Objects.equals(signupInputData.getNickname(), "")) {
-            userPresenter.prepareFailView("Nickname should not be empty.");
+        if (Objects.equals(signupInputData.getUser_id(), "") || Objects.equals(signupInputData.getNickname(), "")) {
+            userPresenter.prepareFailView("User ID or nickname should not be empty.");
         }
         else {
 
