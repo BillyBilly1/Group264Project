@@ -5,6 +5,8 @@ import entity.User.User;
 import entity.User.UserFactory;
 import interface_adapter.Signup.SignupPresenter;
 
+import java.util.Objects;
+
 
 public class SignupInteractor implements SignupInputBoundary {
     final SignupDataAccessInterface userDataAccessObject;
@@ -22,9 +24,13 @@ public class SignupInteractor implements SignupInputBoundary {
 
     @Override
     public void execute(SignupInputData signupInputData) {
-        if (userDataAccessObject.get_username(signupInputData.getUser_id()) != null) {
+        if (! Objects.equals(userDataAccessObject.get_username(signupInputData.getUser_id()), null)) {
             userPresenter.prepareFailView("User already exists.");
-        } else {
+        }
+        if (Objects.equals(signupInputData.getUser_id(), "") || Objects.equals(signupInputData.getNickname(), "")) {
+            userPresenter.prepareFailView("User ID or nickname should not be empty.");
+        }
+        else {
 
             User user = userFactory.create(signupInputData.getUser_id(), signupInputData.getNickname(), profileUrl);
             userDataAccessObject.save(user);

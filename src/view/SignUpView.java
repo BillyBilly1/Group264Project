@@ -23,6 +23,7 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         this.signupViewModel = signupViewModel;
         this.signupController = signupController;
         this.signupViewModel.addPropertyChangeListener(this);
+
         this.setLayout(new BorderLayout());
         placeComponents();
     }
@@ -30,11 +31,27 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     public void placeComponents() {
       
         JPanel centerPanel = new JPanel();
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setLayout(null);
 
-        centerPanel.add(new JLabel(signupViewModel.SIGNUP_TITLE, SwingConstants.CENTER));
-        centerPanel.add(createLabeledField("User ID:", userIdTextInfo));
-        centerPanel.add(createLabeledField("Nickname:", nicknameTextInfo));
+        JLabel titleLabel = new JLabel(signupViewModel.SIGNUP_TITLE, SwingConstants.CENTER);
+        titleLabel.setBounds(150, 100, 100, 30);
+        centerPanel.add(titleLabel);
+
+        JLabel userIdLabel = new JLabel(signupViewModel.USER_ID_LABEL);
+        userIdLabel.setBounds(10, 150, 150, 30);
+        centerPanel.add(userIdLabel);
+
+        JTextField userIdText = userIdTextInfo;
+        userIdText.setBounds(105, 150, 250, 40);
+        centerPanel.add(userIdText);
+
+        JLabel nicknameLabel = new JLabel(signupViewModel.NICKNAME_LABEL);
+        nicknameLabel.setBounds(10, 200, 150, 30);
+        centerPanel.add(nicknameLabel);
+
+        JTextField nicknameText = nicknameTextInfo;
+        nicknameText.setBounds(105, 200, 250, 40);
+        centerPanel.add(nicknameText);
 
       
         JPanel buttonPanel = new JPanel(new FlowLayout());
