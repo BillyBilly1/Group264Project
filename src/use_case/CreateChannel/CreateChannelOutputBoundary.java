@@ -1,6 +1,7 @@
 package use_case.CreateChannel;
 
 public interface CreateChannelOutputBoundary {
-    void present(CreateChannelOutputData outputData);
+    void prepareSuccessView(CreateChannelOutputData outputData);
+    void prepareFailView(String error);
 }
 

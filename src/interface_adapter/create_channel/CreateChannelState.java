@@ -8,7 +8,7 @@ public class CreateChannelState {
     private String channelIdError = null;
     private String channelName = "";
 
-    private ArrayList<String> operator = new ArrayList<>(List.of("Bright"));
+    private List<String> operator = new ArrayList<>();
 
     private String isEphemeral = "true";
     private String channelNameError = null;
@@ -32,7 +32,7 @@ public class CreateChannelState {
         return channel_url;
     }
 
-    public ArrayList<String> getOperator(){
+    public List<String> getOperator(){
         return operator;
     }
 
@@ -59,7 +59,7 @@ public class CreateChannelState {
         this.channel_url = channel_url;
     }
 
-    public void setOperator(ArrayList<String> operators){
+    public void setOperator(List<String> operators){
         this.operator = operators;
     }
 

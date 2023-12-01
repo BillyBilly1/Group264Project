@@ -1,30 +1,38 @@
 package interface_adapter.create_channel;
 
 
+import interface_adapter.Menu.MenuViewModel;
+import interface_adapter.ViewManagerModel;
 import use_case.CreateChannel.CreateChannelOutputBoundary;
 import use_case.CreateChannel.CreateChannelOutputData;
 import view.CreateChannelView;
 
 public class CreateChannelPresenter implements CreateChannelOutputBoundary {
 
-    private CreateChannelView view;
+    private CreateChannelViewModel createChannelViewModel;
+    private ViewManagerModel viewManagerModel;
 
-    public CreateChannelPresenter(CreateChannelView view) {
-        this.view = view;
+    private final MenuViewModel menuViewModel;
+
+
+    public CreateChannelPresenter(ViewManagerModel viewManagerModel,
+                                  CreateChannelViewModel createChannelViewModel,
+                                  MenuViewModel menuViewModel) {
+
+        this.viewManagerModel = viewManagerModel;
+        this.createChannelViewModel = createChannelViewModel;
+        this.menuViewModel = menuViewModel;
     }
 
-    public void setView(CreateChannelView view) {
-        this.view = view;
-    }
 
     @Override
-    public void present(CreateChannelOutputData outputData) {
-        if (outputData.isSuccess()) {
-            // Here you could convert the output data to your view model if necessary
-            view.displaySuccess(outputData.getChannelName(), outputData.getMessage());
-        } else {
-            view.displayError(outputData.getChannelName(), outputData.getMessage());
-        }
+    public void prepareSuccessView(CreateChannelOutputData outputData) {
+
     }
+
+    public void prepareFailView(String error) {
+
+    }
+
 }
 

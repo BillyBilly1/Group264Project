@@ -48,7 +48,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     }
 
     private void updateChannelList() {
-        List<String> channels = menuViewModel.getChannelNameList("s"); //这里是一个overide method，仅用于测试。
+        List<String> channels = menuViewModel.getChannelNameList(); //这里是一个overide method，仅用于测试。
         //实际使用的时候要替换掉里面的string
         DefaultListModel<String> model = new DefaultListModel<>();
         for (String channel : channels) {
@@ -72,10 +72,6 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     public void propertyChange(PropertyChangeEvent evt) {
 
     }
-
-
-
-
-    }
+}
 
 

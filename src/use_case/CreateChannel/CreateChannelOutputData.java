@@ -5,7 +5,7 @@ public class CreateChannelOutputData {
     private final String message;
     private final String channelName;
 
-    public CreateChannelOutputData(boolean success, String message, String channelName) {
+    public CreateChannelOutputData(String channelName, String message, boolean success) {
         this.success = success;
         this.message = message;
         this.channelName = channelName;

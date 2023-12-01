@@ -17,6 +17,7 @@ import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateChannelView extends JPanel implements ActionListener, PropertyChangeListener{
 
