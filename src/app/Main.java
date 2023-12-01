@@ -38,7 +38,7 @@ public class Main {
         // The various View objects. Only one view is visible at a time.
         JPanel views = new JPanel(cardLayout);
         application.add(views);
-        application.setMinimumSize(new Dimension(200, 550));
+        application.setMinimumSize(new Dimension(400, 550));
 
         // This keeps track of and manages which view is currently showing.
         ViewManagerModel viewManagerModel = new ViewManagerModel();
