@@ -28,7 +28,6 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     private final JButton signupButton;
 
 
-
     public SignUpView(SignupViewModel signupViewModel, SignupController signupController) {
         this.signupViewModel = signupViewModel;
         this.signupController = signupController;
@@ -41,7 +40,6 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
         JButton signupButton = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
         signupButton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
         this.signupButton = signupButton;
-
 
 
 //        frame.add(panel);
@@ -82,7 +80,6 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
     }
 
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -101,11 +98,18 @@ public class SignUpView extends JPanel implements ActionListener, PropertyChange
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        SignupState state =  (SignupState) evt.getNewValue();
-        setFields(state);}
-
-
-    private void setFields(SignupState state) {
+        if (evt.getPropertyName().equals("state")) {
+            SignupState state = (SignupState) evt.getNewValue();
+            if (state.getUser_idError() != null) {
+                JOptionPane.showMessageDialog(this, state.getUser_idError());
+            }
+            setFields(state);
+        }
+    }
+    private void setFields(SignupState state){
         userIdTextInfo.setText(state.getUser_id());
     }
 }
+
+
+
