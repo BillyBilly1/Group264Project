@@ -105,7 +105,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url(BASE_URL + "/users/" + user_id + "/my_group_channels")
+                .url(BASE_URL + "/users/group_channels?members_exactly_in=" + user_id)
                 .get()
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
