@@ -15,6 +15,7 @@ public class MenuViewModel extends ViewModel {
 
     public MenuViewModel() {
         super("menu");
+        this.channelList = new ArrayList<Channel>();
     }
 
 
