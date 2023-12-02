@@ -5,6 +5,7 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.ViewProfile.ViewProfileState;
 import interface_adapter.create_channel.CreateChannelState;
 import interface_adapter.create_channel.CreateChannelViewModel;
+import interface_adapter.list_Channel.ChannelInfo;
 import interface_adapter.list_Channel.ListChannelController;
 import interface_adapter.list_Channel.ListChannelViewModel;
 import interface_adapter.ViewProfile.ViewProfileViewModel;
@@ -46,10 +47,14 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         this.menuViewModel = menuViewModel;
         this.createChannelViewModel = createChannelViewModel;
         this.viewProfileViewModel = viewProfileViewModel;
+        menuViewModel.addPropertyChangedListener(this);
+        createChannelViewModel.addPropertyChangeListener(this);
+
         initializeUI();
         loadChannelList();
+        updateChannelList();
 
-        createChannelViewModel.addPropertyChangeListener(this);
+
     }
   
     private void initializeUI() {
@@ -82,6 +87,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 public void loadChannelList() {
 
     listChannelController.execute(menuViewModel.getUserID());
+    ArrayList<ChannelInfo> channelInfoList = listChannelViewModel.getListChannelState().getChannels();
+    this.menuViewModel.initChannelList(channelInfoList);
 }
 
 
@@ -129,9 +136,18 @@ private void updateChannelList() {
 
     public void propertyChange(PropertyChangeEvent evt) {
 
+        if ("userID".equals(evt.getPropertyName()) || "channelInfo".equals(evt.getPropertyName())) {
+            loadChannelList();
+            updateChannelList();
+        }
+
+        }
+
+
+
 
     }
-}
+
 
 
 

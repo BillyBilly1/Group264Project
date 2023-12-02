@@ -1,7 +1,7 @@
 package use_case.CreateChannel;
 
 import entity.Channel.*;
-
+import interface_adapter.list_Channel.ChannelInfo;
 
 
 public class CreateChannelInteractor implements CreateChannelInputBoundary {
@@ -30,10 +30,12 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
                     inputData.getIs_distinct(),
                     inputData.getIsEphemeral());
 
+        ChannelInfo channelInfo = new ChannelInfo(inputData.getChannelUrl(), inputData.getChannelName());
+
             boolean success = channeldataAccessObject.createChannel(channel);
 
             if (success) {
-                CreateChannelOutputData createChannelOutputData = new CreateChannelOutputData(channel, "channel created",
+                CreateChannelOutputData createChannelOutputData = new CreateChannelOutputData(channelInfo, "channel created",
                         true);
                 channelPresenter.prepareSuccessView(createChannelOutputData);
             } else {

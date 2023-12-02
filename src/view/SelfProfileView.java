@@ -33,7 +33,7 @@ public class SelfProfileView extends JPanel implements ActionListener, PropertyC
         this.viewProfileViewModel.addPropertyChangedListener(this);
 
         JButton backbutton = new JButton(viewProfileViewModel.BACK_BUTTON);
-        backbutton.setBounds((400 / 2) - (100 / 2), 300, 100, 40);
+        backbutton.setBounds((400 / 2) - (100 / 2), 300, 140, 40);
         this.backbutton = backbutton;
         this.setLayout(new BorderLayout());
         placeComponents();

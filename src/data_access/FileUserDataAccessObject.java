@@ -110,7 +110,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url(BASE_URL + "/users/group_channels?members_exactly_in=" + user_id)
+                .url(BASE_URL + "/group_channels?members_include_in=" + user_id)
                 .get()
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
@@ -118,16 +118,16 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            // Assuming a successful response includes a JSON body with a status code
             if (response.body() != null) {
                 String responseBody = response.body().string();
-                //System.out.println(responseBody);
                 JSONObject jsonResponse = new JSONObject(responseBody);
-                JSONArray channels = jsonResponse.getJSONArray("channels");
-                if (channels != null) {
-                    return channels;
-                } else{
-                    return null;
+
+                // 检查 jsonResponse 是否包含 "channels" 键
+                if (jsonResponse.has("channels")) {
+                    return jsonResponse.getJSONArray("channels");
+                } else {
+                    // 如果没有 "channels" 键，可以返回一个空的 JSONArray 或处理错误
+                    return new JSONArray();  // 返回空的 JSONArray
                 }
             } else {
                 System.err.println("Request to login failed: " + response);
