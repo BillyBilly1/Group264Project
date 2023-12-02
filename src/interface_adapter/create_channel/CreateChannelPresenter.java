@@ -7,6 +7,8 @@ import use_case.CreateChannel.CreateChannelOutputBoundary;
 import use_case.CreateChannel.CreateChannelOutputData;
 import view.CreateChannelView;
 
+import javax.swing.*;
+
 public class CreateChannelPresenter implements CreateChannelOutputBoundary {
 
     private CreateChannelViewModel createChannelViewModel;
@@ -30,6 +32,9 @@ public class CreateChannelPresenter implements CreateChannelOutputBoundary {
         System.out.println("成功");
         menuViewModel.setChannelList(outputData.getChannel());
         createChannelViewModel.setSuccessMessage("Channel '" + outputData.getChannel().getChannelName() + "' created successfully.");
+        String successMessage = createChannelViewModel.getSuccessMessage();
+        JOptionPane.showMessageDialog(null, successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
+        createChannelViewModel.setSuccessMessage("");
 
 
         viewManagerModel.setActiveView(menuViewModel.getViewName());
@@ -38,7 +43,8 @@ public class CreateChannelPresenter implements CreateChannelOutputBoundary {
     }
 
     public void prepareFailView(String error) {
-        System.out.println("失败");
+        JOptionPane.showMessageDialog(null,
+                "channel name or channel url already exists", "Fail", JOptionPane.INFORMATION_MESSAGE);
 
     }
 

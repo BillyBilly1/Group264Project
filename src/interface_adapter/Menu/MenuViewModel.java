@@ -9,6 +9,7 @@ import java.util.List;
 
 public class MenuViewModel extends ViewModel {
 
+    public String setUserID;
     private ArrayList<Channel> channelList;
 
     private String userID;
@@ -51,5 +52,10 @@ public class MenuViewModel extends ViewModel {
     @Override
     public void addPropertyChangedListener(PropertyChangeListener listener) {
 
+    }
+
+    public void setUserID(String userId) {
+
+        this.userID = userId;
     }
 }

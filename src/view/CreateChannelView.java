@@ -4,6 +4,7 @@ import interface_adapter.Signup.SignupState;
 import interface_adapter.create_channel.CreateChannelController;
 import interface_adapter.create_channel.CreateChannelState;
 import interface_adapter.create_channel.CreateChannelViewModel;
+import org.w3c.dom.ls.LSOutput;
 import use_case.CreateChannel.CreateChannelInputBoundary;
 import use_case.CreateChannel.CreateChannelInputData;
 import use_case.CreateChannel.CreateChannelInteractor;
@@ -30,6 +31,7 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
     final JTextField channel_urlINFO = new JTextField();
     final JTextField channelNameINFO = new JTextField();
     private final JButton createButton;
+
 
 
 
@@ -61,76 +63,34 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         createButton = new JButton(CreateChannelViewModel.CREATE_CHANNEL_BUTTON_LABLE);
         createButton.setBounds(150, 190, 100, 40);
         this.add(createButton);
-        createButton.addActionListener(
-                new ActionListener(){
-                    @Override
-                    public void actionPerformed(ActionEvent evt) {
-                        if(evt.getSource().equals(createButton)){
-                            CreateChannelState currentState = createChannelViewModel.getState();
-
-                            createChannelController.execute(
-                                    currentState.getChannel_url(),
-                                    currentState.getChannelName(),
-                                    currentState.getOperator(),
-                                    currentState.getIsEphemeral()
-                            );
-                        }
-                    }
-                }
-        );
-
-        channel_urlINFO.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        CreateChannelState currentState = createChannelViewModel.getState();
-                        currentState.setChannel_url(channel_urlINFO.getText());
-                        createChannelViewModel.setState(currentState);
-
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-
-        channelNameLabel.addKeyListener(
-                new KeyListener() {
-                    @Override
-                    public void keyTyped(KeyEvent e) {
-                        CreateChannelState currentState = createChannelViewModel.getState();
-                        currentState.setChannelName(channelNameINFO.getText());
-                        createChannelViewModel.setState(currentState);
-
-                    }
-
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-
-                    }
-                }
-        );
-
-
-
+        createButton.addActionListener(this);
 
     }
 
-    public void actionPerformed(ActionEvent evt) {
-        JOptionPane.showConfirmDialog(this, "Cancel not implemented yet.");
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+        if (e.getSource() == createButton) {
+            CreateChannelState currentState = createChannelViewModel.getState();
+            currentState.setChannelName(channelNameINFO.getText());
+            currentState.setChannel_url(channel_urlINFO.getText());
+
+            System.out.println(currentState.getChannel_url());
+            System.out.println(currentState.getChannelName());
+            System.out.println(currentState.getOperator());
+            System.out.println(currentState.getIsEphemeral());
+
+            createChannelController.execute(
+                    currentState.getChannel_url(),
+                    currentState.getChannelName(),
+                    currentState.getOperator(),
+                    currentState.getIsEphemeral()
+            );
+        }
+
     }
+
+
 
     public void displaySuccess(String channelName, String message) {
         SwingUtilities.invokeLater(() -> {
@@ -155,6 +115,6 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         channel_urlINFO.setText(state.getChannel_url());
     }
 
-}
 
+}
 

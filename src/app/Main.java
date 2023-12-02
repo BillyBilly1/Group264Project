@@ -24,6 +24,7 @@ import app.LoginUsecaseFactory;
 import app.SignupUsecaseFactory;
 
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -39,6 +40,8 @@ public class Main {
         JPanel views = new JPanel(cardLayout);
         application.add(views);
         application.setMinimumSize(new Dimension(500, 550));
+
+        System.out.println();
 
         // This keeps track of and manages which view is currently showing.
         ViewManagerModel viewManagerModel = new ViewManagerModel();
