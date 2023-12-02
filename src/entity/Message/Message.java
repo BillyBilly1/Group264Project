@@ -9,7 +9,5 @@ public interface Message {
 
     String getChannel_url();
 
-    String getData();
-
-    Boolean getSendPush();
+    long getCreateAt();
 }

@@ -58,7 +58,7 @@ public class CreateChannelState {
         this.operator = operators;
     }
 
-    public void setUser_ids(List<String> members){ this.user_ids = user_ids; }
+    public void setUser_ids(List<String> members){ this.user_ids = members; }
 
 
 
