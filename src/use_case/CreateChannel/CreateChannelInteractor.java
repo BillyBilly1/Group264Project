@@ -29,7 +29,7 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
             boolean success = channeldataAccessObject.createChannel(channel);
 
             if (success) {
-                CreateChannelOutputData createChannelOutputData = new CreateChannelOutputData(channel.getChannelName(), "channel created",
+                CreateChannelOutputData createChannelOutputData = new CreateChannelOutputData(channel, "channel created",
                         true);
                 channelPresenter.prepareSuccessView(createChannelOutputData);
             } else {
