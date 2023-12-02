@@ -1,9 +1,9 @@
 package interface_adapter.ViewProfile;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.ViewModel;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Observable;
 
 public class ViewProfileViewModel extends ViewModel{
 
@@ -19,10 +19,18 @@ public class ViewProfileViewModel extends ViewModel{
     }
 
     public void setState(ViewProfileState state) {
+        ViewProfileState oldState = this.state;
         this.state = state;
+        firePropertyChanged();
+
     }
 
+    public ViewProfileState getState() {return this.state;}
+
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
+
+
+
 
     @Override
     public void firePropertyChanged() {

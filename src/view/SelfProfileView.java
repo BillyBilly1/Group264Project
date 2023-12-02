@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.ViewProfile.ViewProfileState;
 import interface_adapter.ViewProfile.ViewProfileViewModel;
 import interface_adapter.ViewProfile.ViewProfileController;
@@ -16,16 +17,18 @@ import interface_adapter.ViewProfile.ViewProfileController;
 public class SelfProfileView extends JPanel implements ActionListener, PropertyChangeListener {
 
     public final String viewname = "view profile";
+
+    private  final ViewManagerModel viewManagerModel;
     private final ViewProfileViewModel viewProfileViewModel;
-    private final ViewProfileController viewProfileController;
-    final JLabel userIdLabel = new JLabel();
-    final JLabel nicknameLabel = new JLabel();
+    private  JLabel userIdLabel;
+    private JLabel nicknameLabel;
     private final JButton backbutton;
 
-    public SelfProfileView(ViewProfileViewModel viewProfileViewModel, ViewProfileController viewProfileController){
+    public SelfProfileView(ViewManagerModel viewManagerModel, ViewProfileViewModel viewProfileViewModel){
+
+        this.viewManagerModel = viewManagerModel;
 
         this.viewProfileViewModel = viewProfileViewModel;
-        this.viewProfileController = viewProfileController;
         this.viewProfileViewModel.addPropertyChangedListener(this);
 
         JButton backbutton = new JButton(viewProfileViewModel.BACK_BUTTON);
@@ -54,19 +57,20 @@ public class SelfProfileView extends JPanel implements ActionListener, PropertyC
         titleLabel.setBounds(150, 100, 100, 30);
         panel.add(titleLabel);
 
-        JLabel userIdTextLabel = new JLabel("User ID:");
-        userIdTextLabel.setBounds(10, 150, 150, 30);
+        JLabel userIdTextLabel = new JLabel("User ID: ");
+        userIdTextLabel.setBounds(10, 150, 350, 30);
+        this.userIdLabel = userIdTextLabel;
         panel.add(userIdTextLabel);
-        panel.add(userIdLabel);
 
 //        JTextField userIdText = new JTextField(20);
 //        userIdText.setBounds(100, 150, 250, 40);
 //        panel.add(userIdText);
 
-        JLabel nicknameTextLabel = new JLabel("Nickname:");
-        nicknameTextLabel.setBounds(10, 200, 150, 30);
+        JLabel nicknameTextLabel = new JLabel("Nickname: ");
+        nicknameTextLabel.setBounds(10, 200, 350, 30);
         panel.add(nicknameTextLabel);
-        panel.add(nicknameLabel);
+        this.nicknameLabel = nicknameTextLabel;
+        panel.add(backbutton);
 
 //        JTextField nicknameText = new JTextField(20);
 //        nicknameText.setBounds(100, 200, 250, 40);
@@ -74,33 +78,34 @@ public class SelfProfileView extends JPanel implements ActionListener, PropertyC
 
         this.add(panel);
 
-        backbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == backbutton) {
+        backbutton.addActionListener(this);}
 
-                }
-            }
-        });
 
-    }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-
-    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals("state")) {
+        if ("state".equals(evt.getPropertyName())) {
             ViewProfileState state = (ViewProfileState) evt.getNewValue();
             updateView(state);
         }
     }
 
+
     private void updateView(ViewProfileState state) {
-        userIdLabel.setText(state.getUser_id());
-        nicknameLabel.setText(state.getNickname());
+        this.userIdLabel.setText("Your ID: " + state.getUser_id());
+        this.nicknameLabel.setText("Nickname: " + state.getNickname());
+
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == backbutton) {
+            viewManagerModel.setActiveView("menu");
+            viewManagerModel.firePropertyChanged();
+
+
+        }
     }
 }
 

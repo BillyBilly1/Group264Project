@@ -19,7 +19,7 @@ public class ProfileViewFactory {
 
         ViewProfileController viewProfileController = createViewProfileController(viewManagerModel, viewProfileViewModel, menuViewModel, fileProfileDataAccessObject);
 
-        return new SelfProfileView(viewProfileViewModel, viewProfileController);
+        return new SelfProfileView(viewManagerModel, viewProfileViewModel);
     }
 
     public static ViewProfileController createViewProfileController(

@@ -2,6 +2,7 @@ package view;
 
 import interface_adapter.Menu.MenuViewModel;
 import interface_adapter.ViewManagerModel;
+import interface_adapter.ViewProfile.ViewProfileState;
 import interface_adapter.create_channel.CreateChannelState;
 import interface_adapter.create_channel.CreateChannelViewModel;
 import interface_adapter.list_Channel.ListChannelController;
@@ -114,7 +115,12 @@ private void updateChannelList() {
             viewManagerModel.firePropertyChanged();
 
 
-        } else if (e.getActionCommand().equals("View Profile")) {
+        } else if (e.getSource() == profileButton) {
+
+            ViewProfileState currentState = viewProfileViewModel.getState();
+            currentState.setUser_id(menuViewModel.getUserID());
+            currentState.setNickname(menuViewModel.getUserNickname());
+            viewProfileViewModel.setState(currentState);
             viewManagerModel.setActiveView("profile");
             viewManagerModel.firePropertyChanged();
         }
