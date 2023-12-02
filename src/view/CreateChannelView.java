@@ -86,6 +86,9 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
                     currentState.getOperator(),
                     currentState.getIsEphemeral()
             );
+
+            channel_urlINFO.setText("");
+            channelNameINFO.setText("");
         }
 
     }

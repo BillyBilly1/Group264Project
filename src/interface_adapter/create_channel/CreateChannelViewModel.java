@@ -8,7 +8,7 @@ import java.beans.PropertyChangeSupport;
 
 public class CreateChannelViewModel extends ViewModel {
 
-    public static final String CREATE_CHANNEL_TITLE = "Create View";
+    public static final String CREATE_CHANNEL_TITLE = "Create Channel View";
     public static final String CHANNEL_URL_LABEL = "Enter Channel_Url";
     public static final String CHANNEL_NAME_LABEL = "Enter ChannelName";
     public static final String CREATE_CHANNEL_BUTTON_LABLE = "Create";
