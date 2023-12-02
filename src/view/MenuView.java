@@ -6,6 +6,7 @@ import interface_adapter.create_channel.CreateChannelState;
 import interface_adapter.create_channel.CreateChannelViewModel;
 import interface_adapter.list_Channel.ListChannelController;
 import interface_adapter.list_Channel.ListChannelViewModel;
+import interface_adapter.ViewProfile.ViewProfileViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,17 +31,20 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     private final ListChannelController listChannelController;
 
     private final CreateChannelViewModel createChannelViewModel;
+    private final ViewProfileViewModel viewProfileViewModel;
 
     private JButton createChannelButton;
+    private JButton profileButton;
     private JList<String> channelList;
 
     public MenuView(ViewManagerModel viewManagerModel, MenuViewModel menuViewModel, ListChannelViewModel listChannelViewModel,
-                    CreateChannelViewModel createChannelViewModel, ListChannelController listChannelController) {
+                    CreateChannelViewModel createChannelViewModel, ListChannelController listChannelController, ViewProfileViewModel viewProfileViewModel) {
         this.viewManagerModel = viewManagerModel;
         this.listChannelViewModel = listChannelViewModel;
         this.listChannelController = listChannelController;
         this.menuViewModel = menuViewModel;
         this.createChannelViewModel = createChannelViewModel;
+        this.viewProfileViewModel = viewProfileViewModel;
         initializeUI();
         loadChannelList();
 
@@ -49,6 +53,10 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
   
     private void initializeUI() {
     setLayout(new BorderLayout());
+
+    profileButton = new JButton("View Profile");
+    profileButton.addActionListener(this);
+    add(profileButton, BorderLayout.AFTER_LAST_LINE);
 
     createChannelButton = new JButton("Create Channel");
     createChannelButton.addActionListener(this);
@@ -106,6 +114,9 @@ private void updateChannelList() {
             viewManagerModel.firePropertyChanged();
 
 
+        } else if (e.getActionCommand().equals("View Profile")) {
+            viewManagerModel.setActiveView("profile");
+            viewManagerModel.firePropertyChanged();
         }
     }
 
