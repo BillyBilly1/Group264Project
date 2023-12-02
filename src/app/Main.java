@@ -15,13 +15,17 @@ import interface_adapter.translation.TranslatePresenter;
 import interface_adapter.translation.TranslateViewModel;
 import interface_adapter.Signup.SignupViewModel;
 import interface_adapter.Login.LoginViewModel;
+import interface_adapter.ViewProfile.ViewProfileViewModel;
 import use_case.ListChannel.ListChannelDataAccessInterface;
 import use_case.translate.TranslateInputBoundary;
 import use_case.translate.TranslateInteractor;
 import use_case.translate.TranslateOutputBoundary;
+import use_case.ViewProfile.ViewProfileDataAccessInterface;
 import view.*;
 import app.LoginUsecaseFactory;
 import app.SignupUsecaseFactory;
+import app.ProfileViewFactory;
+import view.SelfProfileView;
 
 
 
@@ -54,6 +58,7 @@ public class Main {
         TranslateViewModel translateViewModel = new TranslateViewModel();
         ListChannelViewModel listChannelViewModel = new ListChannelViewModel();
         CreateChannelViewModel createChannelViewModel = new CreateChannelViewModel();
+        ViewProfileViewModel viewProfileViewModel = new ViewProfileViewModel();
 
 
 
@@ -83,12 +88,15 @@ public class Main {
         LoginView loginView = LoginUsecaseFactory.create(viewManagerModel, loginViewModel, loggedInViewModel, menuViewModel, userDataAccessObject);
         views.add(loginView, "log in");
 
-        MenuView menuView = MenuViewFactory.create(viewManagerModel, menuViewModel, listChannelViewModel,createChannelViewModel, userDataAccessObject );
+        MenuView menuView = MenuViewFactory.create(viewManagerModel, menuViewModel, listChannelViewModel,createChannelViewModel, userDataAccessObject, viewProfileViewModel);
         views.add(menuView, "menu");
 
         CreateChannelView createChannelView =
                 CreateChannelUsecaseFactory.create(viewManagerModel, menuViewModel, createChannelViewModel, fileChannelDataAccessObject);
         views.add(createChannelView, "create channel");
+
+        SelfProfileView selfProfileView = ProfileViewFactory.create(viewManagerModel, menuViewModel, viewProfileViewModel, userDataAccessObject);
+        views.add(selfProfileView, "profile");
 
         viewManagerModel.setActiveView("sign up");
         viewManagerModel.firePropertyChanged();

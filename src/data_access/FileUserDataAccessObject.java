@@ -7,13 +7,14 @@ import org.json.JSONObject;
 import use_case.ListChannel.ListChannelDataAccessInterface;
 import use_case.Login.LoginDataAccessInterface;
 import use_case.Signup.SignupDataAccessInterface;
+import use_case.ViewProfile.ViewProfileDataAccessInterface;
 
 import java.io.*;
 import java.util.Objects;
 
 public class FileUserDataAccessObject implements SignupDataAccessInterface,
         LoginDataAccessInterface,
-        ListChannelDataAccessInterface {
+        ListChannelDataAccessInterface, ViewProfileDataAccessInterface {
     private static final String API_TOKEN = "0abe6c776ab4537be2c5ca662b46dba1ac1be4f5";
     private static final String BASE_URL = "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3";
 
@@ -135,6 +136,36 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         } catch (IOException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    @Override
+    public boolean existsByName(String user_id) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/users/" + user_id)
+                .get()
+                .addHeader("Api-Token", API_TOKEN)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "application/json")
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                String responseBody = response.body().string();
+                //System.out.println(responseBody);
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                return true;
+            } else if (response.code() == 404) {
+                return false;
+            } else {
+                throw new RuntimeException("Fail to view profile." + response.code());
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

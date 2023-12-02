@@ -9,8 +9,9 @@ import java.util.List;
 
 public class MenuViewModel extends ViewModel {
 
-    public String setUserID;
     private ArrayList<Channel> channelList;
+
+    private String userNickname;
 
     private String userID;
 
@@ -26,6 +27,8 @@ public class MenuViewModel extends ViewModel {
     public String getUserID() {
         return this.userID;
     }
+
+    public String getUserNickname() {return this.userNickname;}
 
     public void setChannelList(Channel channel) {
         channelList.add(channel);
@@ -57,5 +60,9 @@ public class MenuViewModel extends ViewModel {
     public void setUserID(String userId) {
 
         this.userID = userId;
+    }
+
+    public void setUserNickname(String nickname) {
+        this.userNickname = nickname;
     }
 }
