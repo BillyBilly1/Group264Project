@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,12 +54,16 @@ public class SelfProfileView extends JPanel implements ActionListener, PropertyC
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
+        Border border = BorderFactory.createLineBorder(Color.BLACK, 2);
+
+
         JLabel titleLabel = new JLabel(viewProfileViewModel.PROFILE_TITLE, SwingConstants.CENTER);
         titleLabel.setBounds(150, 100, 100, 30);
         panel.add(titleLabel);
 
         JLabel userIdTextLabel = new JLabel("User ID: ");
-        userIdTextLabel.setBounds(10, 150, 350, 30);
+        userIdTextLabel.setBounds(10, 150, 350, 45);
+        userIdTextLabel.setBorder(border);
         this.userIdLabel = userIdTextLabel;
         panel.add(userIdTextLabel);
 
@@ -67,7 +72,8 @@ public class SelfProfileView extends JPanel implements ActionListener, PropertyC
 //        panel.add(userIdText);
 
         JLabel nicknameTextLabel = new JLabel("Nickname: ");
-        nicknameTextLabel.setBounds(10, 200, 350, 30);
+        nicknameTextLabel.setBounds(10, 240, 350, 45);
+        nicknameTextLabel.setBorder(border);
         panel.add(nicknameTextLabel);
         this.nicknameLabel = nicknameTextLabel;
         panel.add(backbutton);
@@ -93,8 +99,8 @@ public class SelfProfileView extends JPanel implements ActionListener, PropertyC
 
 
     private void updateView(ViewProfileState state) {
-        this.userIdLabel.setText("Your ID: " + state.getUser_id());
-        this.nicknameLabel.setText("Nickname: " + state.getNickname());
+        this.userIdLabel.setText("  Your ID: " + state.getUser_id());
+        this.nicknameLabel.setText("  Nickname: " + state.getNickname());
 
     }
 
