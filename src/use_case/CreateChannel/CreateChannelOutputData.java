@@ -1,14 +1,17 @@
 package use_case.CreateChannel;
 
+import entity.Channel.Channel;
+
 public class CreateChannelOutputData {
     private final boolean success;
     private final String message;
-    private final String channelName;
 
-    public CreateChannelOutputData(String channelName, String message, boolean success) {
+    private final Channel channel;
+
+    public CreateChannelOutputData(Channel channel, String message, boolean success) {
+        this.channel = channel;
         this.success = success;
         this.message = message;
-        this.channelName = channelName;
     }
 
     // Getters
@@ -20,7 +23,6 @@ public class CreateChannelOutputData {
         return message;
     }
 
-    public String getChannelName() {
-        return channelName;
-    }
+    public Channel getChannel() {return channel;}
+
 }

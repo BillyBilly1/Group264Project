@@ -125,12 +125,7 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
 
 
 
-        JFrame frame = new JFrame("YouChat - Create Channel");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 300);
-        frame.add(this);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+
     }
 
     public void actionPerformed(ActionEvent evt) {

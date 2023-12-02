@@ -13,6 +13,9 @@ public class MenuViewModel extends ViewModel {
 
     private String userID;
 
+
+
+
     public MenuViewModel() {
         super("menu");
         this.channelList = new ArrayList<Channel>();
@@ -22,6 +25,13 @@ public class MenuViewModel extends ViewModel {
     public String getUserID() {
         return this.userID;
     }
+
+    public void setChannelList(Channel channel) {
+        channelList.add(channel);
+
+    }
+
+
 
 
     public List<String> getChannelNameList() {

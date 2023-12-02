@@ -27,10 +27,18 @@ public class CreateChannelPresenter implements CreateChannelOutputBoundary {
 
     @Override
     public void prepareSuccessView(CreateChannelOutputData outputData) {
+        System.out.println("成功");
+        menuViewModel.setChannelList(outputData.getChannel());
+        createChannelViewModel.setSuccessMessage("Channel '" + outputData.getChannel().getChannelName() + "' created successfully.");
+
+
+        viewManagerModel.setActiveView(menuViewModel.getViewName());
+        viewManagerModel.firePropertyChanged();
 
     }
 
     public void prepareFailView(String error) {
+        System.out.println("失败");
 
     }
 

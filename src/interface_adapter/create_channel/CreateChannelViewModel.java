@@ -14,18 +14,22 @@ public class CreateChannelViewModel extends ViewModel {
     public static final String CREATE_CHANNEL_BUTTON_LABLE = "Create";
     public static final String CANCEL_BUTTON_LABEL = "Cancel";
 
+    private String successMessage = "";
+
 
 
     private CreateChannelState state = new CreateChannelState();
 
 
     public CreateChannelViewModel() {
-        super("sign up");
+        super("create channel");
     }
 
     public void setState(CreateChannelState state) {
         this.state = state;
     }
+
+
 
     private final PropertyChangeSupport support = new PropertyChangeSupport(this);
 
@@ -46,6 +50,13 @@ public class CreateChannelViewModel extends ViewModel {
     public CreateChannelState getState() {
         return state;
     }
+
+    public void setSuccessMessage(String s) {
+        this.successMessage = s;
+    }
+
+    public String getSuccessMessage() {
+        return this.successMessage;    }
 }
 
 

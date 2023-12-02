@@ -43,6 +43,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         this.createChannelViewModel = createChannelViewModel;
         initializeUI();
         loadChannelList();
+
+        createChannelViewModel.addPropertyChangeListener(this);
     }
   
     private void initializeUI() {
@@ -99,13 +101,23 @@ private void updateChannelList() {
             currentState.setOperator(opID);
             createChannelViewModel.setState(currentState);
 
+            viewManagerModel.setActiveView(createChannelViewModel.getViewName());
+            System.out.println(createChannelViewModel.getViewName());
+            viewManagerModel.firePropertyChanged();
+
 
         }
     }
 
-    @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        // 检查 CreateChannelViewModel 的状态变化
+        if ("state".equals(evt.getPropertyName())) {
+            String successMessage = createChannelViewModel.getSuccessMessage();
+            if (successMessage != null && !successMessage.isEmpty()) {
+                JOptionPane.showMessageDialog(this, successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
+                createChannelViewModel.setSuccessMessage("");
+            }
+        }
     }
 
 

@@ -14,6 +14,7 @@ public class CreateChannelState {
     private String channelNameError = null;
     private boolean isCreating = false;
 
+
     public CreateChannelState(CreateChannelState copy) {
         channel_url = copy.channel_url;
         channelIdError = copy.channelIdError;

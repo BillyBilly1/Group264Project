@@ -15,6 +15,8 @@ public class FileChannelDataAccessObject implements CreateChannelDataAccessInter
     private static final String APPLICATION_ID = "39ACFA95-6D71-49B3-B9EF-EDDA2080C415";
     private static final String BASE_URL = "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3";
 
+    public FileChannelDataAccessObject() throws IOException {}
+
 
     public boolean createChannel(Channel channel) {
         OkHttpClient client = new OkHttpClient().newBuilder()

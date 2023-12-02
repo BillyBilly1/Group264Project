@@ -38,7 +38,7 @@ public class Main {
         // The various View objects. Only one view is visible at a time.
         JPanel views = new JPanel(cardLayout);
         application.add(views);
-        application.setMinimumSize(new Dimension(400, 550));
+        application.setMinimumSize(new Dimension(500, 550));
 
         // This keeps track of and manages which view is currently showing.
         ViewManagerModel viewManagerModel = new ViewManagerModel();
@@ -62,6 +62,15 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        FileChannelDataAccessObject fileChannelDataAccessObject;
+        try {
+            fileChannelDataAccessObject = new FileChannelDataAccessObject();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+
+        }
+
 
 
 
@@ -73,6 +82,10 @@ public class Main {
 
         MenuView menuView = MenuViewFactory.create(viewManagerModel, menuViewModel, listChannelViewModel,createChannelViewModel, userDataAccessObject );
         views.add(menuView, "menu");
+
+        CreateChannelView createChannelView =
+                CreateChannelUsecaseFactory.create(viewManagerModel, menuViewModel, createChannelViewModel, fileChannelDataAccessObject);
+        views.add(createChannelView, "create channel");
 
         viewManagerModel.setActiveView("sign up");
         viewManagerModel.firePropertyChanged();
