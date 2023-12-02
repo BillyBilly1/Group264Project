@@ -11,6 +11,8 @@ public class CreateChannelViewModel extends ViewModel {
     public static final String CREATE_CHANNEL_TITLE = "Create View";
     public static final String CHANNEL_URL_LABEL = "Enter Channel_Url";
     public static final String CHANNEL_NAME_LABEL = "Enter ChannelName";
+
+    public static final String MEMBERS_LABEL = "Enter Members to Invite";
     public static final String CREATE_CHANNEL_BUTTON_LABLE = "Create";
     public static final String CANCEL_BUTTON_LABEL = "Cancel";
 

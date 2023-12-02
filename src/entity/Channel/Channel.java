@@ -5,6 +5,10 @@ import java.util.List;
 
 public interface Channel {
 
+    List<String> getUser_ids();
+
+    String is_distinct();
+
     String getChannelName();
 
     String getChannelUrl();
@@ -19,5 +23,7 @@ public interface Channel {
     void setNote(String content);
 
     void setOperator(List<String> addedOperator);
+
+
 
 }

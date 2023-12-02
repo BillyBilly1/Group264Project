@@ -25,14 +25,16 @@ public class FileChannelDataAccessObject implements CreateChannelDataAccessInter
 
         // Construct the JSON body
         JSONObject requestBody = new JSONObject();
+        requestBody.put("user_ids", channel.getUser_ids());
         requestBody.put("name", channel.getChannelName());
         requestBody.put("channel_url", channel.getChannelUrl());
+        requestBody.put("is_distinct", channel.is_distinct());
         requestBody.put("is_ephemeral", channel.isEphemeral());
         requestBody.put("operators", new JSONArray(channel.getOperator())); // Assuming getOperators returns a List<String>
 
         RequestBody body = RequestBody.create(mediaType, requestBody.toString());
         Request request = new Request.Builder()
-                .url(BASE_URL + "/open_channels")
+                .url(BASE_URL + "/group_channels")
                 .method("POST", body)
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json; charset=utf-8")

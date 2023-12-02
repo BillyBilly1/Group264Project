@@ -23,9 +23,11 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
 
 
             Channel channel = channelFactory.create(
+                    inputData.getUser_ids(),
                     inputData.getChannelName(),
                     inputData.getChannelUrl(),
                     inputData.getOperator(),
+                    inputData.getIs_distinct(),
                     inputData.getIsEphemeral());
 
             boolean success = channeldataAccessObject.createChannel(channel);
