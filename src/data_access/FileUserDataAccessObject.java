@@ -13,6 +13,7 @@ import use_case.ViewProfile.ViewProfileDataAccessInterface;
 
 import java.io.*;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class FileUserDataAccessObject implements SignupDataAccessInterface,
@@ -142,7 +143,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         }
     }
 
-    @Override
+    //@Override
     public boolean invite(InviteMemberInputdata inviteMemberInputdata){
         String user_id = inviteMemberInputdata.getUser_id();
         String channel_url = inviteMemberInputdata.getChannel_url();
@@ -185,6 +186,11 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         }
         return false;
 
+    }
+
+    @Override
+    public boolean existsByName(String identifier) {
+        return false;
     }
 }
 
