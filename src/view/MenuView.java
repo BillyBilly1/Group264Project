@@ -108,6 +108,7 @@ private void updateChannelList() {
             List<String> opID = new ArrayList<String>();
             opID.add(menuViewModel.getUserID());
             currentState.setOperator(opID);
+            currentState.setUser_ids(opID);
             createChannelViewModel.setState(currentState);
 
             viewManagerModel.setActiveView(createChannelViewModel.getViewName());

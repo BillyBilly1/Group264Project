@@ -5,23 +5,24 @@ import java.util.List;
 
 public class CreateChannelState {
     private String channel_url = "";
-    private String channelIdError = null;
     private String channelName = "";
+
+    private List<String> user_ids = new ArrayList<>();
 
     private List<String> operator = new ArrayList<>();
 
-    private String isEphemeral = "true";
-    private String channelNameError = null;
-    private boolean isCreating = false;
+    private String is_distinct = "false";
+
+    private String isEphemeral = "false";
+
 
 
     public CreateChannelState(CreateChannelState copy) {
-        channel_url = copy.channel_url;
-        channelIdError = copy.channelIdError;
+        user_ids = copy.user_ids;
         channelName = copy.channelName;
-        channelNameError = copy.channelNameError;
-        isCreating = copy.isCreating;
+        channel_url = copy.channel_url;
         operator = copy.operator;
+        is_distinct = copy.is_distinct;
         isEphemeral = copy.isEphemeral;
     }
 
@@ -37,23 +38,16 @@ public class CreateChannelState {
         return operator;
     }
 
-    public String getChannelIdError() {
-        return channelIdError;
-    }
+    public List<String> getUser_ids() { return user_ids; }
 
     public String getChannelName() {
         return channelName;
     }
 
+    public String getIs_distinct() { return is_distinct; }
+
     public String getIsEphemeral() { return isEphemeral; }
 
-    public String getChannelNameError() {
-        return channelNameError;
-    }
-
-    public boolean isCreating() {
-        return isCreating;
-    }
 
     // Setters
     public void setChannel_url(String channel_url) {
@@ -64,32 +58,20 @@ public class CreateChannelState {
         this.operator = operators;
     }
 
-    public void setIsEphemeral(String isEphemeral) {
-        this.isEphemeral = isEphemeral;
-    }
+    public void setUser_ids(List<String> members){ this.user_ids = user_ids; }
 
-    public void setChannelIdError(String channelIdError) {
-        this.channelIdError = channelIdError;
-    }
+
 
     public void setChannelName(String channelName) {
         this.channelName = channelName;
     }
 
-    public void setChannelNameError(String channelNameError) {
-        this.channelNameError = channelNameError;
-    }
-
-    public void setCreating(boolean isCreating) {
-        this.isCreating = isCreating;
-    }
 
     @Override
     public String toString() {
         return "CreateChannelState{" +
                 "channelId='" + channel_url + '\'' +
                 ", channelName='" + channelName + '\'' +
-                ", isCreating=" + isCreating +
                 '}';
     }
 }

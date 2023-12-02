@@ -17,9 +17,10 @@ public class CreateChannelController {
     }
 
     // This method is called when the user clicks the "Create" button in your view.
-    public void  execute(String channel_url, String channelName, List<String> operator, String isEphemeral) {
-        CreateChannelInputData createChannelInputData = new CreateChannelInputData(channel_url, channelName,
-                operator, isEphemeral);
+    public void  execute(List<String> user_ids, String channelName, String channel_url, List<String> operator,
+                         String is_distinct,String isEphemeral) {
+        CreateChannelInputData createChannelInputData = new CreateChannelInputData(user_ids, channelName, channel_url,
+                operator, is_distinct, isEphemeral);
         interactor.execute(createChannelInputData);
     }
 }
