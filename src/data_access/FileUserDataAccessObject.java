@@ -4,17 +4,21 @@ import entity.User.User;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.InviteMember.InviteMemberDataAccessInterface;
+import use_case.InviteMember.InviteMemberInputdata;
 import use_case.ListChannel.ListChannelDataAccessInterface;
 import use_case.Login.LoginDataAccessInterface;
 import use_case.Signup.SignupDataAccessInterface;
 import use_case.ViewProfile.ViewProfileDataAccessInterface;
 
 import java.io.*;
+
 import java.util.Objects;
 
 public class FileUserDataAccessObject implements SignupDataAccessInterface,
         LoginDataAccessInterface,
         ListChannelDataAccessInterface, ViewProfileDataAccessInterface {
+
     private static final String API_TOKEN = "0abe6c776ab4537be2c5ca662b46dba1ac1be4f5";
     private static final String BASE_URL = "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3";
 
@@ -33,7 +37,6 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         requestBody.put("profile_url", user.getProfileUrl());
 
         RequestBody body = RequestBody.create(mediaType, requestBody.toString());
-        System.out.println(requestBody.toString());
         Request request = new Request.Builder()
                 .url(BASE_URL + "/users")
                 .post(body)
@@ -140,33 +143,48 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
     }
 
     @Override
-    public boolean existsByName(String user_id) {
+    public boolean invite(InviteMemberInputdata inviteMemberInputdata){
+        String user_id = inviteMemberInputdata.getUser_id();
+        String channel_url = inviteMemberInputdata.getChannel_url();
+
+        ArrayList<String> user_ids = new ArrayList<String>();
+        user_ids.add(user_id);
+
+
+        MediaType mediaType = MediaType.parse("application/json");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("user_ids", user_ids);
+        requestBody.put("channel_url", channel_url);
+
+        RequestBody body = RequestBody.create(mediaType, requestBody.toString());
         Request request = new Request.Builder()
-                .url(BASE_URL + "/users/" + user_id)
-                .get()
+                .url(BASE_URL + "/v3/group_channels/"+channel_url + "/invite")
+                .post(body)
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")
                 .build();
-
         try {
             Response response = client.newCall(request).execute();
-            if (response.isSuccessful()) {
+            // Assuming a successful response includes a JSON body with a status code
+            if (response.body() != null) {
                 String responseBody = response.body().string();
                 //System.out.println(responseBody);
                 JSONObject jsonResponse = new JSONObject(responseBody);
-                return true;
-            } else if (response.code() == 404) {
-                return false;
-            } else {
-                throw new RuntimeException("Fail to view profile." + response.code());
+                if (jsonResponse.has("channel_url") ){
+                    return true;
+                } else {
+                    return false;
+                }
             }
-
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
+        return false;
+
     }
 }
 
