@@ -19,14 +19,15 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
 
     @Override
     public void execute(CreateChannelInputData inputData) {
+        System.out.println("到理塘了");
 
-        if (inputData.isFilled()) {
+
             Channel channel = channelFactory.create(
                     inputData.getChannelName(),
                     inputData.getChannelUrl(),
                     inputData.getOperator(),
-                    inputData.getIsEphemeral()
-            );
+                    inputData.getIsEphemeral());
+
             boolean success = channeldataAccessObject.createChannel(channel);
 
             if (success) {
@@ -37,4 +38,4 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
                 channelPresenter.prepareFailView("Error");
             }
         }
-    }}
+    }

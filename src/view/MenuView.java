@@ -110,17 +110,9 @@ private void updateChannelList() {
     }
 
     public void propertyChange(PropertyChangeEvent evt) {
-        // 检查 CreateChannelViewModel 的状态变化
-        if ("state".equals(evt.getPropertyName())) {
-            String successMessage = createChannelViewModel.getSuccessMessage();
-            if (successMessage != null && !successMessage.isEmpty()) {
-                JOptionPane.showMessageDialog(this, successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
-                createChannelViewModel.setSuccessMessage("");
-            }
-        }
+
+
     }
-
-
 }
 
 
