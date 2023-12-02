@@ -7,7 +7,7 @@ import entity.Message.CommonMessage;
 public class CommonMessageFactory implements MessageFactory{
 
     public CommonMessage create(String userId, String message, String channelType,
-                          String channelUrl, String data, boolean sendPush){
-        return new CommonMessage(userId, message, channelType, channelUrl, data, sendPush);
+                          String channelUrl, long createAt){
+        return new CommonMessage(userId, message, channelType, channelUrl, createAt);
     }
 }
