@@ -47,14 +47,14 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         this.add(titleLabel);
 
         JLabel channelIDLabel = new JLabel(CreateChannelViewModel.CHANNEL_URL_LABEL);
-        channelIDLabel.setBounds(10, 70, 180, 25);
+        channelIDLabel.setBounds(10, 120, 180, 25);
         this.add(channelIDLabel);
 
         channel_urlINFO.setBounds(200, 70, 275, 25);
         this.add(channel_urlINFO);
 
         JLabel channelNameLabel = new JLabel(CreateChannelViewModel.CHANNEL_NAME_LABEL);
-        channelNameLabel.setBounds(10, 120, 180, 25);
+        channelNameLabel.setBounds(10, 70, 180, 25);
         this.add(channelNameLabel);
 
         channelNameINFO.setBounds(200, 120, 275, 25);
