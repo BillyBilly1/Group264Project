@@ -15,4 +15,8 @@ public class SignupController {
 
         SignupUseCaseInteractor.execute(signupInputData);
     }
+
+    public void skip() {
+        SignupUseCaseInteractor.skip();
+    }
 }

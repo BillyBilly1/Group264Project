@@ -9,13 +9,16 @@ import use_case.InviteMember.InviteMemberInputdata;
 import use_case.ListChannel.ListChannelDataAccessInterface;
 import use_case.Login.LoginDataAccessInterface;
 import use_case.Signup.SignupDataAccessInterface;
+import use_case.ViewProfile.ViewProfileDataAccessInterface;
 
 import java.io.*;
-import java.util.ArrayList;
+
+import java.util.Objects;
 
 public class FileUserDataAccessObject implements SignupDataAccessInterface,
         LoginDataAccessInterface,
-        ListChannelDataAccessInterface, InviteMemberDataAccessInterface {
+        ListChannelDataAccessInterface, ViewProfileDataAccessInterface {
+
     private static final String API_TOKEN = "0abe6c776ab4537be2c5ca662b46dba1ac1be4f5";
     private static final String BASE_URL = "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3";
 
@@ -67,6 +70,9 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
 
     @Override
     public String get_username(String user_id) {
+        if (user_id == null || Objects.equals(user_id, "")) {
+            return null;
+        }
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -107,7 +113,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url(BASE_URL + "/users/" + user_id + "/my_group_channels")
+                .url(BASE_URL + "/users/group_channels?members_exactly_in=" + user_id)
                 .get()
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
@@ -135,6 +141,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
             return null;
         }
     }
+
     @Override
     public boolean invite(InviteMemberInputdata inviteMemberInputdata){
         String user_id = inviteMemberInputdata.getUser_id();
@@ -177,6 +184,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
             return false;
         }
         return false;
+
     }
 }
 

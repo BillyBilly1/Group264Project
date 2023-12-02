@@ -1,7 +1,7 @@
 package entity.Channel;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public class CommonChannel implements Channel {
 
@@ -11,19 +11,23 @@ public class CommonChannel implements Channel {
 
     private String note;
 
-    private ArrayList<String> operator;
+    private List<String> operator;
+
+    private List<String> user_ids;
 
     private final String isEphemeral;
 
-    private final LocalDateTime creationTime;
+    private final String is_distinct;
 
-    public CommonChannel(String channelName, String channelUrl,
-                         ArrayList<String> operator, String isEphemeral, LocalDateTime creationTime) {
+
+    public CommonChannel(List<String> user_ids, String channelName, String channelUrl,
+                         List<String> operator, String is_distinct,String isEphemeral) {
+        this.user_ids = user_ids;
         this.channelName = channelName;
         this.channelUrl = channelUrl;
         this.operator = operator;
+        this.is_distinct = is_distinct;
         this.isEphemeral = isEphemeral;
-        this.creationTime = creationTime;
     }
 
     public String getChannelName() {return channelName;}
@@ -32,16 +36,20 @@ public class CommonChannel implements Channel {
 
     public String getNote() {return note;}
 
-    public LocalDateTime getCreationTime() {return creationTime;}
 
-    public ArrayList<String> getOperator() {return operator;}
+    public List<String> getUser_ids() {return user_ids;}
+    public List<String> getOperator() {return operator;}
+
+    public String is_distinct() {return is_distinct;}
 
     public String isEphemeral() {return isEphemeral;}
 
     public void setNote(String content) {this.note = content;}
 
-    public void setOperator(ArrayList<String> addedAdmin) {
-        this.operator.addAll(addedAdmin);
+    public void setOperator(List<String> addedOperator) {
+        this.operator.addAll(addedOperator);
     }
+
+
 
 }

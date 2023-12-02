@@ -1,11 +1,10 @@
 package entity.Channel;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ChannelFactory {
 
-
-    Channel create(String channelName, String channelUrl, ArrayList<String> operator,
-                   String isEphemeral, LocalDateTime creationTime);
-
+    Channel create(List<String> user_ids,String channelName, String channelUrl, List<String> operator,
+                   String is_distinct,
+                   String isEphemeral);
 }

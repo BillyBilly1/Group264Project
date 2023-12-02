@@ -1,9 +1,13 @@
 package entity.Channel;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface Channel {
+
+    List<String> getUser_ids();
+
+    String is_distinct();
 
     String getChannelName();
 
@@ -11,13 +15,15 @@ public interface Channel {
 
     String getNote();
 
-    LocalDateTime getCreationTime();
 
-    ArrayList<String> getOperator();
+    List<String> getOperator();
 
     String isEphemeral();
 
     void setNote(String content);
 
-    void setOperator(ArrayList<String> addedAdmin);
+    void setOperator(List<String> addedOperator);
+
+
+
 }
