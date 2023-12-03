@@ -11,8 +11,14 @@ public class SendMessageController {
         this.sendMessageInteractor = sendMessageInteractor;
     }
 
-    public void send(String userID, String message, String channelURL) {
-        SendMessageInputdata sendMessageInputdata = new SendMessageInputdata(userID, message, channelURL);
+    public void send(String userID, String message, String channelURL, long messageTs) {
+        SendMessageInputdata sendMessageInputdata = new SendMessageInputdata(userID, message, channelURL, messageTs);
         sendMessageInteractor.send(sendMessageInputdata);
+    }
+
+
+    public void receive(String usrID, String message, String channelURL, long messageTs) {
+        SendMessageInputdata sendMessageInputdata = new SendMessageInputdata(usrID, message, channelURL, messageTs);
+        sendMessageInteractor.receive(sendMessageInputdata);
     }
 }

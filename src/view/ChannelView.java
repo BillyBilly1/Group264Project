@@ -1,5 +1,6 @@
     package view;
 
+    import entity.Channel.Channel;
     import interface_adapter.Channel.ChannelViewModel;
     import interface_adapter.send_message.SendMessageController;
     import interface_adapter.send_message.SendMessageViewModel;
@@ -42,6 +43,8 @@
 
         private JButton viewProButton;
 
+        private Timer messageUpdateTimer;
+
         private final TranslateController translateController;
 
         private final TranslateViewModel translateViewModel;
@@ -49,6 +52,8 @@
         private final SendMessageController sendMessageController;
 
         private final SendMessageViewModel sendMessageViewModel;
+
+        private long lastMessageTS = 0;
 
 
         public ChannelView(ChannelViewModel channelViewModel, TranslateViewModel translateViewModel,
@@ -64,6 +69,10 @@
 
             channelViewModel.addPropertyChangeListener(this);
 
+            //every 2.5s call the receivemessage
+            messageUpdateTimer = new Timer(2000, e -> updateMessages());
+            messageUpdateTimer.start();
+
 
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int width = screenSize.width / 5 * 2;
@@ -73,6 +82,15 @@
             initializeUI(width, height);
             setKeyBindings();
         }
+
+        private void updateMessages() {
+            System.out.println("触发了");
+            Channel channel = channelViewModel.getChannel();
+            String userID = channelViewModel.getMyID();
+            String channelUrl = channel.getChannelUrl();
+
+            sendMessageController.receive(userID, "", channelUrl, channelViewModel.getLastMessageTS());}
+
 
         public void initializeUI(int width, int height) {
 
@@ -190,11 +208,10 @@
 
             if ((e.getSource() == sendButton || e.getSource() == inputField)
                     & !Objects.equals(inputField.getText(), "")) {
-                channelViewModel.addMessage(inputField.getText()); // add messages to ViewModel
+                sendMessageController.send(channelViewModel.getMyID(), inputField.getText(),
+                        channelViewModel.getChannel().getChannelUrl(), 0);
+
                 inputField.setText(""); // clear the inputtextfield
-                messageList.setListData(channelViewModel.getMessages().
-                        toArray(new String[0])); // Update the message view
-                updateFromViewModel();
 
             }
             //about translation
@@ -279,6 +296,12 @@
                     adjustFontSize(-1);
                 }
             });
+        }
+
+        public void onClose() {
+            if (messageUpdateTimer != null) {
+                messageUpdateTimer.stop();
+            }
         }
 
     }

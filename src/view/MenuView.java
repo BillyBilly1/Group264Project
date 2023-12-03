@@ -74,7 +74,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                     String selectedItem = channelList.getModel().getElementAt(index);
                     String channelUrl = extractChannelUrl(selectedItem);
                     try {
-                        navigateToChannel(channelUrl);
+                        navigateToChannel(menuViewModel.getUserID(), channelUrl);
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -111,8 +111,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         channelList.setModel(model);
     }
 
-    private void navigateToChannel(String channelUrl) throws IOException {
-        viewChannelController.execute(channelUrl);
+    private void navigateToChannel(String userID, String channelUrl) throws IOException {
+        viewChannelController.execute(userID, channelUrl);
 
     }
 

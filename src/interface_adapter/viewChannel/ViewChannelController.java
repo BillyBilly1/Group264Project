@@ -16,8 +16,8 @@ public class ViewChannelController {
         this.viewChannelInputBoundary = viewChannelInputBoundary;
     }
 
-    public void execute(String channelUrl) throws IOException {
-        ViewChannelInputData viewChannelInputData = new ViewChannelInputData(channelUrl);
+    public void execute(String userID, String channelUrl) throws IOException {
+        ViewChannelInputData viewChannelInputData = new ViewChannelInputData(userID, channelUrl);
         viewChannelInputBoundary.execute(viewChannelInputData);
     }
 }

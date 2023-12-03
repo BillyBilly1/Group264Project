@@ -1,6 +1,5 @@
 package app;
 
-import api.YandexAPI;
 import data_access.SendMessageDataAccessObject;
 import interface_adapter.Channel.ChannelViewModel;
 import interface_adapter.send_message.SendMessageController;
@@ -8,13 +7,11 @@ import interface_adapter.send_message.SendMessagePresenter;
 import interface_adapter.send_message.SendMessageViewModel;
 import interface_adapter.translation.TranslateController;
 import interface_adapter.translation.TranslatePresenter;
-import interface_adapter.translation.TranslateState;
 import interface_adapter.translation.TranslateViewModel;
 import use_case.SendMessage.SendMessageDataAccessInterface;
 import use_case.SendMessage.SendMessageInputBoundary;
 import use_case.SendMessage.SendMessageInteractor;
 import use_case.SendMessage.SendMessageOutputBoundary;
-import use_case.SendMessageInputdata;
 import use_case.translate.TranslateInputBoundary;
 import use_case.translate.TranslateInteractor;
 import use_case.translate.TranslateOutputBoundary;
@@ -29,7 +26,7 @@ public class ChannelViewFactory {
         TranslateViewModel translateViewModel = new TranslateViewModel();
         SendMessageViewModel sendMessageViewModel = new SendMessageViewModel();
         TranslateController translateController = createTranslateController(channelViewModel, translateViewModel);
-        SendMessageController sendMessageController = createSendMessageController();
+        SendMessageController sendMessageController = createSendMessageController(channelViewModel);
 
         return new ChannelView(channelViewModel,
                 translateViewModel, sendMessageViewModel, translateController, sendMessageController);
@@ -49,9 +46,9 @@ public class ChannelViewFactory {
     return translateController;}
 
 
-    private static SendMessageController createSendMessageController() throws IOException {
+    private static SendMessageController createSendMessageController(ChannelViewModel channelViewModel) throws IOException {
         SendMessageDataAccessInterface sendMessageDataAccessInterface = new SendMessageDataAccessObject();
-        SendMessageOutputBoundary sendMessageOutputBoundary = new SendMessagePresenter();
+        SendMessageOutputBoundary sendMessageOutputBoundary = new SendMessagePresenter(channelViewModel);
         SendMessageInputBoundary sendMessageInputBoundary =
                 new SendMessageInteractor(sendMessageDataAccessInterface, sendMessageOutputBoundary);
         SendMessageController sendMessageController = new SendMessageController(sendMessageInputBoundary);

@@ -9,13 +9,20 @@ public class ViewChannelOutputData {
     private final String message;
     private final Channel channel;
 
-    public ViewChannelOutputData(Channel channel, String message, boolean success) {
+    private final String userID;
+
+
+
+    public ViewChannelOutputData(String userID, Channel channel, String message, boolean success) {
+        this.userID = userID;
         this.channel = channel;
         this.success = success;
         this.message = message;
     }
 
     // Getters
+
+    public String getUserID() {return userID;}
     public boolean isSuccess() {
         return success;
     }

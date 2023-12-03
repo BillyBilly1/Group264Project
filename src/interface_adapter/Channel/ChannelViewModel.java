@@ -13,11 +13,16 @@ public class ChannelViewModel {
 
 
     private final PropertyChangeSupport support;
+
+    private String myID;
     private  ArrayList<String> sourceMessageList = new ArrayList<>();
 
     private Channel channel;
 
     private ArrayList<String> messageList = sourceMessageList;
+
+    private long lastMessageTS = 0;
+
 
     public ChannelViewModel() {this.support = new PropertyChangeSupport(this);
     }
@@ -30,6 +35,10 @@ public class ChannelViewModel {
     public Channel getChannel() {
         return this.channel;
     }
+
+    public long getLastMessageTS() {return this.lastMessageTS;}
+
+    public void setLastMessageTS(long lastMessageTS) {this.lastMessageTS = lastMessageTS;}
 
 
     public ArrayList<String> getMessages() {
@@ -53,11 +62,12 @@ public class ChannelViewModel {
 
     }
 
-    public void addMessage(String userInput) {
-        String formattedMessage = formatMessage(userInput);
-        sourceMessageList.add(formattedMessage);
-        this.messageList = sourceMessageList;
-        support.firePropertyChange("messagesUpdated", null, messageList);
+    public void addMessage(String userInput, String sender, long ts) {
+        if (ts > this.lastMessageTS) {
+            String formattedMessage = formatMessage(userInput, sender, ts);
+            sourceMessageList.add(formattedMessage);
+            this.messageList = sourceMessageList;
+            support.firePropertyChange("messagesUpdated", null, messageList);}
 
     }
 
@@ -66,10 +76,27 @@ public class ChannelViewModel {
 
     }
 
-    private String formatMessage(String message) {
-        // 获取当前时间
-        String timeStamp = new SimpleDateFormat("HH:mm").format(new Date());
-        // 格式化消息
-        return "You" + ": \n " + message + "  " + timeStamp;
+
+    public void setMyID(String myID){
+        this.myID = myID;
     }
+
+    public String getMyID() {
+
+        return this.myID;
+    }
+
+    private String formatMessage(String message, String sender, long ts) {
+
+        Date date = new Date(ts);
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd  HH:mm");
+
+        String formattedDate = sdf.format(date);
+        // 获取当前时间
+        // 格式化消息
+        return sender + ": \n " + message + "  " +
+                formattedDate;
+    }
+
+
 }

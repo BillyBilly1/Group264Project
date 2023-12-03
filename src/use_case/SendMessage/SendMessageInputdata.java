@@ -10,11 +10,14 @@ public class SendMessageInputdata {
 
     private final String channelUrl;
 
+    private final long messageTs;
 
-    public SendMessageInputdata(String userID, String message, String channelUrl) {
+
+    public SendMessageInputdata(String userID, String message, String channelUrl, long messageTs) {
         this.userID = userID;
         this.message = message;
         this.channelUrl = channelUrl;
+        this.messageTs = messageTs;
     }
 
     public String getUserID() {
@@ -30,4 +33,6 @@ public class SendMessageInputdata {
     public String getChannelUrl() {
         return this.channelUrl;
     }
+
+    public long getMessageTs() {return this.messageTs;}
 }

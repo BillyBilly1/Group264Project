@@ -1,12 +1,17 @@
 package use_case.SendMessage;
 
+import entity.Message.Message;
+import interface_adapter.Channel.ChannelViewModel;
 import use_case.SendMessageInputdata;
+
+import java.util.ArrayList;
 
 public class SendMessageInteractor implements  SendMessageInputBoundary {
 
     private final SendMessageDataAccessInterface sendMessageDataAccessObject;
 
     private final SendMessageOutputBoundary sendMessagePresenter;
+
 
     public SendMessageInteractor(SendMessageDataAccessInterface sendMessageDataAccessObject,
                                  SendMessageOutputBoundary sendMessagePresenter) {
@@ -29,10 +34,23 @@ public class SendMessageInteractor implements  SendMessageInputBoundary {
         }
 
         else {
-            SendMessageOutputdata sendMessageOutputdata
-                    = new SendMessageOutputdata("Sent successfully");
-            sendMessagePresenter.prepareSuccessView(sendMessageOutputdata);
+            sendMessagePresenter.prepareSuccessView();
         }
     }
+
+    @Override
+    public void receive(SendMessageInputdata sendMessageInputdata) {
+        String channelType = sendMessageInputdata.getChannelType();
+        String channelUrl = sendMessageInputdata.getChannelUrl();
+        long messageTs = sendMessageInputdata.getMessageTs();
+        ArrayList<Message> obj = sendMessageDataAccessObject.getMessages(channelType, channelUrl, messageTs);
+        if (obj == null) {;
+            System.out.println("fail_to_get_messages");}
+        else {
+                SendMessageOutputdata sendMessageOutputdata = new SendMessageOutputdata(obj);
+                sendMessagePresenter.receivedmessage(sendMessageOutputdata);
+        }
+    }
+
 
 }

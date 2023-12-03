@@ -25,7 +25,9 @@ public class ViewChannelPresenter implements ViewChannelOutputBoundary {
     public void prepareSuccessView(ViewChannelOutputData outputData) throws IOException {
         System.out.println("Success");
         Channel channel = outputData.getChannel();
+        String myID = outputData.getUserID();
         channelViewModel.setChannel(channel);
+        channelViewModel.setMyID(myID);
         ChannelView channelView = ChannelViewFactory.create(channelViewModel);
         JFrame frame = new JFrame(channel.getChannelName());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

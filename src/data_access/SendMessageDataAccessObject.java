@@ -75,7 +75,14 @@ public class SendMessageDataAccessObject implements SendMessageDataAccessInterfa
                 JSONArray jsonArray = jsonObject.getJSONArray("messages");
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonMessage = jsonArray.getJSONObject(i);
-                    String userId = jsonMessage.getJSONObject("user").getString("user_id");
+
+                    // 检查是否存在 user 对象
+                    if (!jsonMessage.has("user")) {
+                        continue; // 跳过此消息
+                    }
+
+                    JSONObject userObject = jsonMessage.getJSONObject("user");
+                    String userId = userObject.getString("user_id");
                     String messageText = jsonMessage.getString("message");
                     long createdAt = jsonMessage.getLong("created_at");
                     Message messageObject = messageFactory.create(userId, messageText, channelType, channelUrl, createdAt);
@@ -84,11 +91,13 @@ public class SendMessageDataAccessObject implements SendMessageDataAccessInterfa
                 return messages;
             } else {
                 System.out.println("Failed to get messages: " + response.message());
-                return messages;
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return messages;
+            return null;
         }
     }
+
 }
+

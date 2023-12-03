@@ -25,12 +25,14 @@ public class ViewChannelInteractor implements ViewChannelInputBoundary{
     }
 
     public void execute(ViewChannelInputData inputData) throws IOException {
+        String userID = inputData.getUserID();
         String channel_url = inputData.getChannel_url();
+
 
         Channel channel = channelDataAccessObject.viewChannel(channel_url);
 
         if (channel != null) {
-            ViewChannelOutputData viewChannelOutputData = new ViewChannelOutputData(channel, "channel find",
+            ViewChannelOutputData viewChannelOutputData = new ViewChannelOutputData(userID, channel, "channel find",
                     true);
 
             List<String> members = membersDataAccessObject.viewMembers(channel_url);
