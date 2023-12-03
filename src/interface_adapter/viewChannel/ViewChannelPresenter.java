@@ -23,7 +23,6 @@ public class ViewChannelPresenter implements ViewChannelOutputBoundary {
 
     @Override
     public void prepareSuccessView(ViewChannelOutputData outputData) throws IOException {
-        System.out.println("Success");
         Channel channel = outputData.getChannel();
         String myID = outputData.getUserID();
         channelViewModel.setChannel(channel);

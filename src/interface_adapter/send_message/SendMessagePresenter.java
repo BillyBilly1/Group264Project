@@ -28,7 +28,6 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
     @Override
     public void receivedmessage(SendMessageOutputdata sendMessageOutputdata) {
         ArrayList<Message> messageList = sendMessageOutputdata.getMessageList();
-        System.out.println("pre触发了");
         long messageTs = 0;
 
         for (Message message: messageList) {

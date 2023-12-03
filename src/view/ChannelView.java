@@ -18,6 +18,7 @@
     import java.beans.PropertyChangeListener;
     import java.io.IOException;
     import java.util.ArrayList;
+    import java.util.Collection;
     import java.util.Objects;
     import javax.swing.*;
 
@@ -50,6 +51,10 @@
         private JButton inviteButton;
 
         private JButton deleteButton;
+
+        private JButton memberButton;
+
+        private JButton operatorButton;
 
         private Timer messageUpdateTimer;
 
@@ -90,7 +95,7 @@
 
 
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            int width = screenSize.width / 5 * 2;
+            int width = screenSize.width / 2;
             int height = screenSize.height / 3 * 2;
             setPreferredSize(new Dimension(width, height));
             setLayout(new BorderLayout());
@@ -99,7 +104,6 @@
         }
 
         private void updateMessages() {
-            System.out.println("触发了");
             Channel channel = channelViewModel.getChannel();
             String userID = channelViewModel.getMyID();
             String channelUrl = channel.getChannelUrl();
@@ -236,6 +240,26 @@
             inputPanel.add(buttonPanel, BorderLayout.EAST);
             inputPanel.setPreferredSize(new Dimension(width, height * 3 / 12));
             add(inputPanel, BorderLayout.SOUTH);
+
+
+
+            JPanel bottomPanel = new JPanel();
+            bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS)); // 设置为垂直布局
+
+            bottomPanel.setMaximumSize(new Dimension(width / 7, height * 9 / 12));
+
+            // 初始化Member按钮
+            memberButton = new JButton("Member");
+            memberButton.addActionListener(this);
+            bottomPanel.add(memberButton);
+
+            // 初始化Operator按钮
+            operatorButton = new JButton("Operator");
+            operatorButton.addActionListener(this);
+            bottomPanel.add(operatorButton);
+
+            // 将新的按钮面板添加到主面板的右侧
+            add(bottomPanel, BorderLayout.EAST);
         }
 
         @Override
@@ -283,13 +307,45 @@
 
             else if (e.getSource() == inviteButton && !inviteField.getText().isEmpty()) {
                 String inviteID = inviteField.getText();
+                inviteField.setText("");
                 inviteMemberController.execute(inviteID, channelViewModel.getChannel().getChannelUrl());
             }
 
             else if (e.getSource() == deleteButton) {
                 String removeID = deleteField.getText();
+                deleteField.setText("");
                 removeMemberController.execute(removeID, channelViewModel.getChannel().getChannelUrl());
-        }}
+        }
+            else if (e.getSource() == memberButton) {
+                ArrayList<String> userIDs = new ArrayList<>(channelViewModel.getChannel().getUser_ids());
+                JTextArea textArea = new JTextArea();
+                textArea.setEditable(false);
+                for (String userID: userIDs) {
+                    textArea.append(userID + "\n");
+                }
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                JOptionPane.showMessageDialog(null, scrollPane,
+                        "Members", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+
+            else if (e.getSource() == operatorButton) {
+                ArrayList<String> opIDs = new ArrayList<>(channelViewModel.getChannel().getOperator());
+                JTextArea textArea = new JTextArea();
+                textArea.setEditable(false);
+                for (String userID: opIDs) {
+                    textArea.append(userID + "\n");
+                }
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                JOptionPane.showMessageDialog(null, scrollPane,
+                        "Operators", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        }
+
+
+
+
 
 
         // show the changes in view-model
@@ -311,7 +367,12 @@
                 model.addElement(message);
             }
             messageList.setModel(model);
+            int lastIndex = model.getSize() - 1;
+            if (lastIndex >= 0) {
+                messageList.ensureIndexIsVisible(lastIndex);
+            }
         }
+
 
 
         private void adjustFontSize(int adjustment) {

@@ -1,21 +1,23 @@
 package interface_adapter.Remove_Member;
 
+import interface_adapter.Channel.ChannelViewModel;
 import interface_adapter.ViewManagerModel;
 import use_case.RemoveMember.RemoveMemberOutputBoundary;
 
 import javax.swing.*;
 
 public class RemoveMemberPresenter implements RemoveMemberOutputBoundary {
-    private ViewManagerModel viewManagerModel;
 
-    public RemoveMemberPresenter() {
-        this.viewManagerModel = viewManagerModel;
+    private ChannelViewModel channelViewModel;
+    public RemoveMemberPresenter(ChannelViewModel channelViewModel) {
+        this.channelViewModel = channelViewModel;
     }
 
     @Override
-    public void prepareSuccessView(String success) {
+    public void prepareSuccessView(String success, String userID) {
         JOptionPane.showMessageDialog(null, success,
                 "Success", JOptionPane.INFORMATION_MESSAGE);
+        channelViewModel.getChannel().getUser_ids().remove(userID);
     }
 
     @Override
