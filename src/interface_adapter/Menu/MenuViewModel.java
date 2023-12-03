@@ -15,8 +15,6 @@ public class MenuViewModel extends ViewModel {
 
     private PropertyChangeSupport support;
 
-
-
     private String userNickname;
 
     private String userID;
