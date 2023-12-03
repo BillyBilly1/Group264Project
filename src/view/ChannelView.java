@@ -283,11 +283,13 @@
 
             else if (e.getSource() == inviteButton && !inviteField.getText().isEmpty()) {
                 String inviteID = inviteField.getText();
+                inviteField.setText("");
                 inviteMemberController.execute(inviteID, channelViewModel.getChannel().getChannelUrl());
             }
 
             else if (e.getSource() == deleteButton) {
                 String removeID = deleteField.getText();
+                deleteField.setText("");
                 removeMemberController.execute(removeID, channelViewModel.getChannel().getChannelUrl());
         }}
 
@@ -311,7 +313,12 @@
                 model.addElement(message);
             }
             messageList.setModel(model);
+            int lastIndex = model.getSize() - 1;
+            if (lastIndex >= 0) {
+                messageList.ensureIndexIsVisible(lastIndex);
+            }
         }
+
 
 
         private void adjustFontSize(int adjustment) {

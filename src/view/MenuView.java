@@ -33,6 +33,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     private final ViewProfileViewModel viewProfileViewModel;
 
     private final ViewChannelController viewChannelController;
+
+    private Timer refreshTimer;
     private JButton createChannelButton;
     private JButton profileButton;
     private JList<String> channelList;
@@ -54,6 +56,9 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         initializeUI();
         loadChannelList();
         updateChannelList();
+
+        refreshTimer = new Timer(7500, e -> loadChannelList());
+        refreshTimer.start();
     }
 
     private void initializeUI() {
