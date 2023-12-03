@@ -22,8 +22,7 @@ public interface Channel {
 
     void setNote(String content);
 
-    void setOperator(List<String> addedOperator);
+    void setOperator(List<String> operator);
 
-
-
+    void setUser_id(List<String> member);
 }
