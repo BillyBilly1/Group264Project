@@ -29,9 +29,10 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
     private final CreateChannelViewModel createChannelViewModel;
     private final CreateChannelController createChannelController;
     final JTextField channel_urlINFO = new JTextField();
-
     final JTextField channelNameINFO = new JTextField();
     private final JButton createButton;
+
+    private final JButton backButton;
 
 
 
@@ -65,6 +66,10 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         this.add(createButton);
         createButton.addActionListener(this);
 
+        backButton = new JButton("Back");
+        backButton.setBounds(150, 250, 100, 40);
+        this.add(backButton);
+        backButton.addActionListener(this);
     }
 
     @Override
@@ -88,6 +93,11 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
                     currentState.getIs_distinct(),
                     currentState.getIsEphemeral()
             );
+
+        }
+        else if (e.getSource() == backButton) {
+            createChannelController.back();
+
         }
 
     }

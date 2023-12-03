@@ -26,7 +26,7 @@ public class LoginInteractor implements LoginInputBoundary{
             loginPresenter.prepareFailView("User id and nick name does not match.");
         }
         else {
-            LoginOutputData loginOutputData = new LoginOutputData(userDataAccessObject.get_username(loginInputData.getUser_id()),
+            LoginOutputData loginOutputData = new LoginOutputData(user_id,
                     nickname, false);
             loginPresenter.prepareSuccessView(loginOutputData);
         }

@@ -42,4 +42,10 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
                 channelPresenter.prepareFailView("Error");
             }
         }
+
+    @Override
+    public void back() {
+        channelPresenter.back();
+
     }
+}

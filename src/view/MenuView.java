@@ -64,21 +64,22 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
                     int index = channelList.locationToIndex(evt.getPoint());
-                    String selectedChannelName = channelList.getModel().getElementAt(index);
-                    ChannelInfo channelInfo = menuViewModel.findChannelByName(selectedChannelName);
-                    if (channelInfo != null) {
-                        System.out.println("Selected Channel URL: " + channelInfo.getChannelUrl());
-                        navigateToChannel(channelInfo.getChannelUrl());
-                    } else {
-                        System.out.println("No channel info found for selected channel.");
-                    }
+                    String selectedItem = channelList.getModel().getElementAt(index);
+                    String channelUrl = extractChannelUrl(selectedItem);
+                    navigateToChannel(channelUrl);
                 }
             }
         });
-        channelList.setFont(new Font("channelList", Font.BOLD, 20));
+        channelList.setFont(new Font("channelList", Font.BOLD, 15));
         JScrollPane scrollPane = new JScrollPane(channelList);
         add(scrollPane, BorderLayout.CENTER);
     }
+
+    private String extractChannelUrl(String listItem) {
+        int urlStart = listItem.indexOf("<URL>: ") + "<URL>: ".length();
+        return listItem.substring(urlStart);
+    }
+
 
     public void loadChannelList() {
         listChannelController.execute(menuViewModel.getUserID());

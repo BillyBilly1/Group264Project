@@ -48,4 +48,10 @@ public class CreateChannelPresenter implements CreateChannelOutputBoundary {
 
     }
 
+    @Override
+    public void back() {
+        viewManagerModel.setActiveView("menu");
+        viewManagerModel.firePropertyChanged();
+    }
+
 }
