@@ -100,8 +100,8 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         channelList.setModel(model);
     }
 
-    private void navigateToChannel(String channelName) {
-        System.out.println("Navigate to channel: " + channelName);
+    private void navigateToChannel(String channelUrl) {
+        System.out.println("Navigate to channel: " + channelUrl);
     }
 
     @Override
