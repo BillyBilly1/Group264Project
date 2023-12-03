@@ -13,5 +13,6 @@ public class SendMessageController {
 
     public void send(String userID, String message, String channelURL) {
         SendMessageInputdata sendMessageInputdata = new SendMessageInputdata(userID, message, channelURL);
+        sendMessageInteractor.send(sendMessageInputdata);
     }
 }

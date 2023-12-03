@@ -9,6 +9,7 @@ import interface_adapter.list_Channel.ChannelInfo;
 import interface_adapter.list_Channel.ListChannelController;
 import interface_adapter.list_Channel.ListChannelViewModel;
 import interface_adapter.ViewProfile.ViewProfileViewModel;
+import interface_adapter.viewChannel.ViewChannelController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,19 +31,24 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     private final ListChannelController listChannelController;
     private final CreateChannelViewModel createChannelViewModel;
     private final ViewProfileViewModel viewProfileViewModel;
+
+    private final ViewChannelController viewChannelController;
     private JButton createChannelButton;
     private JButton profileButton;
     private JList<String> channelList;
 
     public MenuView(ViewManagerModel viewManagerModel, MenuViewModel menuViewModel,
                     ListChannelViewModel listChannelViewModel, CreateChannelViewModel createChannelViewModel,
-                    ListChannelController listChannelController, ViewProfileViewModel viewProfileViewModel) {
+                    ListChannelController listChannelController, ViewProfileViewModel viewProfileViewModel,
+                    ViewChannelController viewChannelController) {
+
         this.viewManagerModel = viewManagerModel;
         this.menuViewModel = menuViewModel;
         this.listChannelViewModel = listChannelViewModel;
         this.listChannelController = listChannelController;
         this.createChannelViewModel = createChannelViewModel;
         this.viewProfileViewModel = viewProfileViewModel;
+        this.viewChannelController = viewChannelController;
         menuViewModel.addPropertyChangedListener(this);
         createChannelViewModel.addPropertyChangeListener(this);
         initializeUI();
@@ -66,7 +73,11 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
                     int index = channelList.locationToIndex(evt.getPoint());
                     String selectedItem = channelList.getModel().getElementAt(index);
                     String channelUrl = extractChannelUrl(selectedItem);
-                    navigateToChannel(channelUrl);
+                    try {
+                        navigateToChannel(channelUrl);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
         });
@@ -100,8 +111,9 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         channelList.setModel(model);
     }
 
-    private void navigateToChannel(String channelUrl) {
-        System.out.println("Navigate to channel: " + channelUrl);
+    private void navigateToChannel(String channelUrl) throws IOException {
+        viewChannelController.execute(channelUrl);
+
     }
 
     @Override

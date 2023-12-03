@@ -16,4 +16,18 @@ public class SendMessageInputdata {
         this.message = message;
         this.channelUrl = channelUrl;
     }
+
+    public String getUserID() {
+        return this.userID;}
+
+    public String getMessage() {
+        return this.message;}
+
+    public String getChannelType() {
+        return this.channelType;
+    }
+
+    public String getChannelUrl() {
+        return this.channelUrl;
+    }
 }

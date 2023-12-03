@@ -38,7 +38,7 @@ public class FileChannelDataAccessObject implements CreateChannelDataAccessInter
         requestBody.put("channel_url", channel.getChannelUrl());
         requestBody.put("is_distinct", channel.is_distinct());
         requestBody.put("is_ephemeral", channel.isEphemeral());
-        requestBody.put("operators", new JSONArray(channel.getOperator())); // Assuming getOperators returns a List<String>
+        requestBody.put("operator_ids", new JSONArray(channel.getOperator())); // Assuming getOperators returns a List<String>
 
         RequestBody body = RequestBody.create(mediaType, requestBody.toString());
         Request request = new Request.Builder()

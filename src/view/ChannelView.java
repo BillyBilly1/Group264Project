@@ -1,6 +1,8 @@
     package view;
 
     import interface_adapter.Channel.ChannelViewModel;
+    import interface_adapter.send_message.SendMessageController;
+    import interface_adapter.send_message.SendMessageViewModel;
     import interface_adapter.translation.TranslateController;
     import interface_adapter.translation.TranslateState;
     import interface_adapter.translation.TranslateViewModel;
@@ -44,14 +46,21 @@
 
         private final TranslateViewModel translateViewModel;
 
+        private final SendMessageController sendMessageController;
+
+        private final SendMessageViewModel sendMessageViewModel;
 
 
-        public ChannelView(ChannelViewModel channelViewModel,TranslateViewModel translateViewModel,
-                           TranslateController translateController
-                           ) {
+        public ChannelView(ChannelViewModel channelViewModel, TranslateViewModel translateViewModel,
+                           SendMessageViewModel sendMessageViewModel,
+                           TranslateController translateController,
+                           SendMessageController sendMessageController
+        ) {
             this.channelViewModel = channelViewModel;
             this.translateController = translateController;
             this.translateViewModel = translateViewModel;
+            this.sendMessageController = sendMessageController;
+            this.sendMessageViewModel = sendMessageViewModel;
 
             channelViewModel.addPropertyChangeListener(this);
 
@@ -196,16 +205,14 @@
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-            }
-            else if (e.getSource() == translateFrenchButton) {
+            } else if (e.getSource() == translateFrenchButton) {
                 TranslateState currentState = translateViewModel.getState();
                 try {
                     translateController.translate("fr", arrayList);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
-            }
-            else if (e.getSource() == translateEnglishButton) {
+            } else if (e.getSource() == translateEnglishButton) {
                 TranslateState currentState = translateViewModel.getState();
                 try {
                     translateController.translate("en", arrayList);
@@ -244,8 +251,6 @@
         }
 
 
-
-
         private void adjustFontSize(int adjustment) {
             fontSize += adjustment;
             if (fontSize < 8) fontSize = 8;
@@ -275,4 +280,5 @@
                 }
             });
         }
+
     }

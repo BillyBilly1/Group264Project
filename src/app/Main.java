@@ -34,7 +34,7 @@ import java.awt.*;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         JFrame application = new JFrame("You-Chat");
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

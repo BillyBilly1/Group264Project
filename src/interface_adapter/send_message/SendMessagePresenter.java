@@ -1,5 +1,17 @@
 package interface_adapter.send_message;
 
-public class SendMessagePresenter {
+import use_case.SendMessage.SendMessageOutputBoundary;
+import use_case.SendMessage.SendMessageOutputdata;
 
+public class SendMessagePresenter implements SendMessageOutputBoundary {
+
+    @Override
+    public void prepareFailView() {
+
+    }
+
+    @Override
+    public void prepareSuccessView(SendMessageOutputdata sendMessageOutputdata) {
+
+    }
 }

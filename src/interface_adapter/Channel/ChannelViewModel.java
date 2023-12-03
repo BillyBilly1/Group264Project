@@ -1,4 +1,6 @@
 package interface_adapter.Channel;
+import entity.Channel.Channel;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,8 @@ public class ChannelViewModel {
     private final PropertyChangeSupport support;
     private  ArrayList<String> sourceMessageList = new ArrayList<>();
 
+    private Channel channel;
+
     private ArrayList<String> messageList = sourceMessageList;
 
     public ChannelViewModel() {this.support = new PropertyChangeSupport(this);
@@ -20,8 +24,13 @@ public class ChannelViewModel {
 
 
     public String getChannelName() {
-        return "Group264";
+        return this.channel.getChannelName();
     }
+
+    public Channel getChannel() {
+        return this.channel;
+    }
+
 
     public ArrayList<String> getMessages() {
 
@@ -49,6 +58,11 @@ public class ChannelViewModel {
         sourceMessageList.add(formattedMessage);
         this.messageList = sourceMessageList;
         support.firePropertyChange("messagesUpdated", null, messageList);
+
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
 
     }
 
