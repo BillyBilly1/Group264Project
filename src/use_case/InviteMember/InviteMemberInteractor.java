@@ -12,10 +12,14 @@ public class InviteMemberInteractor implements InviteMemberInputBoundary {
 
     @Override
     public void execute(InviteMemberInputdata inviteMemberInputdata){
-        if(inviteMemberDataAccessInterface.invite(inviteMemberInputdata)){
-            inviteMemberOutputBoundary.prepareSuccessView("Invitation success");
+        if(!inviteMemberDataAccessInterface.is_member(inviteMemberInputdata)){
+            if(inviteMemberDataAccessInterface.invite(inviteMemberInputdata)) {
+                inviteMemberOutputBoundary.prepareSuccessView("Already invite the user in your channel!");
+            }else {
+                inviteMemberOutputBoundary.prepareFailView("User does not exist.");
+            }
         }else{
-            inviteMemberOutputBoundary.prepareFailView("Invitation error.");
+            inviteMemberOutputBoundary.prepareFailView("User already in the channel.");
         }
     }
 

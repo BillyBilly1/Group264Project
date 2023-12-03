@@ -8,6 +8,8 @@ import use_case.InviteMember.InviteMemberDataAccessInterface;
 import use_case.InviteMember.InviteMemberInputdata;
 import use_case.ListChannel.ListChannelDataAccessInterface;
 import use_case.Login.LoginDataAccessInterface;
+import use_case.RemoveMember.RemoveMemberDataAccessInterface;
+import use_case.RemoveMember.RemoveMemberInputdata;
 import use_case.Signup.SignupDataAccessInterface;
 import use_case.ViewProfile.ViewProfileDataAccessInterface;
 
@@ -17,8 +19,9 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FileUserDataAccessObject implements SignupDataAccessInterface,
-        LoginDataAccessInterface,
-        ListChannelDataAccessInterface, ViewProfileDataAccessInterface {
+        LoginDataAccessInterface, RemoveMemberDataAccessInterface,
+        ListChannelDataAccessInterface, ViewProfileDataAccessInterface,
+        InviteMemberDataAccessInterface{
 
     private static final String API_TOKEN = "0abe6c776ab4537be2c5ca662b46dba1ac1be4f5";
     private static final String BASE_URL = "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3";
@@ -142,6 +145,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         }
     }
 
+
     //@Override
     public boolean invite(InviteMemberInputdata inviteMemberInputdata){
         String user_id = inviteMemberInputdata.getUser_id();
@@ -160,7 +164,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
 
         RequestBody body = RequestBody.create(mediaType, requestBody.toString());
         Request request = new Request.Builder()
-                .url(BASE_URL + "/v3/group_channels/"+channel_url + "/invite")
+                .url(BASE_URL + "/group_channels/"+channel_url + "/invite")
                 .post(body)
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
@@ -215,6 +219,125 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public boolean remove(RemoveMemberInputdata removeMemberInputdata){
+        String user_id = removeMemberInputdata.getUser_id();
+        String channel_url = removeMemberInputdata.getChannel_url();
+
+        ArrayList<String> user_ids = new ArrayList<String>();
+        user_ids.add(user_id);
+
+
+        MediaType mediaType = MediaType.parse("application/json");
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("user_ids", user_ids);
+        requestBody.put("channel_url", channel_url);
+
+        RequestBody body = RequestBody.create(mediaType, requestBody.toString());
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/group_channels/"+ channel_url + "/leave")
+                .post(body)
+                .addHeader("Api-Token", API_TOKEN)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            // Assuming a successful response includes a JSON body with a status code
+            if (response.body() != null) {
+                String responseBody = response.body().string();
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                if (jsonResponse.has("message") ){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean is_member(RemoveMemberInputdata removeMemberInputdata){
+        String user_id = removeMemberInputdata.getUser_id();
+        String channel_url = removeMemberInputdata.getChannel_url();
+
+
+        MediaType mediaType = MediaType.parse("application/json");
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        JSONObject requestBody = new JSONObject();
+
+        RequestBody body = RequestBody.create(mediaType, requestBody.toString());
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/group_channels/" + channel_url +"/members/" + user_id)
+                .post(body)
+                .addHeader("Api-Token", API_TOKEN)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            // Assuming a successful response includes a JSON body with a status code
+            if (response.body() != null) {
+                String responseBody = response.body().string();
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                if(jsonResponse.getBoolean("is_member")){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean is_member(InviteMemberInputdata inviteMemberInputdata){
+        String user_id = inviteMemberInputdata.getUser_id();
+        String channel_url = inviteMemberInputdata.getChannel_url();
+
+
+        MediaType mediaType = MediaType.parse("application/json");
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        JSONObject requestBody = new JSONObject();
+
+        RequestBody body = RequestBody.create(mediaType, requestBody.toString());
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/group_channels/" + channel_url +"/members/" + user_id)
+                .post(body)
+                .addHeader("Api-Token", API_TOKEN)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            // Assuming a successful response includes a JSON body with a status code
+            if (response.body() != null) {
+                String responseBody = response.body().string();
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                if(jsonResponse.getBoolean("is_member")){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
     }
 }
 

@@ -1,7 +1,6 @@
-package use_case.InviteMember;
+package use_case.RemoveMember;
 
-public interface InviteMemberOutputBoundary {
+public interface RemoveMemberOutputBoundary {
     void prepareSuccessView(String success);
-
     void prepareFailView(String error);
 }
