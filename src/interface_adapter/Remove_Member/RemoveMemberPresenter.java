@@ -1,8 +1,6 @@
 package interface_adapter.Remove_Member;
 
 import interface_adapter.ViewManagerModel;
-import use_case.RemoveMember.RemoveMemberInputBoundary;
-import use_case.RemoveMember.RemoveMemberInputdata;
 import use_case.RemoveMember.RemoveMemberOutputBoundary;
 
 import javax.swing.*;
@@ -10,7 +8,7 @@ import javax.swing.*;
 public class RemoveMemberPresenter implements RemoveMemberOutputBoundary {
     private ViewManagerModel viewManagerModel;
 
-    public RemoveMemberPresenter(ViewManagerModel viewManagerModel) {
+    public RemoveMemberPresenter() {
         this.viewManagerModel = viewManagerModel;
     }
 

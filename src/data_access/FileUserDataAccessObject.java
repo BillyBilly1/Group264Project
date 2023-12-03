@@ -222,47 +222,49 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
     }
 
     @Override
-    public boolean remove(RemoveMemberInputdata removeMemberInputdata){
+    public boolean remove(RemoveMemberInputdata removeMemberInputdata) {
         String user_id = removeMemberInputdata.getUser_id();
         String channel_url = removeMemberInputdata.getChannel_url();
 
-        ArrayList<String> user_ids = new ArrayList<String>();
+        ArrayList<String> user_ids = new ArrayList<>();
         user_ids.add(user_id);
 
-
         MediaType mediaType = MediaType.parse("application/json");
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
         JSONObject requestBody = new JSONObject();
-        requestBody.put("user_ids", user_ids);
-        requestBody.put("channel_url", channel_url);
+        requestBody.put("user_ids", new JSONArray(user_ids));
 
         RequestBody body = RequestBody.create(mediaType, requestBody.toString());
         Request request = new Request.Builder()
-                .url(BASE_URL + "/group_channels/"+ channel_url + "/leave")
-                .post(body)
+                .url(BASE_URL + "/group_channels/" + channel_url + "/leave")
+                .put(body) // Usually, leaving a channel would be a PUT or DELETE request.
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")
                 .build();
+
         try {
             Response response = client.newCall(request).execute();
-            // Assuming a successful response includes a JSON body with a status code
-            if (response.body() != null) {
+            if (response.isSuccessful() && response.body() != null) {
                 String responseBody = response.body().string();
-                JSONObject jsonResponse = new JSONObject(responseBody);
-                if (jsonResponse.has("message") ){
-                    return false;
+                if (responseBody.trim().startsWith("{")) {
+                    JSONObject jsonResponse = new JSONObject(responseBody);
+                    // Check the expected response for a successful leave operation
+                    return jsonResponse.optBoolean("some_key_for_success", false); // Replace with actual key
                 } else {
-                    return true;
+                    System.err.println("Response is not valid JSON: " + responseBody);
+                    return false;
                 }
+            } else {
+                System.err.println("Failed to leave channel: " + response);
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-        return false;
     }
+
 
     @Override
     public boolean is_member(RemoveMemberInputdata removeMemberInputdata){
@@ -275,10 +277,9 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
                 .build();
         JSONObject requestBody = new JSONObject();
 
-        RequestBody body = RequestBody.create(mediaType, requestBody.toString());
         Request request = new Request.Builder()
-                .url(BASE_URL + "/group_channels/" + channel_url +"/members/" + user_id)
-                .post(body)
+                .url(BASE_URL + "/group_channels/" + channel_url + "/members/" + user_id)
+                .get() // Corrected to a GET request
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")
@@ -307,38 +308,39 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         String user_id = inviteMemberInputdata.getUser_id();
         String channel_url = inviteMemberInputdata.getChannel_url();
 
-
         MediaType mediaType = MediaType.parse("application/json");
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
+        OkHttpClient client = new OkHttpClient().newBuilder().build();
         JSONObject requestBody = new JSONObject();
 
         RequestBody body = RequestBody.create(mediaType, requestBody.toString());
         Request request = new Request.Builder()
                 .url(BASE_URL + "/group_channels/" + channel_url +"/members/" + user_id)
-                .post(body)
+                .get() // This should be a GET request if you're checking membership.
                 .addHeader("Api-Token", API_TOKEN)
                 .addHeader("Content-Type", "application/json")
                 .addHeader("Accept", "application/json")
                 .build();
         try {
             Response response = client.newCall(request).execute();
-            // Assuming a successful response includes a JSON body with a status code
             if (response.body() != null) {
                 String responseBody = response.body().string();
-                JSONObject jsonResponse = new JSONObject(responseBody);
-                if(jsonResponse.getBoolean("is_member")){
-                    return true;
+                if(responseBody.trim().startsWith("{")) { // Check if the response body starts with {
+                    JSONObject jsonResponse = new JSONObject(responseBody);
+                    return jsonResponse.optBoolean("is_member", false);
                 } else {
+                    System.err.println("Response is not valid JSON: " + responseBody);
                     return false;
                 }
+            } else {
+                System.err.println("Response body is null for is_member check");
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-        return false;
     }
+
 }
 
 

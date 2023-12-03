@@ -29,13 +29,25 @@ public class ViewChannelPresenter implements ViewChannelOutputBoundary {
         channelViewModel.setChannel(channel);
         channelViewModel.setMyID(myID);
         ChannelView channelView = ChannelViewFactory.create(channelViewModel);
+
         JFrame frame = new JFrame(channel.getChannelName());
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                // Perform any additional cleanup if required
+                channelView.onClose(); // Call onClose method to handle any specific view cleanups
+            }
+        });
+
         frame.getContentPane().add(channelView);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
+
 
     @Override
     public void prepareFailView(String error) {

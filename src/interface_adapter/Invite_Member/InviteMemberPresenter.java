@@ -2,15 +2,13 @@ package interface_adapter.Invite_Member;
 
 import interface_adapter.ViewManagerModel;
 import use_case.InviteMember.InviteMemberOutputBoundary;
-import use_case.InviteMember.InviteMemberOutputdata;
-import view.ViewManager;
 
 import javax.swing.*;
 
 public class InviteMemberPresenter implements InviteMemberOutputBoundary {
     private ViewManagerModel viewManagerModel;
 
-    public InviteMemberPresenter(ViewManagerModel viewManagerModel){
+    public InviteMemberPresenter(){
         this.viewManagerModel = viewManagerModel;
     }
 

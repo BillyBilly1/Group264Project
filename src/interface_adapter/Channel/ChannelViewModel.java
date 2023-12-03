@@ -89,7 +89,7 @@ public class ChannelViewModel {
     private String formatMessage(String message, String sender, long ts) {
 
         Date date = new Date(ts);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd  HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("  MM-dd  HH:mm");
 
         String formattedDate = sdf.format(date);
         // 获取当前时间

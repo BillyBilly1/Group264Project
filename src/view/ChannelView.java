@@ -2,6 +2,8 @@
 
     import entity.Channel.Channel;
     import interface_adapter.Channel.ChannelViewModel;
+    import interface_adapter.Invite_Member.InviteMemberController;
+    import interface_adapter.Remove_Member.RemoveMemberController;
     import interface_adapter.send_message.SendMessageController;
     import interface_adapter.send_message.SendMessageViewModel;
     import interface_adapter.translation.TranslateController;
@@ -33,6 +35,10 @@
 
         private JTextField inputField;
 
+        private JTextField inviteField;
+
+        private JTextField deleteField;
+
         private JList<String> messageList;
 
         private JButton translateChineseButton;
@@ -41,7 +47,9 @@
 
         private JButton translateEnglishButton;
 
-        private JButton viewProButton;
+        private JButton inviteButton;
+
+        private JButton deleteButton;
 
         private Timer messageUpdateTimer;
 
@@ -53,24 +61,31 @@
 
         private final SendMessageViewModel sendMessageViewModel;
 
+        private final InviteMemberController inviteMemberController;
+
+        private final RemoveMemberController removeMemberController;
+
         private long lastMessageTS = 0;
 
 
         public ChannelView(ChannelViewModel channelViewModel, TranslateViewModel translateViewModel,
                            SendMessageViewModel sendMessageViewModel,
                            TranslateController translateController,
-                           SendMessageController sendMessageController
+                           SendMessageController sendMessageController, InviteMemberController inviteMemberController,
+                           RemoveMemberController removeMemberController
         ) {
             this.channelViewModel = channelViewModel;
             this.translateController = translateController;
             this.translateViewModel = translateViewModel;
             this.sendMessageController = sendMessageController;
             this.sendMessageViewModel = sendMessageViewModel;
+            this.inviteMemberController = inviteMemberController;
+            this.removeMemberController = removeMemberController;
 
             channelViewModel.addPropertyChangeListener(this);
 
             //every 2.5s call the receivemessage
-            messageUpdateTimer = new Timer(2000, e -> updateMessages());
+            messageUpdateTimer = new Timer(2400, e -> updateMessages());
             messageUpdateTimer.start();
 
 
@@ -176,14 +191,40 @@
 
             //View Profile Button
 
-            JPanel viewProPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            JButton viewProButton = new JButton("Edit");
-            viewProButton.setPreferredSize(new Dimension(width / 8, buttonSize / 8));
-            viewProButton.setFont(new Font((viewProButton.getFont().getName()), Font.PLAIN, 12));
-            viewProButton.addActionListener(this);
-            viewProPanel.add(viewProButton);
-            topPanel.add(viewProPanel, BorderLayout.WEST);
-            add(topPanel, BorderLayout.NORTH);
+            // Panel for invite and delete buttons and fields
+            JPanel topRightPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+            // Invite panel
+            Font buttonFont = new Font("buttonfont", Font.PLAIN, 10);
+            JPanel invitePanel = new JPanel();
+            invitePanel.setLayout(new BoxLayout(invitePanel, BoxLayout.Y_AXIS));
+            inviteField = new JTextField();
+            inviteField.setMaximumSize(new Dimension(width / 6, 30));
+            inviteButton = new JButton("Invite");
+            inviteButton.setFont(buttonFont);
+            inviteButton.addActionListener(this);
+            invitePanel.add(inviteField);
+            invitePanel.add(inviteButton);
+
+            // Delete panel
+            JPanel deletePanel = new JPanel();
+            deletePanel.setLayout(new BoxLayout(deletePanel, BoxLayout.Y_AXIS));
+            deleteField = new JTextField();
+            deleteField.setMaximumSize(new Dimension(width / 6, 30));
+            deleteButton = new JButton("Remove");
+            deleteButton.setFont(buttonFont);
+            deleteButton.addActionListener(this);
+            deletePanel.add(deleteField);
+            deletePanel.add(deleteButton);
+
+            // Add panels to the top right panel
+            topRightPanel.add(invitePanel);
+            topRightPanel.add(deletePanel);
+
+            // Add all to the top panel
+            topPanel.add(channelNameLabel, BorderLayout.CENTER);
+            topPanel.add(topRightPanel, BorderLayout.WEST);
+            this.add(topPanel, BorderLayout.NORTH);
 
             //Setting the InputPanel
 
@@ -240,10 +281,15 @@
 
             // Edit channel profile
 
-            else if (e.getSource() == viewProButton) {
-                //
+            else if (e.getSource() == inviteButton && !inviteField.getText().isEmpty()) {
+                String inviteID = inviteField.getText();
+                inviteMemberController.execute(inviteID, channelViewModel.getChannel().getChannelUrl());
             }
-        }
+
+            else if (e.getSource() == deleteButton) {
+                String removeID = deleteField.getText();
+                removeMemberController.execute(removeID, channelViewModel.getChannel().getChannelUrl());
+        }}
 
 
         // show the changes in view-model
