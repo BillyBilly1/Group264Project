@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Test {
     public static void main(String[] args) throws IOException {
-        String url = "cxkk";
+        String url = "cxkkk";
         Channel channel = new FileChannelDataAccessObject().viewChannel(url);
         System.out.println(channel.getChannelName());
         List<String> members = new FileChannelDataAccessObject().viewMembers(url);
