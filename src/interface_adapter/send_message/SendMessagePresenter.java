@@ -29,6 +29,7 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
     public void receivedmessage(SendMessageOutputdata sendMessageOutputdata) {
         ArrayList<Message> messageList = sendMessageOutputdata.getMessageList();
         long messageTs = 0;
+        System.out.println("presenter called");
 
         for (Message message: messageList) {
             String messageContent = message.getMessage();

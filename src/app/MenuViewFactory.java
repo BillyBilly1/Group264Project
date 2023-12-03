@@ -2,7 +2,6 @@ package app;
 
 import data_access.FileChannelDataAccessObject;
 import interface_adapter.Menu.MenuViewModel;
-import interface_adapter.ViewChannel.ViewChannelPresenter;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.create_channel.CreateChannelViewModel;
 import interface_adapter.list_Channel.ListChannelController;
@@ -10,6 +9,7 @@ import interface_adapter.list_Channel.ListChannelPresenter;
 import interface_adapter.list_Channel.ListChannelViewModel;
 import interface_adapter.ViewProfile.ViewProfileViewModel;
 import interface_adapter.viewChannel.ViewChannelController;
+import interface_adapter.viewChannel.ViewChannelPresenter;
 import use_case.GetOperator.GetOperatorDataAccessInterface;
 import use_case.ListChannel.*;
 import use_case.ViewChannel.ViewChannelDataAccessInterface;
