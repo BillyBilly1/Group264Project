@@ -5,11 +5,12 @@ import entity.Message.CommonMessageFactory;
 import okhttp3.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import use_case.SendMessage.SendMessageDataAccessInterface;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SendMessageDataAccessObject {
+public class SendMessageDataAccessObject implements SendMessageDataAccessInterface {
 
     private static final String API_TOKEN = "0abe6c776ab4537be2c5ca662b46dba1ac1be4f5";
     private static final String APPLICATION_ID = "39ACFA95-6D71-49B3-B9EF-EDDA2080C415";
