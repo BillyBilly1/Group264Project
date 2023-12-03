@@ -2,12 +2,12 @@ package entity.Message;
 
 public class CommonMessage implements Message {
 
-    private String user_id;
-    private String message;
-    private String channel_type;
-    private String channel_url;
+    private final String user_id;
+    private final String message;
+    private final String channel_type;
+    private final String channel_url;
 
-    private long createAt;
+    private final long createAt;
 
 
 
@@ -28,7 +28,7 @@ public class CommonMessage implements Message {
 
     public String getChannel_url() {return channel_url;};
 
-    public long getCreateAt() {return getCreateAt();}
+    public long getCreateAt() {return this.createAt;}
 }
 
 

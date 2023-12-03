@@ -4,7 +4,6 @@
     import interface_adapter.translation.TranslateController;
     import interface_adapter.translation.TranslateState;
     import interface_adapter.translation.TranslateViewModel;
-    import use_case.SendMessage;
 
     import java.awt.*;
     import java.awt.event.ActionEvent;
