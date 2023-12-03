@@ -71,7 +71,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
 
     @Override
     public String get_username(String user_id) {
-        if (user_id == null || Objects.equals(user_id, "")) {
+        if (user_id == null ) {
             return null;
         }
 
@@ -95,7 +95,6 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
                 if (jsonResponse.has("is_active")) {
                     return jsonResponse.getString("nickname"); // Channel created successfully
                 } else if (jsonResponse.has("error")) {
-                    System.err.println("Failed to login: " + jsonResponse.getString("message"));
                     return null;
                 }
             } else {
@@ -189,8 +188,34 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
     }
 
     @Override
-    public boolean existsByName(String identifier) {
-        return false;
+    public boolean existsByName(String user_id) {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/users/" + user_id)
+                .get()
+                .addHeader("Api-Token", API_TOKEN)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "application/json")
+                .build();
+
+        try {
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                String responseBody = response.body().string();
+                //System.out.println(responseBody);
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                return true;
+            } else if (response.code() == 404) {
+                return false;
+            } else {
+                throw new RuntimeException("Fail to view profile." + response.code());
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
+
 

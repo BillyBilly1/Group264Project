@@ -12,8 +12,8 @@ public class LoginInputData {
         this.nickname = nickname;
     }
 
-    String getUser_id(){ return user_id; }
-    String getNickname() {
+    public String getUser_id(){ return user_id; }
+    public String getNickname() {
         return nickname;
     }
 }

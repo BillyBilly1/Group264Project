@@ -23,5 +23,9 @@ public class CreateChannelController {
                 operator, is_distinct, isEphemeral);
         interactor.execute(createChannelInputData);
     }
+
+    public void back() {
+        interactor.back();
+    }
 }
 

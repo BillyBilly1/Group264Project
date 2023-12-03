@@ -12,6 +12,7 @@ public class LoginController {
     }
 
     public void execute(String user_id, String nickname) {
+
         LoginInputData loginInputData = new LoginInputData(user_id, nickname);
 
         loginUseCaseInteractor.execute(loginInputData);

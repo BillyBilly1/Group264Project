@@ -53,7 +53,7 @@ public class MenuViewModel extends ViewModel {
     public List<String> getChannelNameList() {
         ArrayList<String> nameList = new ArrayList<String>();
         for (ChannelInfo channelInfo : channelList) {
-            nameList.add(channelInfo.getName());}
+            nameList.add("<name>: " + channelInfo.getName() + "       <URL>: " + channelInfo.getChannelUrl());}
         return nameList;
 
 
@@ -77,11 +77,13 @@ public class MenuViewModel extends ViewModel {
         String oldUserID = this.userID;
         System.out.println(userId);
         this.userID = userId;
+
         support.firePropertyChange("userID", oldUserID, userId);
     }
 
     public void setUserNickname(String nickname) {
         this.userNickname = nickname;
+
     }
 
 
