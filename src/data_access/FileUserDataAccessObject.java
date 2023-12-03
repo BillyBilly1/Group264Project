@@ -301,6 +301,44 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         }
         return false;
     }
+
+    @Override
+    public boolean is_member(InviteMemberInputdata inviteMemberInputdata){
+        String user_id = inviteMemberInputdata.getUser_id();
+        String channel_url = inviteMemberInputdata.getChannel_url();
+
+
+        MediaType mediaType = MediaType.parse("application/json");
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        JSONObject requestBody = new JSONObject();
+
+        RequestBody body = RequestBody.create(mediaType, requestBody.toString());
+        Request request = new Request.Builder()
+                .url(BASE_URL + "/group_channels/" + channel_url +"/members/" + user_id)
+                .post(body)
+                .addHeader("Api-Token", API_TOKEN)
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Accept", "application/json")
+                .build();
+        try {
+            Response response = client.newCall(request).execute();
+            // Assuming a successful response includes a JSON body with a status code
+            if (response.body() != null) {
+                String responseBody = response.body().string();
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                if(jsonResponse.getBoolean("is_member")){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
+    }
 }
 
 
