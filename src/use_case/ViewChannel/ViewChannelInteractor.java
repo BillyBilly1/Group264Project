@@ -5,9 +5,10 @@ import entity.Channel.Channel;
 import use_case.GetOperator.GetOperatorDataAccessInterface;
 import use_case.ViewMembers.ViewMembersDataAccessInterface;
 
+import java.io.IOException;
 import java.util.List;
 
-public class ViewChannelInteractor {
+public class ViewChannelInteractor implements ViewChannelInputBoundary{
     final ViewChannelDataAccessInterface channelDataAccessObject;
     final ViewChannelOutputBoundary viewChannelPresenter;
     final ViewMembersDataAccessInterface membersDataAccessObject;
@@ -23,7 +24,7 @@ public class ViewChannelInteractor {
         this.operatorDataAccessObject = operatorDataAccessInterface;
     }
 
-    public void execute(ViewChannelInputData inputData) {
+    public void execute(ViewChannelInputData inputData) throws IOException {
         String channel_url = inputData.getChannel_url();
 
         Channel channel = channelDataAccessObject.viewChannel(channel_url);
