@@ -16,7 +16,7 @@ public class RemoveMemberInteractor implements RemoveMemberInputBoundary{
     public void execute(RemoveMemberInputdata removeMemberInputdata){
         if(removeMemberDataAccessInterface.is_member(removeMemberInputdata)){
             removeMemberDataAccessInterface.remove(removeMemberInputdata);
-            removeMemberOutputBoundary.prepareSuccessView("Remove success.");
+            removeMemberOutputBoundary.prepareSuccessView("Remove success.", removeMemberInputdata.getUser_id());
         }else{
             removeMemberOutputBoundary.prepareFailView("User not in the channel.");
             }

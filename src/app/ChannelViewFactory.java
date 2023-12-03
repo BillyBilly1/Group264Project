@@ -43,8 +43,8 @@ public class ChannelViewFactory {
         SendMessageViewModel sendMessageViewModel = new SendMessageViewModel();
         TranslateController translateController = createTranslateController(channelViewModel, translateViewModel);
         SendMessageController sendMessageController = createSendMessageController(channelViewModel);
-        InviteMemberController inviteMemberController = createIniviteController();
-        RemoveMemberController removeMemberController = createRemoveController();
+        InviteMemberController inviteMemberController = createIniviteController(channelViewModel);
+        RemoveMemberController removeMemberController = createRemoveController(channelViewModel);
 
         return new ChannelView(channelViewModel,
                 translateViewModel, sendMessageViewModel, translateController,
@@ -53,18 +53,20 @@ public class ChannelViewFactory {
 
     }
 
-    private static InviteMemberController createIniviteController() throws IOException {
+    private static InviteMemberController createIniviteController(ChannelViewModel
+                                                                          channelViewModel) throws IOException {
         InviteMemberDataAccessInterface inviteMemberDataAccessInterface = new FileUserDataAccessObject();
-        InviteMemberOutputBoundary inviteMemberOutputBoundary = new InviteMemberPresenter();
+        InviteMemberOutputBoundary inviteMemberOutputBoundary = new InviteMemberPresenter(channelViewModel);
         InviteMemberInputBoundary inviteMemberInputBoundary = new InviteMemberInteractor(
                 inviteMemberDataAccessInterface, inviteMemberOutputBoundary);
 
         return new InviteMemberController(inviteMemberInputBoundary);
     }
 
-    private static RemoveMemberController createRemoveController() throws  IOException {
+    private static RemoveMemberController createRemoveController(ChannelViewModel
+                                                                         channelViewModel) throws  IOException {
         RemoveMemberDataAccessInterface removeMemberDataAccessInterface = new FileUserDataAccessObject();
-        RemoveMemberOutputBoundary removeMemberOutputBoundary = new RemoveMemberPresenter();
+        RemoveMemberOutputBoundary removeMemberOutputBoundary = new RemoveMemberPresenter(channelViewModel);
         RemoveMemberInputBoundary removeMemberInputBoundary = new RemoveMemberInteractor(
                 removeMemberDataAccessInterface, removeMemberOutputBoundary);
         return new RemoveMemberController(removeMemberInputBoundary);

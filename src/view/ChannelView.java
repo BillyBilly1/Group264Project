@@ -104,7 +104,6 @@
         }
 
         private void updateMessages() {
-            System.out.println("触发了");
             Channel channel = channelViewModel.getChannel();
             String userID = channelViewModel.getMyID();
             String channelUrl = channel.getChannelUrl();
