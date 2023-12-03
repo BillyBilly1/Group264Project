@@ -79,9 +79,6 @@ public class Main {
 
         }
 
-
-
-
         SignUpView signupView = SignupUsecaseFactory.create(viewManagerModel, loginViewModel, signupViewModel, userDataAccessObject);
         views.add(signupView, "sign up");
 

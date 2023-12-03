@@ -83,4 +83,13 @@ public class MenuViewModel extends ViewModel {
     public void setUserNickname(String nickname) {
         this.userNickname = nickname;
     }
-}
+
+
+    public ChannelInfo findChannelByName(String name) {
+        for (ChannelInfo channel : channelList) {
+            if (channel.getName().equals(name)) {
+                return channel;
+            }
+        }
+        return null;
+}}
