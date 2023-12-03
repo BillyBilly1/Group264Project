@@ -1,4 +1,4 @@
-package interface_adapter.ViewChannel;
+package interface_adapter.viewChannel;
 
 import app.ChannelViewFactory;
 import entity.Channel.*;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class ViewChannelPresenter implements ViewChannelOutputBoundary {
 
-    private final ChannelViewModel channelViewModel;
+    private ChannelViewModel channelViewModel;
 
 
     public ViewChannelPresenter(){

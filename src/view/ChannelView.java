@@ -409,6 +409,8 @@
             if (messageUpdateTimer != null) {
                 messageUpdateTimer.stop();
             }
+            this.messageList = new JList<>();
+            channelViewModel.reset();
         }
 
     }

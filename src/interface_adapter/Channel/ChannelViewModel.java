@@ -98,5 +98,7 @@ public class ChannelViewModel {
                 formattedDate;
     }
 
+    public void reset() {this.sourceMessageList = new ArrayList<>();}
+
 
 }

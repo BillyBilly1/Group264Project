@@ -1,5 +1,6 @@
 package view;
 
+import app.MenuViewFactory;
 import interface_adapter.Menu.MenuViewModel;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.ViewProfile.ViewProfileState;
@@ -32,7 +33,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
     private final CreateChannelViewModel createChannelViewModel;
     private final ViewProfileViewModel viewProfileViewModel;
 
-    private final ViewChannelController viewChannelController;
+    private ViewChannelController viewChannelController;
 
     private Timer refreshTimer;
     private JButton createChannelButton;
@@ -118,6 +119,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
 
     private void navigateToChannel(String userID, String channelUrl) throws IOException {
         viewChannelController.execute(userID, channelUrl);
+        viewChannelController = MenuViewFactory.createViewChannelController();
 
     }
 
