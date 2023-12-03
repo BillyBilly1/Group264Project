@@ -19,16 +19,13 @@ public class CreateChannelInteractor implements CreateChannelInputBoundary {
 
     @Override
     public void execute(CreateChannelInputData inputData) {
-        System.out.println("到理塘了");
-
-
             Channel channel = channelFactory.create(
-                    inputData.getUser_ids(),
                     inputData.getChannelName(),
                     inputData.getChannelUrl(),
-                    inputData.getOperator(),
                     inputData.getIs_distinct(),
                     inputData.getIsEphemeral());
+            channel.setOperator(inputData.getOperator());
+            channel.setUser_id(inputData.getUser_ids());
 
         ChannelInfo channelInfo = new ChannelInfo(inputData.getChannelUrl(), inputData.getChannelName());
 
