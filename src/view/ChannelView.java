@@ -1,5 +1,6 @@
     package view;
 
+    import app.Sounds;
     import entity.Channel.Channel;
     import interface_adapter.Channel.ChannelViewModel;
     import interface_adapter.Invite_Member.InviteMemberController;
@@ -11,9 +12,7 @@
     import interface_adapter.translation.TranslateViewModel;
 
     import java.awt.*;
-    import java.awt.event.ActionEvent;
-    import java.awt.event.ActionListener;
-    import java.awt.event.KeyEvent;
+    import java.awt.event.*;
     import java.beans.PropertyChangeEvent;
     import java.beans.PropertyChangeListener;
     import java.io.IOException;
@@ -106,7 +105,6 @@
             });
             messageUpdateTimer.start();
 
-
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int width = screenSize.width / 2;
             int height = screenSize.height / 3 * 2;
@@ -120,9 +118,9 @@
             Channel channel = channelViewModel.getChannel();
             String userID = channelViewModel.getMyID();
             String channelUrl = channel.getChannelUrl();
-
             sendMessageController.receive(userID, "", channelUrl, channelViewModel.getLastMessageTS());
         }
+
 
 
         public void initializeUI(int width, int height) {
@@ -168,6 +166,15 @@
                 }
 
 
+            });
+
+            messageList.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2) {
+                        String selectedMessage = messageList.getSelectedValue();
+                        channelViewModel.setSelectedMessage(selectedMessage);
+                    }
+                }
             });
 
 
@@ -292,6 +299,7 @@
             add(bottomPanel, BorderLayout.EAST);
         }
 
+
         @Override
         public void actionPerformed(ActionEvent e) {
             ListModel<String> listModel = messageList.getModel();
@@ -312,64 +320,84 @@
                 JOptionPane.showMessageDialog(null,
                         "Empty message cannot be sent", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            //about translation
+            // 修改 actionPerformed 方法中与翻译按钮相关的部分
             else if (e.getSource() == translateChineseButton) {
-                TranslateState currentState = translateViewModel.getState();
-                try {
-                    translateController.translate("zh", arrayList);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                String selectedMessage = channelViewModel.getSelectedMessage();
+                if (selectedMessage != null && !selectedMessage.isEmpty()) {
+                    ArrayList<String> messagesToTranslate = new ArrayList<>();
+                    messagesToTranslate.add(selectedMessage); // 添加选中的消息到列表
+                    try {
+                        translateController.translate("zh", messagesToTranslate); // 调用翻译控制器
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please select a message to translate.", "No message selected", JOptionPane.ERROR_MESSAGE);
                 }
+
+
             } else if (e.getSource() == translateFrenchButton) {
-                TranslateState currentState = translateViewModel.getState();
-                try {
-                    translateController.translate("fr", arrayList);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                String selectedMessage = channelViewModel.getSelectedMessage();
+                if (selectedMessage != null && !selectedMessage.isEmpty()) {
+                    ArrayList<String> messagesToTranslate = new ArrayList<>();
+                    messagesToTranslate.add(selectedMessage); // 添加选中的消息到列表
+                    try {
+                        translateController.translate("fr", messagesToTranslate); // 调用翻译控制器
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please select a message to translate.", "No message selected", JOptionPane.ERROR_MESSAGE);
                 }
-            } else if (e.getSource() == translateEnglishButton) {
-                TranslateState currentState = translateViewModel.getState();
-                try {
-                    translateController.translate("en", arrayList);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+
+                } else if (e.getSource() == translateEnglishButton) {
+                String selectedMessage = channelViewModel.getSelectedMessage();
+                if (selectedMessage != null && !selectedMessage.isEmpty()) {
+                    ArrayList<String> messagesToTranslate = new ArrayList<>();
+                    messagesToTranslate.add(selectedMessage);
+                    try {
+                        translateController.translate("en", messagesToTranslate);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please select a message to translate.", "No message selected", JOptionPane.ERROR_MESSAGE);
+                }}
+
+                // Edit channel profile
+
+                else if (e.getSource() == inviteButton && !inviteField.getText().isEmpty()) {
+                    String inviteID = inviteField.getText();
+                    inviteField.setText("");
+                    inviteMemberController.execute(inviteID, channelViewModel.getChannel().getChannelUrl());
+                } else if (e.getSource() == deleteButton) {
+                    String removeID = deleteField.getText();
+                    deleteField.setText("");
+                    removeMemberController.execute(removeID, channelViewModel.getChannel().getChannelUrl());
+                } else if (e.getSource() == memberButton) {
+                    ArrayList<String> userIDs = new ArrayList<>(channelViewModel.getChannel().getUser_ids());
+                    JTextArea textArea = new JTextArea();
+                    textArea.setEditable(false);
+                    for (String userID : userIDs) {
+                        textArea.append(userID + "\n");
+                    }
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    JOptionPane.showMessageDialog(null, scrollPane,
+                            "Members", JOptionPane.INFORMATION_MESSAGE);
+
+                } else if (e.getSource() == operatorButton) {
+                    ArrayList<String> opIDs = new ArrayList<>(channelViewModel.getChannel().getOperator());
+                    JTextArea textArea = new JTextArea();
+                    textArea.setEditable(false);
+                    for (String userID : opIDs) {
+                        textArea.append(userID + "\n");
+                    }
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    JOptionPane.showMessageDialog(null, scrollPane,
+                            "Operators", JOptionPane.INFORMATION_MESSAGE);
                 }
+
             }
-
-            // Edit channel profile
-
-            else if (e.getSource() == inviteButton && !inviteField.getText().isEmpty()) {
-                String inviteID = inviteField.getText();
-                inviteField.setText("");
-                inviteMemberController.execute(inviteID, channelViewModel.getChannel().getChannelUrl());
-            } else if (e.getSource() == deleteButton) {
-                String removeID = deleteField.getText();
-                deleteField.setText("");
-                removeMemberController.execute(removeID, channelViewModel.getChannel().getChannelUrl());
-            } else if (e.getSource() == memberButton) {
-                ArrayList<String> userIDs = new ArrayList<>(channelViewModel.getChannel().getUser_ids());
-                JTextArea textArea = new JTextArea();
-                textArea.setEditable(false);
-                for (String userID : userIDs) {
-                    textArea.append(userID + "\n");
-                }
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                JOptionPane.showMessageDialog(null, scrollPane,
-                        "Members", JOptionPane.INFORMATION_MESSAGE);
-
-            } else if (e.getSource() == operatorButton) {
-                ArrayList<String> opIDs = new ArrayList<>(channelViewModel.getChannel().getOperator());
-                JTextArea textArea = new JTextArea();
-                textArea.setEditable(false);
-                for (String userID : opIDs) {
-                    textArea.append(userID + "\n");
-                }
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                JOptionPane.showMessageDialog(null, scrollPane,
-                        "Operators", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        }
 
         private String highlightText(String text, String query) {
             // 分割消息内容和时间，假设格式是 "Sender: MessageContent \n Time"
@@ -404,12 +432,6 @@
                 JOptionPane.showMessageDialog(this, scrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
             }
         }
-
-
-
-
-
-
 
         // show the changes in view-model
         public void updateFromViewModel() {
@@ -511,6 +533,7 @@
                 JOptionPane.showMessageDialog(this, scrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+
 
 
     }
