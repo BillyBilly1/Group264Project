@@ -32,6 +32,10 @@ public class ViewChannelPresenter implements ViewChannelOutputBoundary {
         ChannelView channelView = ChannelViewFactory.create(channelViewModel);
 
         JFrame frame = new JFrame(channel.getChannelName());
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int windowWidth = (int) (screenSize.getWidth() * 0.70);
+        int windowHeight = (int) (screenSize.getHeight() * 0.75);
+        frame.setPreferredSize(new Dimension(windowWidth, windowHeight));
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         frame.addWindowListener(new java.awt.event.WindowAdapter() {

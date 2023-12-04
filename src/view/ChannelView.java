@@ -61,6 +61,8 @@
 
         private JButton dsearchButton;
 
+        private JButton muteButton;
+
 
         private Timer messageUpdateTimer;
 
@@ -295,8 +297,40 @@
             bottomPanel.add(dsearchButton);
             dsearchButton.addActionListener(e -> showDateSearchDialog());
 
-            // 将新的按钮面板添加到主面板的右侧
+            JButton increaseFontSizeButton = new JButton("+");
+            increaseFontSizeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    adjustFontSize(1);
+                }
+            });
+
+            JButton decreaseFontSizeButton = new JButton("-");
+            decreaseFontSizeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    adjustFontSize(-1);
+                }
+            });
+
+            increaseFontSizeButton.setFont(new Font(increaseFontSizeButton.getFont().getName(), Font.BOLD, 24));
+            decreaseFontSizeButton.setFont(new Font(decreaseFontSizeButton.getFont().getName(), Font.BOLD, 30));
+
+            JPanel fontAdjustPanel = new JPanel();
+            fontAdjustPanel.setLayout(new BoxLayout(fontAdjustPanel, BoxLayout.Y_AXIS));
+            fontAdjustPanel.add(increaseFontSizeButton);
+            fontAdjustPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+            fontAdjustPanel.add(decreaseFontSizeButton);
+
+            bottomPanel.add(fontAdjustPanel);
+
+            JButton muteButton = new JButton("Mute");
+            muteButton.addActionListener(e -> channelViewModel.setmute());
+            bottomPanel.add(muteButton);
+
             add(bottomPanel, BorderLayout.EAST);
+
+
         }
 
 
@@ -461,8 +495,8 @@
 
         private void adjustFontSize(int adjustment) {
             fontSize += adjustment;
-            if (fontSize < 8) fontSize = 8;
-            else if (fontSize > 30) fontSize = 30;
+            if (fontSize < 7) fontSize = 7;
+            else if (fontSize > 36) fontSize = 36;
             Font newFont = new Font("Arial", Font.PLAIN, fontSize);
             messageList.setFont(newFont);
             messageList.repaint();
