@@ -63,11 +63,8 @@ public class Main {
 
         splashScreen.setVisible(true);
 
-<<<<<<< HEAD
-        Thread.sleep(3000);
-=======
+
         Thread.sleep(2500);
->>>>>>> f9d9b0914e2525cb4e378e5f2cd64f3cbdfd4db4
 
         splashScreen.dispose();
 
