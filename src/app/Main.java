@@ -47,7 +47,7 @@ public class Main {
         ImageIcon originalIcon = new ImageIcon(imgFile.toURI().toURL());
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int iconSize = (int) (screenSize.width * 0.4);
+        int iconSize = (int) (screenSize.width * 0.45);
 
         Image scaledImage = originalIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);

@@ -25,34 +25,31 @@ public class TranslatePresenter implements TranslateOutputBoundary {
     @Override
     public void presentTranslationResult(TranslateState state) {
         if (state.isTranslationSuccessful()) {
-            channelViewModel.updateTranslatedText(translateViewModel.getState().getTranslatedText());
+            String translatedMessage = state.getTranslatedText().get(0);
+            // 使用HTML格式化翻译的消息，并添加超链接
+            String messageWithLink = "<html>" + translatedMessage +
+                    "<br><br>Translated by <a href=''>Yandex Translate</a></html>";
 
-            // 创建包含可点击链接的 JPanel
-            JPanel panel = new JPanel();
-            panel.setLayout(new BorderLayout());
+            // 创建一个JLabel以支持HTML格式
+            JLabel messageLabel = new JLabel(messageWithLink);
+            messageLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
-            // 创建包含链接的标签
-            JLabel label = new JLabel("<html><a href='https://translate.yandex.com/'>Translated by Yandex Translate</a></html>");
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-            // 添加链接点击事件监听器
-            label.addMouseListener(new MouseAdapter() {
+            // 添加鼠标点击事件监听器以打开超链接
+            messageLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     openWebPage("https://translate.yandex.com/");
                 }
             });
 
-            // 将标签添加到面板
-            panel.add(label, BorderLayout.CENTER);
-
-            // 显示包含链接的消息框
-            JOptionPane.showMessageDialog(null, panel, "Translation Result", JOptionPane.PLAIN_MESSAGE);
+            // 显示弹窗
+            JOptionPane.showMessageDialog(null, messageLabel, "Translated Message", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Failed: " + state.getError(),
-                    "Translation Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Translation failed: " + state.getError(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
 
     private void openWebPage(String url) {
         try {

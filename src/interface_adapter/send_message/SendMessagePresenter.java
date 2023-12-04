@@ -31,19 +31,16 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
     @Override
     public void receivedmessage(SendMessageOutputdata sendMessageOutputdata) throws InterruptedException {
         ArrayList<Message> messageList = sendMessageOutputdata.getMessageList();
-        long messageTs = 0;
-
-        for (Message message: messageList) {
+        long lastMessageTs = 0;
+        for (Message message : messageList) {
             String messageContent = message.getMessage();
             String userID = message.getUser_id();
-            messageTs = message.getCreateAt();
+            long messageTs = message.getCreateAt();
+            if (messageTs > lastMessageTs) {
+                lastMessageTs = messageTs;
+            }
             channelViewModel.addMessage(messageContent, userID, messageTs);
         }
-
-
-        channelViewModel.setLastMessageTS(messageTs);}
-
-
-
-
+        channelViewModel.setLastMessageTS(lastMessageTs);
+    }
 }

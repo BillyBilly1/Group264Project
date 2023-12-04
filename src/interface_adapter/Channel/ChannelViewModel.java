@@ -29,6 +29,8 @@ public class ChannelViewModel {
 
     private long lastMessageTS = 0;
 
+    private String selectedMessage;
+
 
     public ChannelViewModel() {this.support = new PropertyChangeSupport(this);
     }
@@ -130,9 +132,8 @@ public class ChannelViewModel {
             this.messageList = sourceMessageList;
             support.firePropertyChange("messagesUpdated", null, messageList);
             Sounds.playTone();
+
         }
-
-
     }
 
     public void setChannel(Channel channel) {
@@ -165,4 +166,11 @@ public class ChannelViewModel {
     public void reset() {this.sourceMessageList = new ArrayList<>();}
 
 
+    public void setSelectedMessage(String selectedMessage) {
+        this.selectedMessage = selectedMessage;
+    }
+
+    public String getSelectedMessage() {
+        return selectedMessage;
+    }
 }

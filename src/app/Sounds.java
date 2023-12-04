@@ -9,7 +9,7 @@ public class Sounds {
 
     public static void playTone() {
         int duration = 250;
-        int frequency = 6000;
+        int frequency = 5500;
         byte[] buf = new byte[duration];
         AudioFormat audioFormat = new AudioFormat(44100, 8, 1, true, false);
 

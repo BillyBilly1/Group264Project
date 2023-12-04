@@ -53,7 +53,14 @@ public class SendMessageDataAccessObject implements SendMessageDataAccessInterfa
     public ArrayList<Message> getMessages(String channelType, String channelUrl, long messageTs) {
         OkHttpClient client = new OkHttpClient();
         HttpUrl.Builder urlBuilder = HttpUrl.parse(BASE_URL + "/" + channelType + "/" + channelUrl + "/messages").newBuilder();
-        urlBuilder.addQueryParameter("message_ts", String.valueOf(messageTs));
+        if (messageTs == 0) {
+            urlBuilder.addQueryParameter("message_ts", String.valueOf(System.currentTimeMillis()));
+            urlBuilder.addQueryParameter("prev_limit", "200");
+            urlBuilder.addQueryParameter("next_limit", "0");}
+        else {
+            urlBuilder.addQueryParameter("message_ts", String.valueOf(messageTs));
+            urlBuilder.addQueryParameter("prev_limit", "0");
+            urlBuilder.addQueryParameter("next_limit", "200");}
 
         String url = urlBuilder.build().toString();
 
