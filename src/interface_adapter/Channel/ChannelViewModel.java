@@ -1,6 +1,8 @@
 package interface_adapter.Channel;
+import app.Sounds;
 import entity.Channel.Channel;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.text.SimpleDateFormat;
@@ -104,12 +106,15 @@ public class ChannelViewModel {
 
     }
 
-    public void addMessage(String userInput, String sender, long ts) {
+    public void addMessage(String userInput, String sender, long ts) throws InterruptedException {
         if (ts > this.lastMessageTS) {
             String formattedMessage = formatMessage(userInput, sender, ts);
             sourceMessageList.add(formattedMessage);
             this.messageList = sourceMessageList;
-            support.firePropertyChange("messagesUpdated", null, messageList);}
+            support.firePropertyChange("messagesUpdated", null, messageList);
+            Sounds.playTone();
+        }
+
 
     }
 

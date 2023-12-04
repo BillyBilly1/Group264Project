@@ -1,11 +1,11 @@
 package interface_adapter.send_message;
 
-import data_access.FileChannelDataAccessObject;
 import entity.Message.Message;
 import interface_adapter.Channel.ChannelViewModel;
 import use_case.SendMessage.SendMessageOutputBoundary;
 import use_case.SendMessage.SendMessageOutputdata;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.util.ArrayList;
 
@@ -23,14 +23,13 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-
     @Override
     public void prepareSuccessView() {
 
     }
 
     @Override
-    public void receivedmessage(SendMessageOutputdata sendMessageOutputdata) {
+    public void receivedmessage(SendMessageOutputdata sendMessageOutputdata) throws InterruptedException {
         ArrayList<Message> messageList = sendMessageOutputdata.getMessageList();
         long messageTs = 0;
 
@@ -39,9 +38,12 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
             String userID = message.getUser_id();
             messageTs = message.getCreateAt();
             channelViewModel.addMessage(messageContent, userID, messageTs);
-
         }
-        channelViewModel.setLastMessageTS(messageTs);
 
-    }
+
+        channelViewModel.setLastMessageTS(messageTs);}
+
+
+
+
 }

@@ -5,5 +5,5 @@ public interface SendMessageOutputBoundary {
 
     void prepareSuccessView();
 
-    void receivedmessage(SendMessageOutputdata sendMessageOutputdata);
+    void receivedmessage(SendMessageOutputdata sendMessageOutputdata) throws InterruptedException;
 }

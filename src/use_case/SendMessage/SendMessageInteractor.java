@@ -38,7 +38,7 @@ public class SendMessageInteractor implements  SendMessageInputBoundary {
     }
 
     @Override
-    public void receive(SendMessageInputdata sendMessageInputdata) {
+    public void receive(SendMessageInputdata sendMessageInputdata) throws InterruptedException {
         String channelType = sendMessageInputdata.getChannelType();
         String channelUrl = sendMessageInputdata.getChannelUrl();
         long messageTs = sendMessageInputdata.getMessageTs();

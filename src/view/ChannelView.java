@@ -96,7 +96,13 @@
             channelViewModel.addPropertyChangeListener(this);
 
             //every 2.5s call the receivemessage
-            messageUpdateTimer = new Timer(2400, e -> updateMessages());
+            messageUpdateTimer = new Timer(2400, e -> {
+                try {
+                    updateMessages();
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            });
             messageUpdateTimer.start();
 
 
@@ -109,7 +115,7 @@
             setKeyBindings();
         }
 
-        private void updateMessages() {
+        private void updateMessages() throws InterruptedException {
             Channel channel = channelViewModel.getChannel();
             String userID = channelViewModel.getMyID();
             String channelUrl = channel.getChannelUrl();

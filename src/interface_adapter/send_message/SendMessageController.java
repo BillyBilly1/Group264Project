@@ -17,7 +17,7 @@ public class SendMessageController {
     }
 
 
-    public void receive(String usrID, String message, String channelURL, long messageTs) {
+    public void receive(String usrID, String message, String channelURL, long messageTs) throws InterruptedException {
         SendMessageInputdata sendMessageInputdata = new SendMessageInputdata(usrID, message, channelURL, messageTs);
         sendMessageInteractor.receive(sendMessageInputdata);
     }
