@@ -37,6 +37,7 @@
    We have used two APIs which are sendbirdapi and yandexapi.
    - ![img.png](src/sendbird_api.png)
    - ![yandex_translate.png](src%2Fyandex_translate.png)
+   - ![YouChat_pic.png](src%2FYouChat_pic.png)
      User:
    - Base URL: "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3"
    - CreateUserUseCase URL: BASE_URL + "/users"
