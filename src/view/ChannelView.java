@@ -448,16 +448,24 @@
             String query = JOptionPane.showInputDialog(this, "Enter text to search for:", "Search Messages", JOptionPane.QUESTION_MESSAGE);
             if (query != null && !query.isEmpty()) {
                 ArrayList<String> searchResults = channelViewModel.searchMessages(query);
-                JTextArea textArea = new JTextArea();
+                JTextPane textPane = new JTextPane();
+                textPane.setContentType("text/html"); // 设置为 HTML 格式
+                textPane.setEditable(false);
+
+                StringBuilder sb = new StringBuilder("<html>");
                 for (String result : searchResults) {
-                    textArea.append(result + "\n\n");
+                    String highlightedResult = result.replace(query, "<span style='color:orange;'>" + query + "</span>");
+                    sb.append(highlightedResult).append("<br><br>");
                 }
-                textArea.setEditable(false);
-                JScrollPane scrollPane = new JScrollPane(textArea);
+                sb.append("</html>");
+                textPane.setText(sb.toString());
+
+                JScrollPane scrollPane = new JScrollPane(textPane);
                 scrollPane.setPreferredSize(new Dimension(300, 400));
                 JOptionPane.showMessageDialog(this, scrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+
 
         private void showDateSearchDialog() {
             // 获取当前日期作为默认值
