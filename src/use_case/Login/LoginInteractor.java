@@ -23,7 +23,7 @@ public class LoginInteractor implements LoginInputBoundary{
         if (userDataAccessObject.get_username(user_id) == null) {
             loginPresenter.prepareFailView(user_id + ": Account does not exist.");
         }  else if (! Objects.equals(userDataAccessObject.get_username(user_id), nickname)){
-            loginPresenter.prepareFailView("User id and nick name does not match.");
+            loginPresenter.prepareFailView("User ID and password doesn't match, please try again");
         }
         else {
             LoginOutputData loginOutputData = new LoginOutputData(user_id,

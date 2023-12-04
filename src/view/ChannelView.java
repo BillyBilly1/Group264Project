@@ -17,6 +17,7 @@
     import java.beans.PropertyChangeEvent;
     import java.beans.PropertyChangeListener;
     import java.io.IOException;
+    import java.time.LocalDate;
     import java.util.ArrayList;
     import java.util.Collection;
     import java.util.Objects;
@@ -55,6 +56,11 @@
         private JButton memberButton;
 
         private JButton operatorButton;
+
+        private JButton searchButton;
+
+        private JButton dsearchButton;
+
 
         private Timer messageUpdateTimer;
 
@@ -258,6 +264,14 @@
             operatorButton.addActionListener(this);
             bottomPanel.add(operatorButton);
 
+            searchButton = new JButton("search");
+            bottomPanel.add(searchButton, BorderLayout.SOUTH);
+            searchButton.addActionListener(e -> showSearchDialog());
+
+            dsearchButton = new JButton("Dsearch");
+            bottomPanel.add(dsearchButton);
+            dsearchButton.addActionListener(e -> showDateSearchDialog());
+
             // 将新的按钮面板添加到主面板的右侧
             add(bottomPanel, BorderLayout.EAST);
         }
@@ -345,9 +359,6 @@
 
 
 
-
-
-
         // show the changes in view-model
         public void updateFromViewModel() {
             channelNameLabel.setText(channelViewModel.getChannelName());
@@ -409,8 +420,62 @@
             if (messageUpdateTimer != null) {
                 messageUpdateTimer.stop();
             }
-            this.messageList = new JList<>();
-            channelViewModel.reset();
         }
 
+        // search message
+
+        private void showSearchDialog() {
+            String query = JOptionPane.showInputDialog(this, "Enter text to search for:", "Search Messages", JOptionPane.QUESTION_MESSAGE);
+            if (query != null && !query.isEmpty()) {
+                ArrayList<String> searchResults = channelViewModel.searchMessages(query);
+                JTextArea textArea = new JTextArea();
+                for (String result : searchResults) {
+                    textArea.append(result + "\n\n");
+                }
+                textArea.setEditable(false);
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                scrollPane.setPreferredSize(new Dimension(300, 400));
+                JOptionPane.showMessageDialog(this, scrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+        private void showDateSearchDialog() {
+            // 获取当前日期作为默认值
+            LocalDate today = LocalDate.now();
+            JTextField yearField = new JTextField("" + today.getYear());
+            JTextField monthField = new JTextField("" + (today.getMonthValue()));
+            JTextField dayField = new JTextField("" + today.getDayOfMonth());
+
+            JPanel panel = new JPanel(new GridLayout(0, 1));
+            panel.add(new JLabel("Year:"));
+            panel.add(yearField);
+            panel.add(new JLabel("Month:"));
+            panel.add(monthField);
+            panel.add(new JLabel("Day:"));
+            panel.add(dayField);
+
+            int result = JOptionPane.showConfirmDialog(this, panel, "Enter Date (yyyy-mm-dd)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            if (result == JOptionPane.OK_OPTION) {
+                int year = Integer.parseInt(yearField.getText());
+                int month = Integer.parseInt(monthField.getText());
+                int day = Integer.parseInt(dayField.getText());
+
+                ArrayList<String> searchResults = channelViewModel.searchMessagesByDate(year, month, day);
+                JTextArea textArea = new JTextArea();
+                for (String msg : searchResults) {
+                    textArea.append(msg + "\n\n");
+                }
+                textArea.setEditable(false);
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                scrollPane.setPreferredSize(new Dimension(300, 400));
+                JOptionPane.showMessageDialog(this, scrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+
+
+
     }
+
+
+

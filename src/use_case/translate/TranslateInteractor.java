@@ -34,7 +34,7 @@ public class TranslateInteractor implements TranslateInputBoundary {
             ArrayList<String> translatedText = new ArrayList<>();
             for (String text : sourceText) {
                 YandexAPI yandexAPI = new YandexAPI(targetLang, text);
-                translatedText.add(yandexAPI.translate());
+                translatedText.add(yandexAPI.translate() + " Translated by Yandex Translate");
             }
             state.setTranslatedText(translatedText);
             state.setTranslationSuccessful(true);

@@ -9,7 +9,7 @@ public class SignupViewModel extends ViewModel {
 
     public final String SIGNUP_TITLE = "Sign up View";
     public final String USER_ID_LABEL = "Enter User_id";
-    public final String NICKNAME_LABEL = "Enter Nickname";
+    public final String NICKNAME_LABEL = "Enter Password";
     public static final String SIGNUP_BUTTON_LABEL = "Sign up";
 
     public static final String CANCEL_BUTTON_LABEL = "Cancel";
