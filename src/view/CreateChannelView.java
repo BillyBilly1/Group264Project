@@ -98,8 +98,6 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         }
     }
 
-
-
     public void displaySuccess(String channelName, String message) {
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(this, "Channel '" + channelName + "' created successfully: " + message, "Success", JOptionPane.INFORMATION_MESSAGE);

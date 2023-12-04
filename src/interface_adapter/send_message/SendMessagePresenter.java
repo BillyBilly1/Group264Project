@@ -6,6 +6,7 @@ import interface_adapter.Channel.ChannelViewModel;
 import use_case.SendMessage.SendMessageOutputBoundary;
 import use_case.SendMessage.SendMessageOutputdata;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class SendMessagePresenter implements SendMessageOutputBoundary {
@@ -18,8 +19,10 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
 
     @Override
     public void prepareFailView() {
-
+        String message = "You have been removed from the channel";
+        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
+
 
     @Override
     public void prepareSuccessView() {
@@ -30,7 +33,6 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
     public void receivedmessage(SendMessageOutputdata sendMessageOutputdata) {
         ArrayList<Message> messageList = sendMessageOutputdata.getMessageList();
         long messageTs = 0;
-        System.out.println("presenter called");
 
         for (Message message: messageList) {
             String messageContent = message.getMessage();

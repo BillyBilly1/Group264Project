@@ -43,8 +43,7 @@ public class SendMessageInteractor implements  SendMessageInputBoundary {
         String channelUrl = sendMessageInputdata.getChannelUrl();
         long messageTs = sendMessageInputdata.getMessageTs();
         ArrayList<Message> obj = sendMessageDataAccessObject.getMessages(channelType, channelUrl, messageTs);
-        if (obj == null) {;
-            System.out.println("fail_to_get_messages");}
+        if (obj == null) {sendMessagePresenter.prepareFailView();}
         else {
                 SendMessageOutputdata sendMessageOutputdata = new SendMessageOutputdata(obj);
                 sendMessagePresenter.receivedmessage(sendMessageOutputdata);
