@@ -1,5 +1,6 @@
     package view;
 
+    import app.Sounds;
     import entity.Channel.Channel;
     import interface_adapter.Channel.ChannelViewModel;
     import interface_adapter.Invite_Member.InviteMemberController;
@@ -11,9 +12,7 @@
     import interface_adapter.translation.TranslateViewModel;
 
     import java.awt.*;
-    import java.awt.event.ActionEvent;
-    import java.awt.event.ActionListener;
-    import java.awt.event.KeyEvent;
+    import java.awt.event.*;
     import java.beans.PropertyChangeEvent;
     import java.beans.PropertyChangeListener;
     import java.io.IOException;
@@ -62,6 +61,8 @@
 
         private JButton dsearchButton;
 
+        private JButton muteButton;
+
 
         private Timer messageUpdateTimer;
 
@@ -106,7 +107,6 @@
             });
             messageUpdateTimer.start();
 
-
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             int width = screenSize.width / 2;
             int height = screenSize.height / 3 * 2;
@@ -120,9 +120,9 @@
             Channel channel = channelViewModel.getChannel();
             String userID = channelViewModel.getMyID();
             String channelUrl = channel.getChannelUrl();
-
             sendMessageController.receive(userID, "", channelUrl, channelViewModel.getLastMessageTS());
         }
+
 
 
         public void initializeUI(int width, int height) {
@@ -168,6 +168,15 @@
                 }
 
 
+            });
+
+            messageList.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    if (e.getClickCount() == 2) {
+                        String selectedMessage = messageList.getSelectedValue();
+                        channelViewModel.setSelectedMessage(selectedMessage);
+                    }
+                }
             });
 
 
@@ -288,9 +297,42 @@
             bottomPanel.add(dsearchButton);
             dsearchButton.addActionListener(e -> showDateSearchDialog());
 
-            // 将新的按钮面板添加到主面板的右侧
+            JButton increaseFontSizeButton = new JButton("+");
+            increaseFontSizeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    adjustFontSize(1);
+                }
+            });
+
+            JButton decreaseFontSizeButton = new JButton("-");
+            decreaseFontSizeButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    adjustFontSize(-1);
+                }
+            });
+
+            increaseFontSizeButton.setFont(new Font(increaseFontSizeButton.getFont().getName(), Font.BOLD, 24));
+            decreaseFontSizeButton.setFont(new Font(decreaseFontSizeButton.getFont().getName(), Font.BOLD, 30));
+
+            JPanel fontAdjustPanel = new JPanel();
+            fontAdjustPanel.setLayout(new BoxLayout(fontAdjustPanel, BoxLayout.Y_AXIS));
+            fontAdjustPanel.add(increaseFontSizeButton);
+            fontAdjustPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+            fontAdjustPanel.add(decreaseFontSizeButton);
+
+            bottomPanel.add(fontAdjustPanel);
+
+            JButton muteButton = new JButton("Mute");
+            muteButton.addActionListener(e -> channelViewModel.setmute());
+            bottomPanel.add(muteButton);
+
             add(bottomPanel, BorderLayout.EAST);
+
+
         }
+
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -312,64 +354,84 @@
                 JOptionPane.showMessageDialog(null,
                         "Empty message cannot be sent", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            //about translation
+            // 修改 actionPerformed 方法中与翻译按钮相关的部分
             else if (e.getSource() == translateChineseButton) {
-                TranslateState currentState = translateViewModel.getState();
-                try {
-                    translateController.translate("zh", arrayList);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                String selectedMessage = channelViewModel.getSelectedMessage();
+                if (selectedMessage != null && !selectedMessage.isEmpty()) {
+                    ArrayList<String> messagesToTranslate = new ArrayList<>();
+                    messagesToTranslate.add(selectedMessage); // 添加选中的消息到列表
+                    try {
+                        translateController.translate("zh", messagesToTranslate); // 调用翻译控制器
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please select a message to translate.", "No message selected", JOptionPane.ERROR_MESSAGE);
                 }
+
+
             } else if (e.getSource() == translateFrenchButton) {
-                TranslateState currentState = translateViewModel.getState();
-                try {
-                    translateController.translate("fr", arrayList);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+                String selectedMessage = channelViewModel.getSelectedMessage();
+                if (selectedMessage != null && !selectedMessage.isEmpty()) {
+                    ArrayList<String> messagesToTranslate = new ArrayList<>();
+                    messagesToTranslate.add(selectedMessage); // 添加选中的消息到列表
+                    try {
+                        translateController.translate("fr", messagesToTranslate); // 调用翻译控制器
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please select a message to translate.", "No message selected", JOptionPane.ERROR_MESSAGE);
                 }
-            } else if (e.getSource() == translateEnglishButton) {
-                TranslateState currentState = translateViewModel.getState();
-                try {
-                    translateController.translate("en", arrayList);
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
+
+                } else if (e.getSource() == translateEnglishButton) {
+                String selectedMessage = channelViewModel.getSelectedMessage();
+                if (selectedMessage != null && !selectedMessage.isEmpty()) {
+                    ArrayList<String> messagesToTranslate = new ArrayList<>();
+                    messagesToTranslate.add(selectedMessage);
+                    try {
+                        translateController.translate("en", messagesToTranslate);
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Please select a message to translate.", "No message selected", JOptionPane.ERROR_MESSAGE);
+                }}
+
+                // Edit channel profile
+
+                else if (e.getSource() == inviteButton && !inviteField.getText().isEmpty()) {
+                    String inviteID = inviteField.getText();
+                    inviteField.setText("");
+                    inviteMemberController.execute(inviteID, channelViewModel.getChannel().getChannelUrl());
+                } else if (e.getSource() == deleteButton) {
+                    String removeID = deleteField.getText();
+                    deleteField.setText("");
+                    removeMemberController.execute(removeID, channelViewModel.getChannel().getChannelUrl());
+                } else if (e.getSource() == memberButton) {
+                    ArrayList<String> userIDs = new ArrayList<>(channelViewModel.getChannel().getUser_ids());
+                    JTextArea textArea = new JTextArea();
+                    textArea.setEditable(false);
+                    for (String userID : userIDs) {
+                        textArea.append(userID + "\n");
+                    }
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    JOptionPane.showMessageDialog(null, scrollPane,
+                            "Members", JOptionPane.INFORMATION_MESSAGE);
+
+                } else if (e.getSource() == operatorButton) {
+                    ArrayList<String> opIDs = new ArrayList<>(channelViewModel.getChannel().getOperator());
+                    JTextArea textArea = new JTextArea();
+                    textArea.setEditable(false);
+                    for (String userID : opIDs) {
+                        textArea.append(userID + "\n");
+                    }
+                    JScrollPane scrollPane = new JScrollPane(textArea);
+                    JOptionPane.showMessageDialog(null, scrollPane,
+                            "Operators", JOptionPane.INFORMATION_MESSAGE);
                 }
+
             }
-
-            // Edit channel profile
-
-            else if (e.getSource() == inviteButton && !inviteField.getText().isEmpty()) {
-                String inviteID = inviteField.getText();
-                inviteField.setText("");
-                inviteMemberController.execute(inviteID, channelViewModel.getChannel().getChannelUrl());
-            } else if (e.getSource() == deleteButton) {
-                String removeID = deleteField.getText();
-                deleteField.setText("");
-                removeMemberController.execute(removeID, channelViewModel.getChannel().getChannelUrl());
-            } else if (e.getSource() == memberButton) {
-                ArrayList<String> userIDs = new ArrayList<>(channelViewModel.getChannel().getUser_ids());
-                JTextArea textArea = new JTextArea();
-                textArea.setEditable(false);
-                for (String userID : userIDs) {
-                    textArea.append(userID + "\n");
-                }
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                JOptionPane.showMessageDialog(null, scrollPane,
-                        "Members", JOptionPane.INFORMATION_MESSAGE);
-
-            } else if (e.getSource() == operatorButton) {
-                ArrayList<String> opIDs = new ArrayList<>(channelViewModel.getChannel().getOperator());
-                JTextArea textArea = new JTextArea();
-                textArea.setEditable(false);
-                for (String userID : opIDs) {
-                    textArea.append(userID + "\n");
-                }
-                JScrollPane scrollPane = new JScrollPane(textArea);
-                JOptionPane.showMessageDialog(null, scrollPane,
-                        "Operators", JOptionPane.INFORMATION_MESSAGE);
-            }
-
-        }
 
         private String highlightText(String text, String query) {
             // 分割消息内容和时间，假设格式是 "Sender: MessageContent \n Time"
@@ -405,12 +467,6 @@
             }
         }
 
-
-
-
-
-
-
         // show the changes in view-model
         public void updateFromViewModel() {
             channelNameLabel.setText(channelViewModel.getChannelName());
@@ -439,8 +495,8 @@
 
         private void adjustFontSize(int adjustment) {
             fontSize += adjustment;
-            if (fontSize < 8) fontSize = 8;
-            else if (fontSize > 30) fontSize = 30;
+            if (fontSize < 7) fontSize = 7;
+            else if (fontSize > 36) fontSize = 36;
             Font newFont = new Font("Arial", Font.PLAIN, fontSize);
             messageList.setFont(newFont);
             messageList.repaint();
@@ -476,35 +532,31 @@
         // search message
 
 
-
-
-
-
-
-
-
         private void showDateSearchDialog() {
-            // 获取当前日期作为默认值
             LocalDate today = LocalDate.now();
             JTextField yearField = new JTextField("" + today.getYear());
             JTextField monthField = new JTextField("" + (today.getMonthValue()));
             JTextField dayField = new JTextField("" + today.getDayOfMonth());
+            JTextField hourField = new JTextField("00");
 
-            JPanel panel = new JPanel(new GridLayout(0, 1));
+            JPanel panel = new JPanel(new GridLayout(0, 2));
             panel.add(new JLabel("Year:"));
             panel.add(yearField);
             panel.add(new JLabel("Month:"));
             panel.add(monthField);
             panel.add(new JLabel("Day:"));
             panel.add(dayField);
+            panel.add(new JLabel("Hour (00-23):"));
+            panel.add(hourField);
 
-            int result = JOptionPane.showConfirmDialog(this, panel, "Enter Date (yyyy-mm-dd)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(this, panel, "Enter Date and Time (yyyy-mm-dd hh)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             if (result == JOptionPane.OK_OPTION) {
                 int year = Integer.parseInt(yearField.getText());
                 int month = Integer.parseInt(monthField.getText());
                 int day = Integer.parseInt(dayField.getText());
+                int hour = Integer.parseInt(hourField.getText());
 
-                ArrayList<String> searchResults = channelViewModel.searchMessagesByDate(year, month, day);
+                ArrayList<String> searchResults = channelViewModel.searchMessagesByDate(year, month, day, hour);
                 JTextArea textArea = new JTextArea();
                 for (String msg : searchResults) {
                     textArea.append(msg + "\n\n");
@@ -518,8 +570,4 @@
 
 
 
-
     }
-
-
-

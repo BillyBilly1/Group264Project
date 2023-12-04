@@ -39,8 +39,8 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         JWindow splashScreen = new JWindow();
 
-        File imgFile = new File("src\\view\\DALL·E " +
-                "2023-12-04 02.27.17 - Design an app icon for a chat software named 'YouChat'. The " +
+
+        File imgFile = new File("src\\view\\DALL·E " + "2023-12-04 02.27.17 - Design an app icon for a chat software named 'YouChat'. The " +
                 "icon should be modern and appealing, suitable for a messaging app. It should incorporate e.png");
         ImageIcon icon = new ImageIcon(imgFile.toURI().toURL());
         Image img = icon.getImage();
@@ -63,7 +63,11 @@ public class Main {
 
         splashScreen.setVisible(true);
 
+<<<<<<< HEAD
         Thread.sleep(3000);
+=======
+        Thread.sleep(2500);
+>>>>>>> f9d9b0914e2525cb4e378e5f2cd64f3cbdfd4db4
 
         splashScreen.dispose();
 

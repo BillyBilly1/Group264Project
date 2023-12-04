@@ -10,6 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 
 public class ChannelViewModel {
@@ -26,9 +29,15 @@ public class ChannelViewModel {
 
     private long lastMessageTS = 0;
 
+    private String selectedMessage;
+
+    private boolean mute = false;
+
 
     public ChannelViewModel() {this.support = new PropertyChangeSupport(this);
     }
+
+    public void setmute() {this.mute = !this.mute;}
 
 
     public String getChannelName() {
@@ -75,24 +84,29 @@ public class ChannelViewModel {
     }
 
 
-    public ArrayList<String> searchMessagesByDate(int year, int month, int day) {
+    public ArrayList<String> searchMessagesByDate(int year, int month, int day, int hour) {
         ArrayList<String> searchResults = new ArrayList<>();
-        String searchDate = String.format("%02d-%02d-%02d", year % 100, month, day); // Format date as yy-MM-dd
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy-MM-dd  HH:mm");
+
+        LocalDateTime startDateTime = LocalDateTime.of(year, month, day, hour, 0).minusHours(1); // 开始时间：向前一个小时
+        LocalDateTime endDateTime = LocalDateTime.of(year, month, day, hour, 0).plusHours(1); // 结束时间：加一个小时
 
         for (String message : sourceMessageList) {
-            int length = message.length();
-            // Check if the message has enough length to contain a date in the specified format
-            if (length > 15) {
-                // Extract the date part from the message
-                String datePart = message.substring(length - 15, length - 7); // Extracting date from yy-MM-dd
+            try {
+                String dateTimePart = message.substring(message.length() - 15).trim();
+                LocalDateTime messageDateTime = LocalDateTime.parse(dateTimePart, formatter);
 
-                if (datePart.equals(searchDate)) {
+                if (!messageDateTime.isBefore(startDateTime) && !messageDateTime.isAfter(endDateTime)) {
                     searchResults.add(message);
                 }
+            } catch (Exception e) {
+                // 解析错误处理，可以根据需要记录日志或者忽略
             }
         }
         return searchResults;
     }
+
+
 
 
 
@@ -121,10 +135,9 @@ public class ChannelViewModel {
             sourceMessageList.add(formattedMessage);
             this.messageList = sourceMessageList;
             support.firePropertyChange("messagesUpdated", null, messageList);
-            Sounds.playTone();
+            if (!this.mute){
+                Sounds.playTone();}
         }
-
-
     }
 
     public void setChannel(Channel channel) {
@@ -157,4 +170,11 @@ public class ChannelViewModel {
     public void reset() {this.sourceMessageList = new ArrayList<>();}
 
 
+    public void setSelectedMessage(String selectedMessage) {
+        this.selectedMessage = selectedMessage;
+    }
+
+    public String getSelectedMessage() {
+        return selectedMessage;
+    }
 }

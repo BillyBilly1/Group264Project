@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 
 public class SignupViewModel extends ViewModel {
 
-    public final String SIGNUP_TITLE = "Sign up View";
+    public final String SIGNUP_TITLE = "Sign up";
     public final String USER_ID_LABEL = "Enter User_id";
     public final String NICKNAME_LABEL = "Enter Password";
     public static final String SIGNUP_BUTTON_LABEL = "Sign up";
