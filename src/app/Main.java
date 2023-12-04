@@ -31,11 +31,46 @@ import view.SelfProfileView;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        JWindow splashScreen = new JWindow();
+
+        File imgFile = new File("src\\view\\DALL·E " +
+                "2023-12-04 02.27.17 - Design an app icon for a chat software named 'YouChat'. The " +
+                "icon should be modern and appealing, suitable for a messaging app. It should incorporate e.png");
+        ImageIcon icon = new ImageIcon(imgFile.toURI().toURL());
+        Image img = icon.getImage();
+        ImageIcon originalIcon = new ImageIcon(imgFile.toURI().toURL());
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int iconSize = (int) (screenSize.width * 0.45);
+
+        Image scaledImage = originalIcon.getImage().getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        splashScreen.getContentPane().add(new JLabel("", scaledIcon, SwingConstants.CENTER));
+
+        splashScreen.pack();
+
+
+        int x = (screenSize.width - splashScreen.getWidth()) / 2;
+        int y = (screenSize.height - splashScreen.getHeight()) / 2;
+        splashScreen.setLocation(x, y);
+
+        splashScreen.setVisible(true);
+
+        Thread.sleep(3000);
+
+        splashScreen.dispose();
+
+
+
         JFrame application = new JFrame("You-Chat");
+        application.setIconImage(img);
         application.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         CardLayout cardLayout = new CardLayout();
@@ -45,7 +80,6 @@ public class Main {
         application.add(views);
         application.setMinimumSize(new Dimension(500, 550));
 
-        System.out.println();
 
         // This keeps track of and manages which view is currently showing.
         ViewManagerModel viewManagerModel = new ViewManagerModel();
