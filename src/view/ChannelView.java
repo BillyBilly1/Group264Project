@@ -138,19 +138,28 @@
                 public Component getListCellRendererComponent(
                         JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                     super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    // 分割消息内容和时间，假设格式是 "SenderName: \n MessageContent \n Time"
-                    String[] parts = value.toString().split("\n");
-                    String senderAndMessage = parts[0].trim() + (parts.length > 1 ? "<br>" + parts[1].trim() : "");
+
+                    String myUserID = channelViewModel.getMyID();
+
+                    String[] parts = value.toString().split("\n", 3);
+                    String senderName = parts[0].split(":")[0].trim();
+                    String messageContent = parts.length > 1 ? parts[1].trim() : "";
                     String time = parts.length > 2 ? parts[2].trim() : "";
 
+                    String textColor = senderName.equals(myUserID) ? "red" : "black";
+
                     String htmlText = "<html><div style='width: 100%;'>" +
-                            "<div style='float: left;'>" + senderAndMessage + "</div>" +
+                            "<div style='float: left; color:" + textColor + ";'>" + senderName + ":<br>" + messageContent + "</div>" +
                             "<div style='float: right;'>" + time + "</div>" +
                             "<div style='clear: both;'></div></div></html>";
+
                     setText(htmlText);
                     setFont(new Font(getFont().getName(), Font.PLAIN, fontSize));
+
                     return this;
                 }
+
+
             });
 
 
@@ -162,10 +171,10 @@
             // Setting the button
             int buttonSize = height * 4 / 12;
             JPanel buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // 垂直堆叠组件
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
             sendButton = new JButton("Send");
-            sendButton.setPreferredSize(new Dimension(width / 10, buttonSize)); // 定义按钮大小
+            sendButton.setPreferredSize(new Dimension(width / 10, buttonSize));
             sendButton.setFont(new Font(sendButton.getFont().getName(), Font.PLAIN, 10));
             sendButton.addActionListener(this);
             buttonPanel.add(sendButton);

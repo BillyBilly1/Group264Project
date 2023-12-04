@@ -51,14 +51,14 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
         channelIDLabel.setBounds(10, 120, 180, 25);
         this.add(channelIDLabel);
 
-        channel_urlINFO.setBounds(200, 70, 275, 25);
+        channel_urlINFO.setBounds(200, 120, 275, 25);
         this.add(channel_urlINFO);
 
         JLabel channelNameLabel = new JLabel(CreateChannelViewModel.CHANNEL_NAME_LABEL);
         channelNameLabel.setBounds(10, 70, 180, 25);
         this.add(channelNameLabel);
 
-        channelNameINFO.setBounds(200, 120, 275, 25);
+        channelNameINFO.setBounds(200, 70, 275, 25);
         this.add(channelNameINFO);
 
         createButton = new JButton(CreateChannelViewModel.CREATE_CHANNEL_BUTTON_LABLE);
@@ -74,16 +74,11 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if (e.getSource() == createButton) {
+        if (e.getSource() == createButton && channel_urlINFO.getText().length()
+                >= 4 && channelNameINFO.getText().length() >= 4) {
             CreateChannelState currentState = createChannelViewModel.getState();
             currentState.setChannelName(channelNameINFO.getText());
             currentState.setChannel_url(channel_urlINFO.getText());
-
-            System.out.println(currentState.getChannel_url());
-            System.out.println(currentState.getChannelName());
-            System.out.println(currentState.getOperator());
-            System.out.println(currentState.getIsEphemeral());
 
             createChannelController.execute(
                     currentState.getUser_ids(),
@@ -93,13 +88,14 @@ public class CreateChannelView extends JPanel implements ActionListener, Propert
                     currentState.getIs_distinct(),
                     currentState.getIsEphemeral()
             );
-
-        }
-        else if (e.getSource() == backButton) {
+        } else if (e.getSource() == createButton && (
+                channel_urlINFO.getText().length() < 4 || channelNameINFO.getText().length() < 4)) {
+            JOptionPane.showMessageDialog(null,
+                    "Channel name or channel URL must be more than 3 characters.",
+                    "Error Message", JOptionPane.ERROR_MESSAGE);
+        } else if (e.getSource() == backButton) {
             createChannelController.back();
-
         }
-
     }
 
 

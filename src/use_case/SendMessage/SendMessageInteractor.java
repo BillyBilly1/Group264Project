@@ -32,7 +32,6 @@ public class SendMessageInteractor implements  SendMessageInputBoundary {
 
             sendMessagePresenter.prepareFailView();
         }
-
         else {
             sendMessagePresenter.prepareSuccessView();
         }
@@ -51,6 +50,5 @@ public class SendMessageInteractor implements  SendMessageInputBoundary {
                 sendMessagePresenter.receivedmessage(sendMessageOutputdata);
         }
     }
-
 
 }
