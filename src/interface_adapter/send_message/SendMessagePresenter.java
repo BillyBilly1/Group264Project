@@ -19,8 +19,10 @@ public class SendMessagePresenter implements SendMessageOutputBoundary {
 
     @Override
     public void prepareFailView() {
-        String message = "You have been removed from the channel";
-        JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
+        String message = "Sorry, you were unable to send the message. " +
+                "Please try again or check if you have been removed from this channel \n" +
+                "A message shouldn't start or end with \" (a double quotation mark).";
+        JOptionPane.showMessageDialog(null, message, "Message Sending Failed", JOptionPane.ERROR_MESSAGE);
     }
 
     @Override

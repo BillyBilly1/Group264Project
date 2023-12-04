@@ -354,9 +354,9 @@
                 String selectedMessage = channelViewModel.getSelectedMessage();
                 if (selectedMessage != null && !selectedMessage.isEmpty()) {
                     ArrayList<String> messagesToTranslate = new ArrayList<>();
-                    messagesToTranslate.add(selectedMessage); // 添加选中的消息到列表
+                    messagesToTranslate.add(selectedMessage);
                     try {
-                        translateController.translate("zh", messagesToTranslate); // 调用翻译控制器
+                        translateController.translate("en", messagesToTranslate);
                     } catch (IOException ex) {
                         throw new RuntimeException(ex);
                     }
