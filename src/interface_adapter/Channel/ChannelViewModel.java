@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 
 public class ChannelViewModel {
@@ -54,18 +55,26 @@ public class ChannelViewModel {
 
     public ArrayList<String> searchMessages(String query) {
         ArrayList<String> searchResults = new ArrayList<>();
+        String lowerCaseQuery = query.toLowerCase();
+
         for (String omessage : sourceMessageList) {
-            String message = omessage.substring(0, omessage.length() - 14);
-            if (message.contains(query)) {
-                // Extract the message content without the sender and timestamp
-                String[] parts = message.split("  ");  // Assuming the message format has two spaces before the timestamp
-                if (parts.length > 1) {
-                    searchResults.add(omessage);
-                }
+            // 移除时间戳，时间戳是最后15个字符
+            String messageContent = omessage.substring(0, omessage.length() - 15);
+
+            if (messageContent.toLowerCase().contains(lowerCaseQuery)) {
+                // 在消息内容中高亮显示查询关键字
+                String highlightedContent = messageContent.replaceAll("(?i)" + Pattern.quote(query),
+                        "<span style='color:orange;'>" + query + "</span>");
+
+                // 重新拼接消息和时间戳
+                searchResults.add(highlightedContent + omessage.substring(omessage.length() - 15));
             }
         }
+
         return searchResults;
     }
+
+
     public ArrayList<String> searchMessagesByDate(int year, int month, int day) {
         ArrayList<String> searchResults = new ArrayList<>();
         String searchDate = String.format("%02d-%02d-%02d", year % 100, month, day); // Format date as yy-MM-dd

@@ -21,6 +21,7 @@
     import java.util.ArrayList;
     import java.util.Collection;
     import java.util.Objects;
+    import java.util.regex.Pattern;
     import javax.swing.*;
 
 
@@ -120,7 +121,8 @@
             String userID = channelViewModel.getMyID();
             String channelUrl = channel.getChannelUrl();
 
-            sendMessageController.receive(userID, "", channelUrl, channelViewModel.getLastMessageTS());}
+            sendMessageController.receive(userID, "", channelUrl, channelViewModel.getLastMessageTS());
+        }
 
 
         public void initializeUI(int width, int height) {
@@ -263,7 +265,6 @@
             add(inputPanel, BorderLayout.SOUTH);
 
 
-
             JPanel bottomPanel = new JPanel();
             bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS)); // 设置为垂直布局
 
@@ -306,9 +307,7 @@
                         channelViewModel.getChannel().getChannelUrl(), 0);
 
                 inputField.setText(""); // clear the inputtextfield
-            }
-
-            else if ((e.getSource() == sendButton || e.getSource() == inputField)
+            } else if ((e.getSource() == sendButton || e.getSource() == inputField)
                     & Objects.equals(inputField.getText(), "")) {
                 JOptionPane.showMessageDialog(null,
                         "Empty message cannot be sent", "Error", JOptionPane.ERROR_MESSAGE);
@@ -343,31 +342,26 @@
                 String inviteID = inviteField.getText();
                 inviteField.setText("");
                 inviteMemberController.execute(inviteID, channelViewModel.getChannel().getChannelUrl());
-            }
-
-            else if (e.getSource() == deleteButton) {
+            } else if (e.getSource() == deleteButton) {
                 String removeID = deleteField.getText();
                 deleteField.setText("");
                 removeMemberController.execute(removeID, channelViewModel.getChannel().getChannelUrl());
-        }
-            else if (e.getSource() == memberButton) {
+            } else if (e.getSource() == memberButton) {
                 ArrayList<String> userIDs = new ArrayList<>(channelViewModel.getChannel().getUser_ids());
                 JTextArea textArea = new JTextArea();
                 textArea.setEditable(false);
-                for (String userID: userIDs) {
+                for (String userID : userIDs) {
                     textArea.append(userID + "\n");
                 }
                 JScrollPane scrollPane = new JScrollPane(textArea);
                 JOptionPane.showMessageDialog(null, scrollPane,
                         "Members", JOptionPane.INFORMATION_MESSAGE);
 
-            }
-
-            else if (e.getSource() == operatorButton) {
+            } else if (e.getSource() == operatorButton) {
                 ArrayList<String> opIDs = new ArrayList<>(channelViewModel.getChannel().getOperator());
                 JTextArea textArea = new JTextArea();
                 textArea.setEditable(false);
-                for (String userID: opIDs) {
+                for (String userID : opIDs) {
                     textArea.append(userID + "\n");
                 }
                 JScrollPane scrollPane = new JScrollPane(textArea);
@@ -376,6 +370,44 @@
             }
 
         }
+
+        private String highlightText(String text, String query) {
+            // 分割消息内容和时间，假设格式是 "Sender: MessageContent \n Time"
+            int lastNewLineIndex = text.lastIndexOf("\n");
+            String messageContent = text.substring(0, lastNewLineIndex); // 消息内容部分
+            String time = text.substring(lastNewLineIndex + 1); // 时间部分
+
+            // 只对消息内容部分高亮显示搜索的关键字
+            messageContent = messageContent.replaceAll("(?i)(" + Pattern.quote(query) + ")", "<span style='color:red;'>$1</span>");
+
+            return messageContent + "\n" + time;
+        }
+
+        private void showSearchDialog() {
+            String query = JOptionPane.showInputDialog(this, "Enter text to search for:", "Search Messages", JOptionPane.QUESTION_MESSAGE);
+            if (query != null && !query.isEmpty()) {
+                ArrayList<String> searchResults = channelViewModel.searchMessages(query);
+                JTextPane textPane = new JTextPane();
+                textPane.setContentType("text/html");
+                textPane.setEditable(false);
+
+                StringBuilder sb = new StringBuilder("<html>");
+                for (String result : searchResults) {
+                    String highlightedResult = highlightText(result, query);
+                    sb.append(highlightedResult).append("<br><br>");
+                }
+                sb.append("</html>");
+                textPane.setText(sb.toString());
+
+                JScrollPane scrollPane = new JScrollPane(textPane);
+                scrollPane.setPreferredSize(new Dimension(300, 400));
+                JOptionPane.showMessageDialog(this, scrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+
+
+
 
 
 
@@ -403,7 +435,6 @@
                 messageList.ensureIndexIsVisible(lastIndex);
             }
         }
-
 
 
         private void adjustFontSize(int adjustment) {
@@ -444,27 +475,12 @@
 
         // search message
 
-        private void showSearchDialog() {
-            String query = JOptionPane.showInputDialog(this, "Enter text to search for:", "Search Messages", JOptionPane.QUESTION_MESSAGE);
-            if (query != null && !query.isEmpty()) {
-                ArrayList<String> searchResults = channelViewModel.searchMessages(query);
-                JTextPane textPane = new JTextPane();
-                textPane.setContentType("text/html"); // 设置为 HTML 格式
-                textPane.setEditable(false);
 
-                StringBuilder sb = new StringBuilder("<html>");
-                for (String result : searchResults) {
-                    String highlightedResult = result.replace(query, "<span style='color:orange;'>" + query + "</span>");
-                    sb.append(highlightedResult).append("<br><br>");
-                }
-                sb.append("</html>");
-                textPane.setText(sb.toString());
 
-                JScrollPane scrollPane = new JScrollPane(textPane);
-                scrollPane.setPreferredSize(new Dimension(300, 400));
-                JOptionPane.showMessageDialog(this, scrollPane, "Search Results", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
+
+
+
+
 
 
         private void showDateSearchDialog() {
