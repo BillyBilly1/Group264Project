@@ -58,7 +58,7 @@ public class MenuView extends JPanel implements ActionListener, PropertyChangeLi
         loadChannelList();
         updateChannelList();
 
-        refreshTimer = new Timer(7500, e -> loadChannelList());
+        refreshTimer = new Timer(5000, e -> loadChannelList());
         refreshTimer.start();
     }
 

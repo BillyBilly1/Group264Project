@@ -300,7 +300,12 @@
                         channelViewModel.getChannel().getChannelUrl(), 0);
 
                 inputField.setText(""); // clear the inputtextfield
+            }
 
+            else if ((e.getSource() == sendButton || e.getSource() == inputField)
+                    & Objects.equals(inputField.getText(), "")) {
+                JOptionPane.showMessageDialog(null,
+                        "Empty message cannot be sent", "Error", JOptionPane.ERROR_MESSAGE);
             }
             //about translation
             else if (e.getSource() == translateChineseButton) {
