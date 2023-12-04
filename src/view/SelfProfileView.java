@@ -71,7 +71,7 @@ public class SelfProfileView extends JPanel implements ActionListener, PropertyC
 //        userIdText.setBounds(100, 150, 250, 40);
 //        panel.add(userIdText);
 
-        JLabel nicknameTextLabel = new JLabel("Nickname: ");
+        JLabel nicknameTextLabel = new JLabel("Password ");
         nicknameTextLabel.setBounds(10, 240, 350, 45);
         nicknameTextLabel.setBorder(border);
         panel.add(nicknameTextLabel);
@@ -100,7 +100,7 @@ public class SelfProfileView extends JPanel implements ActionListener, PropertyC
 
     private void updateView(ViewProfileState state) {
         this.userIdLabel.setText("  Your ID: " + state.getUser_id());
-        this.nicknameLabel.setText("  Nickname: " + state.getNickname());
+        this.nicknameLabel.setText("  Password: " + state.getNickname());
 
     }
 

@@ -9,7 +9,7 @@ public class LoginViewModel extends ViewModel {
 
     public final String LOGIN_TITLE = "Log in View";
     public final String USER_ID_LABEL = "Enter User_id";
-    public final String NIKCKNAME_LABEL = "Enter Nickname";
+    public final String NIKCKNAME_LABEL = "Enter PassWord";
     public static final String LOGIN_BUTTON_LABEL = "log in";
     public static final String CANCEL_BUTTON_LABEL = "Cancel";
 

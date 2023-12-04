@@ -1,5 +1,6 @@
 package interface_adapter.send_message;
 
+import data_access.FileChannelDataAccessObject;
 import entity.Message.Message;
 import interface_adapter.Channel.ChannelViewModel;
 import use_case.SendMessage.SendMessageOutputBoundary;
