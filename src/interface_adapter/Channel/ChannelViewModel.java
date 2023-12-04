@@ -31,9 +31,13 @@ public class ChannelViewModel {
 
     private String selectedMessage;
 
+    private boolean mute = false;
+
 
     public ChannelViewModel() {this.support = new PropertyChangeSupport(this);
     }
+
+    public void setmute() {this.mute = !this.mute;}
 
 
     public String getChannelName() {
@@ -131,8 +135,8 @@ public class ChannelViewModel {
             sourceMessageList.add(formattedMessage);
             this.messageList = sourceMessageList;
             support.firePropertyChange("messagesUpdated", null, messageList);
-            Sounds.playTone();
-
+            if (!this.mute){
+                Sounds.playTone();}
         }
     }
 
