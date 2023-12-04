@@ -476,35 +476,31 @@
         // search message
 
 
-
-
-
-
-
-
-
         private void showDateSearchDialog() {
-            // 获取当前日期作为默认值
             LocalDate today = LocalDate.now();
             JTextField yearField = new JTextField("" + today.getYear());
             JTextField monthField = new JTextField("" + (today.getMonthValue()));
             JTextField dayField = new JTextField("" + today.getDayOfMonth());
+            JTextField hourField = new JTextField("00");
 
-            JPanel panel = new JPanel(new GridLayout(0, 1));
+            JPanel panel = new JPanel(new GridLayout(0, 2));
             panel.add(new JLabel("Year:"));
             panel.add(yearField);
             panel.add(new JLabel("Month:"));
             panel.add(monthField);
             panel.add(new JLabel("Day:"));
             panel.add(dayField);
+            panel.add(new JLabel("Hour (00-23):"));
+            panel.add(hourField);
 
-            int result = JOptionPane.showConfirmDialog(this, panel, "Enter Date (yyyy-mm-dd)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            int result = JOptionPane.showConfirmDialog(this, panel, "Enter Date and Time (yyyy-mm-dd hh)", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
             if (result == JOptionPane.OK_OPTION) {
                 int year = Integer.parseInt(yearField.getText());
                 int month = Integer.parseInt(monthField.getText());
                 int day = Integer.parseInt(dayField.getText());
+                int hour = Integer.parseInt(hourField.getText());
 
-                ArrayList<String> searchResults = channelViewModel.searchMessagesByDate(year, month, day);
+                ArrayList<String> searchResults = channelViewModel.searchMessagesByDate(year, month, day, hour);
                 JTextArea textArea = new JTextArea();
                 for (String msg : searchResults) {
                     textArea.append(msg + "\n\n");
@@ -517,9 +513,4 @@
         }
 
 
-
-
     }
-
-
-

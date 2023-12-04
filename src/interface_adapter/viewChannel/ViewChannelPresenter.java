@@ -9,6 +9,8 @@ import interface_adapter.Channel.ChannelViewModel;
 import view.ChannelView;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 public class ViewChannelPresenter implements ViewChannelOutputBoundary {
@@ -40,10 +42,18 @@ public class ViewChannelPresenter implements ViewChannelOutputBoundary {
             }
         });
 
+        File imgFile = new File("E:\\2F NOTE\\CSC207\\Group264Project\\src\\view\\DALL·E " +
+                "2023-12-04 02.27.17 - Design an app icon for a chat software named 'YouChat'. The " +
+                "icon should be modern and appealing, suitable for a messaging app. It should incorporate e.png");
+        ImageIcon icon = new ImageIcon(imgFile.toURI().toURL());
+        Image img = icon.getImage();
+        frame.setIconImage(img);
+
         frame.getContentPane().add(channelView);
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
     }
 
 
