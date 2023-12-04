@@ -54,7 +54,6 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
             // Assuming a successful response includes a JSON body with a status code
             if (response.body() != null) {
                 String responseData = response.body().string();
-                System.out.println(responseData);
                 JSONObject jsonResponse = new JSONObject(responseData);
                 if (jsonResponse.has("is_created") ) {
                     return true; // Channel created successfully
