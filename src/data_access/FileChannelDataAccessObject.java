@@ -19,9 +19,9 @@ import java.util.List;
 
 public class FileChannelDataAccessObject implements CreateChannelDataAccessInterface, ViewChannelDataAccessInterface,
         ViewMembersDataAccessInterface, GetOperatorDataAccessInterface {
-    private static final String API_TOKEN = "0abe6c776ab4537be2c5ca662b46dba1ac1be4f5";
-    private static final String APPLICATION_ID = "39ACFA95-6D71-49B3-B9EF-EDDA2080C415";
-    private static final String BASE_URL = "https://api-39ACFA95-6D71-49B3-B9EF-EDDA2080C415.sendbird.com/v3";
+    private static final String API_TOKEN = "1190f9dfe3da3503051ddae7c652f55839f5cf85";
+    private static final String APPLICATION_ID = "FD8DA5C8-7E9A-4B60-8399-B6BDE0395593";
+    private static final String BASE_URL = "https://api-FD8DA5C8-7E9A-4B60-8399-B6BDE0395593.sendbird.com/v3";
 
     public FileChannelDataAccessObject() throws IOException {}
 
