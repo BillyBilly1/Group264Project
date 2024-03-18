@@ -24,7 +24,7 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         InviteMemberDataAccessInterface{
 
     private static final String API_TOKEN = "b31d960439ff47a156c5bb6580f34ead46b12ef8";
-    private static final String BASE_URL = "https://api-B6DDF44B-E5A8-4F39-892E-4DE3FB979E62.sendbird.com/v3";
+    private static final String BASE_URL = "https://api-B6DDF44B-E5A8-4F39-892E-4DE3FB979E62.sendbird.com/v3/users";
 
     public FileUserDataAccessObject() throws IOException {
     }
