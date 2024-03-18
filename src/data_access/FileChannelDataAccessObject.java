@@ -21,7 +21,7 @@ public class FileChannelDataAccessObject implements CreateChannelDataAccessInter
         ViewMembersDataAccessInterface, GetOperatorDataAccessInterface {
     private static final String API_TOKEN = "b31d960439ff47a156c5bb6580f34ead46b12ef8";
     private static final String APPLICATION_ID = "FD8DA5C8-7E9A-4B60-8399-B6BDE0395593";
-    private static final String BASE_URL = "https://api-B6DDF44B-E5A8-4F39-892E-4DE3FB979E62.sendbird.com/v3";
+    private static final String BASE_URL = "https://api-B6DDF44B-E5A8-4F39-892E-4DE3FB979E62.sendbird.com/v3/group_channels";
 
     public FileChannelDataAccessObject() throws IOException {}
 
