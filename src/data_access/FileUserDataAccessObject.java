@@ -23,8 +23,8 @@ public class FileUserDataAccessObject implements SignupDataAccessInterface,
         ListChannelDataAccessInterface, ViewProfileDataAccessInterface,
         InviteMemberDataAccessInterface{
 
-    private static final String API_TOKEN = "1190f9dfe3da3503051ddae7c652f55839f5cf85";
-    private static final String BASE_URL = "https://api-FD8DA5C8-7E9A-4B60-8399-B6BDE0395593.sendbird.com/v3";
+    private static final String API_TOKEN = "b31d960439ff47a156c5bb6580f34ead46b12ef8";
+    private static final String BASE_URL = "https://api-B6DDF44B-E5A8-4F39-892E-4DE3FB979E62.sendbird.com/v3";
 
     public FileUserDataAccessObject() throws IOException {
     }
